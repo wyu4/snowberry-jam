@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wyu4.snowberryjam</groupId>
+    <artifactId>SnowberryJam</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>Snowberry Jam</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.controlsfx</groupId>
+            <artifactId>controlsfx</artifactId>
+            <version>11.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.22.0</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.5.16</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.mkpaz</groupId>
+            <artifactId>atlantafx-base</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>12.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-feather-pack</artifactId>
+            <version>12.4.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Ensuring the compiler uses the correct Java version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                </configuration>
+            </plugin>
+
+            <!-- Clear necessary dependencies -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <includes>
+                        <include>org.jsoup</include> <!-- JSoup -->
+                        <include>com.alphacephei</include>  <!-- Vosk -->
+                        <include>net.java.dev.jna</include> <!-- JNA -->
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>purge-local-repository</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>purge-local-repository</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipModularization}</skip>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Modularize automatic JARs (if not already) -->
+<!--            <plugin>-->
+<!--                <groupId>org.moditect</groupId>-->
+<!--                <artifactId>moditect-maven-plugin</artifactId>-->
+<!--                <version>1.2.2.Final</version>-->
+<!--                <configuration>-->
+<!--                    <outputDirectory>${modularizedDir}</outputDirectory>-->
+<!--                    <modules>-->
+<!--                    </modules>-->
+<!--                    <overwriteExistingFiles>true</overwriteExistingFiles>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>add-module-info</id>-->
+<!--                        <phase>generate-resources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>add-module-info</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration><skip>${skipModularization}</skip></configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+
+            <!-- Pointing Maven towards the modularized JARs instead of the default ones -->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-install-plugin</artifactId>-->
+<!--                <version>3.1.4</version>-->
+<!--                <executions>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+
+            <!-- Shading the default JAR output -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <transformers>
+                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                            <mainClass>${startClass}</mainClass>
+                        </transformer>
+                    </transformers>
+                    <finalName>${shadedJarName}</finalName>
+                    <outputDirectory>${packaging.input}</outputDirectory>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>shade-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Creating a custom runtime image for the project -->
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>${startClass}</mainClass>
+                    <jmodsPath>${javafxJmods}</jmodsPath>
+<!--                    <options>-->
+<!--                        <option>&#45;&#45;add-reads</option>-->
+<!--                        <option>com.sun.jna=java.logging</option>-->
+<!--                    </options>-->
+                    <launcher>${project.artifactId}</launcher>
+                    <mainClass>${startClass}</mainClass>
+                    <jlinkImageName>${imageName}</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-custom-runtime</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <configuration>
+                    <!-- Custom runtime image -->
+                    <runtimeImage>${project.build.directory}/${imageName}</runtimeImage>
+
+                    <!-- REQUIRED parameters -->
+                    <destination>${packaging.dest}</destination>
+                    <name>${project.artifactId}</name>
+                    <mainClass>${project.groupId}.Start</mainClass>
+
+                    <!-- OS -->
+                    <type>MSI</type>
+                    <winConsole>true</winConsole>
+
+                    <winShortcut>true</winShortcut>
+                    <winMenu>true</winMenu>
+                    <installDir>${install.winDir}</installDir>
+                    <winPerUserInstall>false</winPerUserInstall>
+                    <winUpgradeUuid>${uuid}</winUpgradeUuid>
+                    <additionalOptions>
+                        <option>--win-dir-chooser</option>
+                        <option>--win-shortcut-prompt</option>
+                    </additionalOptions>
+                    <javaOptions>
+                        <javaOption>-Dhttps.protocols=TLSv1.2</javaOption>
+                    </javaOptions>
+
+                    <!-- Application metadata -->
+                    <vendor>wyu4</vendor>
+                    <appVersion>0.0.1</appVersion>
+<!--                    <icon>${install.icon}</icon>-->
+
+                    <!-- Input configuration -->
+                    <input>${packaging.input}</input>
+                    <mainJar>${shadedJarName}.jar</mainJar>
+
+                    <!-- Development -->
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-package</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.version>5.10.0</junit.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+
+        <mainDir>${project.basedir}/src/main</mainDir>
+
+        <startClass>${project.groupId}/${project.groupId}.Start</startClass>
+        <javafxJmods>${project.basedir}/javafx-jmods-21.0.7</javafxJmods>
+        <modularizedDir>${packaging.input}/modularized</modularizedDir>
+        <shadedJarName>${project.build.finalName}-MANIFEST</shadedJarName>
+
+        <packaging.dir>${project.build.directory}/packaging</packaging.dir>
+        <packaging.input>${packaging.dir}/input</packaging.input>
+        <packaging.dest>${packaging.dir}/installations</packaging.dest>
+
+        <imageName>sj-image</imageName>
+
+        <install.winDir>C:/Program Files/${project.artifactId}</install.winDir>
+        <install.icon>${mainDir}/resources/com/wyu4/snowberryjam/images/icon.ico</install.icon>
+        <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
+
+        <skipModularization>false</skipModularization>
+    </properties>
+</project>
