@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.Compiler.DataType;
 
 import com.wyu4.snowberryjam.Compiler.Compiler;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 import com.wyu4.snowberryjam.Compiler.LocalStorage;
 
 public class VariableReference<A> extends CoreElement {
@@ -28,5 +29,13 @@ public class VariableReference<A> extends CoreElement {
             Compiler.error("Variable \"" + getName() + "\" reference validation failed.", e);
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return ("{" +
+                "\"%s\":\"%s\"," +
+                "\"%s\":\"%s\"" +
+                "}").formatted(SourceKey.ID, SourceId.VARIABLE, SourceKey.NAME, getName());
     }
 }

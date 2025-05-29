@@ -4,6 +4,7 @@ import com.wyu4.snowberryjam.Compiler.Compiler;
 import com.wyu4.snowberryjam.Compiler.DataType.ValidCoreElement;
 import com.wyu4.snowberryjam.Compiler.DataType.VariableReference;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 
 public class PrintTask extends ValidCoreElement implements ExecutableTask {
     private String message = "";
@@ -30,5 +31,16 @@ public class PrintTask extends ValidCoreElement implements ExecutableTask {
             return reference.getValue();
         }
         return message;
+    }
+
+    @Override
+    public String toString() {
+        String result = "{\"%s\":\"%s\",\"%s\":".formatted(SourceKey.ID, SourceId.PRINT, SourceKey.VALUE);
+        if (reference != null) {
+            result += "%s}".formatted(reference.toString());
+        } else {
+            result += "\"%s\"}".formatted(message);
+        }
+        return result;
     }
 }

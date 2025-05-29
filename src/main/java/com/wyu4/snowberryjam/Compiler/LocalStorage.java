@@ -4,12 +4,16 @@ import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import com.wyu4.snowberryjam.Compiler.DataType.CoreElement;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.PrintTask;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public abstract class LocalStorage {
+    private static final Logger logger = LoggerFactory.getLogger("Local");
+
     private static final HashMap<String, Object> VARIABLES = new HashMap<>();
     private static final List<Thread> THREADS = new ArrayList<>();
     private static final BodyStack STACK = new BodyStack(SourceId.PROJECT);
