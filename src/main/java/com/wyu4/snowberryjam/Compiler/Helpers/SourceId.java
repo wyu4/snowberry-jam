@@ -1,7 +1,10 @@
 package com.wyu4.snowberryjam.Compiler.Helpers;
 
 public enum SourceId {
-    PROJECT("PROJECT");
+    ON_RUN("ON_RUN"),
+    PRINT("PRINT"),
+    PROJECT("PROJECT"),
+    VARIABLE("VARIABLE");
 
     private final String id;
     SourceId(String id) {

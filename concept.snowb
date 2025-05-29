@@ -1,0 +1,28 @@
+{
+    "id": "PROJECT",
+    "name": "Untitled",
+    "description": "No description",
+    "body": {
+        "variables": [
+            {
+                "name": "myVar",
+                "value": 0
+            }
+        ],
+        "events": [
+            {
+                "id": "ON_RUN",
+                "body": [
+                    {
+                        "id": "PRINT",
+                        "value": "Hello World!"
+                    },
+                    {
+                        "id": "PRINT",
+                        "value": "This is my program"
+                    }
+                ]
+            }
+        ]
+    }
+}

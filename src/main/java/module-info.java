@@ -9,6 +9,7 @@ module com.wyu4.snowberryjam {
     requires atlantafx.base;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.feather;
+    requires org.apache.logging.log4j.core;
 
     exports com.wyu4.snowberryjam;
 }

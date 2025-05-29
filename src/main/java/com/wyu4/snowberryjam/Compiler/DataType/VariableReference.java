@@ -1,13 +1,14 @@
 package com.wyu4.snowberryjam.Compiler.DataType;
 
 import com.wyu4.snowberryjam.Compiler.Compiler;
+import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.LocalStorage;
 
 public class VariableReference<A> extends CoreElement {
     private final Class<A> type;
 
     public VariableReference(String name, Class<A> type) {
-        super(CoreId.VARIABLE, name);
+        super(SourceId.VARIABLE, name);
         this.type = type;
     }
 

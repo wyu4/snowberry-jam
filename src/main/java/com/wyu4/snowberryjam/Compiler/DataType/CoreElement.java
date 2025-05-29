@@ -1,19 +1,21 @@
 package com.wyu4.snowberryjam.Compiler.DataType;
 
+import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+
 public abstract class CoreElement {
-    private final CoreId id;
+    private final SourceId id;
     private final String name;
 
-    public CoreElement(CoreId id) {
+    public CoreElement(SourceId id) {
         this(id, null);
     }
 
-    public CoreElement(CoreId id, String name) {
+    public CoreElement(SourceId id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public CoreId getId() {
+    public SourceId getId() {
         return id;
     }
 
