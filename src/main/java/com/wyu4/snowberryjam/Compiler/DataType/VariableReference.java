@@ -1,0 +1,31 @@
+package com.wyu4.snowberryjam.Compiler.DataType;
+
+import com.wyu4.snowberryjam.Compiler.Compiler;
+import com.wyu4.snowberryjam.Compiler.LocalStorage;
+
+public class VariableReference<A> extends CoreElement {
+    private final Class<A> type;
+
+    public VariableReference(String name, Class<A> type) {
+        super(CoreId.VARIABLE, name);
+        this.type = type;
+    }
+
+    private Object getRaw() throws NullPointerException {
+        return LocalStorage.getRaw(getName());
+    }
+
+    public A getValue() throws NullPointerException, ClassCastException {
+        return type.cast(getRaw());
+    }
+
+    @Override
+    boolean isValid() {
+        try {
+            return type.isInstance(getRaw());
+        } catch (Exception e) {
+            Compiler.error("Variable \"" + getName() + "\" reference validation failed.", e);
+            return false;
+        }
+    }
+}
