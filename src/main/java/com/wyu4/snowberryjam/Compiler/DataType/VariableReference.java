@@ -21,8 +21,12 @@ public class VariableReference<A> extends CoreElement {
         return type.cast(getRaw());
     }
 
+    public Class<A> getType() {
+        return type;
+    }
+
     @Override
-    boolean isValid() {
+    public boolean isValid() {
         try {
             return type.isInstance(getRaw());
         } catch (Exception e) {

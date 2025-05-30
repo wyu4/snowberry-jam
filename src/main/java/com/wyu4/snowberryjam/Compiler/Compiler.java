@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
+import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
+import com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask;
 import com.wyu4.snowberryjam.Compiler.DataType.VariableReference;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
@@ -17,7 +19,6 @@ import java.util.Scanner;
 
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
-    private static final Logger runtimeLogger = LoggerFactory.getLogger("Snowberry Jam");
 
     private static JsonNode getTree(String source) throws JsonProcessingException {
         print("Creating tree...");
@@ -26,11 +27,18 @@ public abstract class Compiler extends LocalStorage {
     }
 
     public static void compile(String source) throws JsonProcessingException {
-        flush();
         JsonNode tree = getTree(source);
+        mapProjectData(tree);
         JsonNode projectBody = tree.get(SourceKey.BODY.toString());
         mapProjectVariables(projectBody);
         compileEvents(projectBody);
+    }
+
+    private static void mapProjectData(JsonNode tree) {
+        JsonNode nameNode = tree.get(SourceKey.NAME.toString());
+        if (nameNode != null) {
+            setName(nameNode.asText().replaceAll("\n", ""));
+        }
     }
 
     private static void mapProjectVariables(JsonNode projectBody) {
@@ -39,27 +47,15 @@ public abstract class Compiler extends LocalStorage {
         projectVariables.elements().forEachRemaining((projectVariable) -> {
             String variableName = projectVariable.get(SourceKey.NAME.toString()).asText();
             JsonNode valueNode = projectVariable.get(SourceKey.VALUE.toString());
-            Object rawNode;
-
             if (valueNode == null) {
                 return;
             }
 
-            if (valueNode.isInt() || valueNode.isDouble()) {
-                rawNode = valueNode.asDouble();
-                printTab("Number {} = {}", variableName, valueNode);
-            } else if (valueNode.isBoolean()) {
-                rawNode = valueNode.asBoolean();
-                printTab("Boolean {} = {}", variableName, valueNode);
-            } else if (valueNode.isTextual()) {
-                rawNode = valueNode.asText();
-                printTab("String {} = \"{}\"", variableName, valueNode);
-            } else {
-                return;
-            }
+            Object rawValue = asObject(valueNode);
+            printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
 
             try {
-                createVariable(variableName, rawNode);
+                createVariable(variableName, rawValue);
             } catch (IllegalStateException e) {
                 error("Could not create variable.", e);
             }
@@ -69,8 +65,7 @@ public abstract class Compiler extends LocalStorage {
     private static void compileEvents(JsonNode projectBody) {
         JsonNode projectEvents = projectBody.get(SourceKey.EVENTS.toString());
         projectEvents.elements().forEachRemaining((eventNode) -> {
-            String eventId = eventNode.get(SourceKey.ID.toString()).asText();
-            if (eventId.equals(SourceId.ON_RUN.toString())) {
+            if (sameId(eventNode, SourceId.ON_RUN)) {
                 BodyStack onRunBody = new BodyStack(SourceId.ON_RUN);
                 compileBody(eventNode.get(SourceKey.BODY.toString()), onRunBody);
                 stackAdd(onRunBody);
@@ -82,22 +77,68 @@ public abstract class Compiler extends LocalStorage {
 
     private static void compileBody(JsonNode body, BodyStack stack) {
         body.elements().forEachRemaining((node) -> {
-            String id = node.get(SourceKey.ID.toString()).asText();
-            if (SourceId.PRINT.toString().equals(id)) {
+            ExecutableTask task = null;
+
+            // Print
+            if (sameId(node, SourceId.PRINT)) {
                 JsonNode messageNode = node.get(SourceKey.VALUE.toString());
-                PrintTask task;
                 if (messageNode.isTextual()) {
                     task = new PrintTask(messageNode.asText());
                 } else {
                     task = new PrintTask(createVariableReference(messageNode));
                 }
-                stack.addElement(task);
+
+            } else if (sameId(node, SourceId.SET)) {
+                String name = getName(node);
+                JsonNode valueNode = node.get(SourceKey.VALUE.toString());
+                if (isValue(valueNode)) {
+                    task = new SetTask(name, asObject(valueNode));
+                } else {
+                    task = new SetTask(name, createVariableReference(valueNode));
+                }
             }
+
+            stack.addElement(task);
         });
     }
 
+    private static String getProperty(JsonNode node, String key) {
+        JsonNode keyNode = node.get(key);
+        if (keyNode == null) {
+            return null;
+        }
+        return keyNode.asText();
+    }
+
+    public static String getId(JsonNode node) {
+        return getProperty(node, SourceKey.ID.toString());
+    }
+
+    public static String getName(JsonNode node) {
+        return getProperty(node, SourceKey.NAME.toString());
+    }
+
+    public static boolean sameId(JsonNode node, SourceId id) {
+        return id.toString().equals(getId(node));
+    }
+
+    public static boolean isValue(JsonNode node) {
+        return node.isTextual() || node.isBoolean() || node.isNumber();
+    }
+
+    public static Object asObject(JsonNode node) {
+        if (node.isNumber()) {
+            return node.asDouble();
+        } else if (node.isTextual()) {
+            return node.asText();
+        } else if (node.isBoolean()) {
+            return node.asBoolean();
+        }
+        return null;
+    }
+
     private static VariableReference<?> createVariableReference(JsonNode node) {
-        if (!node.get(SourceKey.ID.toString()).asText().equals(SourceId.VARIABLE.toString())) {
+        if (!sameId(node, SourceId.VARIABLE)) {
             throw new ClassCastException(node + " is not a variable reference.");
         }
 
@@ -111,42 +152,20 @@ public abstract class Compiler extends LocalStorage {
         return new VariableReference<Object>(node.get(SourceKey.NAME.toString()).asText(), Object.class);
     }
 
-    public static void print(String message, Object... args) {
-        logger.info(message, args);
+    public static void print(Object message, Object... args) {
+        logger.info(message.toString(), args);
     }
 
-    public static void printTab(String message, Object... args) {
-        message = "\t\t" + message;
+    public static void printTab(Object message, Object... args) {
+        message = "\t\t" + message.toString();
         print(message, args);
     }
 
-    public static void error(String error) {
-        logger.error(error);
+    public static void error(Object error) {
+        logger.error(error.toString());
     }
 
-    public static void error(String error, Exception e) {
-        logger.error(error, e);
-    }
-
-    public static void main(String[] args) {
-        File sourceFile = new File("concept.snowb");
-        Scanner reader = null;
-        try {
-            reader = new Scanner(sourceFile);
-            StringBuilder source = new StringBuilder("{");
-            while(reader.hasNextLine()) {
-                source.append(reader.nextLine().replaceAll("\t",""));
-            }
-            source.append("}");
-            reader.close();
-
-            compile(source.toString());
-        } catch (Exception e) {
-            logger.error("Main error.", e);
-            if (reader != null) {
-                reader.close();
-            }
-        }
-        runStack();
+    public static void error(Object error, Exception e) {
+        logger.error(error.toString(), e);
     }
 }

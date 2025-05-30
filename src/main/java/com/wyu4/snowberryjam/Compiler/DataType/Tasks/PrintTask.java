@@ -1,12 +1,12 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Tasks;
 
-import com.wyu4.snowberryjam.Compiler.Compiler;
-import com.wyu4.snowberryjam.Compiler.DataType.ValidCoreElement;
+import com.wyu4.snowberryjam.Compiler.DataType.CoreElement;
 import com.wyu4.snowberryjam.Compiler.DataType.VariableReference;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
+import com.wyu4.snowberryjam.Compiler.LocalStorage;
 
-public class PrintTask extends ValidCoreElement implements ExecutableTask {
+public class PrintTask extends CoreElement implements ExecutableTask {
     private String message = "";
     private VariableReference<?> reference;
 
@@ -22,7 +22,7 @@ public class PrintTask extends ValidCoreElement implements ExecutableTask {
 
     @Override
     public void execute() {
-        Compiler.print(feedback().toString());
+        LocalStorage.print(feedback());
     }
 
     @Override

@@ -2,7 +2,9 @@ package com.wyu4.snowberryjam.Compiler.DataType;
 
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 
-public abstract class CoreElement {
+public class CoreElement {
+
+
     private final SourceId id;
     private final String name;
 
@@ -23,5 +25,7 @@ public abstract class CoreElement {
         return name;
     }
 
-    abstract boolean isValid();
+    public boolean isValid() {
+        return true;
+    };
 }

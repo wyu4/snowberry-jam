@@ -1,11 +1,15 @@
 "id": "PROJECT",
-"name": "Untitled",
-"description": "No description",
+"name": "Concept",
+"description": "This is a concept of what a project could look like.",
 "body": {
     "variables": [
         {
-            "name": "myVar",
+            "name": "counter",
             "value": 0
+        },
+        {
+            "name": "greeting",
+            "value": "Hello World"
         }
     ],
     "events": [
@@ -14,13 +18,48 @@
             "body": [
                 {
                     "id": "PRINT",
-                    "value": "Hello World!"
+                    "value": {
+                        "id": "VARIABLE",
+                        "name": "greeting"
+                    }
                 },
                 {
                     "id": "PRINT",
                     "value": {
                         "id": "VARIABLE",
-                        "name": "myVar"
+                        "name": "counter"
+                    }
+                },
+                {
+                    "id": "PRINT",
+                    "value": "We can increase the counter by one:"
+                },
+                {
+                    "id": "SET",
+                    "name": "counter",
+                    "value": 1
+                },
+                {
+                    "id": "PRINT",
+                    "value": {
+                        "id": "VARIABLE",
+                        "name": "counter"
+                    }
+                },
+                {
+                    "id": "PRINT",
+                    "value": "Here's a new greeting:"
+                },
+                {
+                    "id": "SET",
+                    "name": "greeting",
+                    "value": "New greeting!"
+                },
+                {
+                    "id": "PRINT",
+                    "value": {
+                        "id": "VARIABLE",
+                        "name": "greeting"
                     }
                 }
             ]

@@ -4,6 +4,7 @@ public enum SourceId {
     ON_RUN("ON_RUN"),
     PRINT("PRINT"),
     PROJECT("PROJECT"),
+    SET("SET"),
     VARIABLE("VARIABLE");
 
     private final String id;
