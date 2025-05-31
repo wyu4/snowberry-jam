@@ -14,6 +14,6 @@ public class Equals extends ConditionalHolder {
 
     @Override
     public String toString() {
-        return "if %s equals %s".formatted(getA(), getB());
+        return "%s equals %s".formatted(getA(), getB());
     }
 }

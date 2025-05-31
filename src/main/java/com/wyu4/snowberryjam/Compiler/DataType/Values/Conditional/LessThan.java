@@ -19,6 +19,6 @@ public class LessThan extends ConditionalHolder {
 
     @Override
     public String toString() {
-        return "if %s is less than %s".formatted(getA(), getB());
+        return "%s is less than %s".formatted(getA(), getB());
     }
 }

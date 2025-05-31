@@ -39,6 +39,6 @@ public class SetTask extends CoreElement implements ExecutableTask {
 
     @Override
     public String toString() {
-        return "set variable \"%s\" -> %s".formatted(getName(), feedback());
+        return "set variable \"%s\" to %s".formatted(getName(), feedback());
     }
 }

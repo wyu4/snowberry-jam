@@ -9,10 +9,12 @@ public enum SourceId {
     LESS_THAN("<"),
     LESS_OR_EQUAL_TO("<="),
     ON_RUN("ON_RUN"),
+    PLUS("+"),
     PRINT("PRINT"),
     PROJECT("PROJECT"),
     SET("SET"),
-    VARIABLE("VARIABLE");
+    VARIABLE("VARIABLE"),
+    WHILE("WHILE");
 
     private final String id;
     SourceId(String id) {

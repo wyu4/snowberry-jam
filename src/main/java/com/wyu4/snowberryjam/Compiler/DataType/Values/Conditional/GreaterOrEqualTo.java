@@ -19,6 +19,6 @@ public class GreaterOrEqualTo extends ConditionalHolder {
 
     @Override
     public String toString() {
-        return "if %s is greater or equal to %s".formatted(getA(), getB());
+        return "%s is greater or equal to %s".formatted(getA(), getB());
     }
 }

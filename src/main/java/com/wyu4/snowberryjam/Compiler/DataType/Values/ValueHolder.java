@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Arithmetic.Plus;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
@@ -76,6 +77,16 @@ public class ValueHolder {
                         )
                 );
             }
+            case PLUS -> {
+                return new Plus(
+                        fromNode(
+                                node.get(SourceKey.PARAM_A.toString())
+                        ),
+                        fromNode(
+                                node.get(SourceKey.PARAM_B.toString())
+                        )
+                );
+            }
             default -> {
                 Compiler.warn("Non-primitive value with ID \"{}\" is not recognized.", id);
                 return new ValueHolder();
@@ -130,6 +141,13 @@ public class ValueHolder {
             return ((boolean) getValue()) ? 1D : 0D;
         }
         return null;
+    }
+
+    public Object add(ValueHolder holder) {
+        if (isType(Double.class) && holder.isType(Double.class)) {
+            return ((double) getValue()) + ((double) holder.getValue());
+        }
+        return getString() + holder.getString();
     }
 
     @Override

@@ -19,6 +19,6 @@ public class GreaterThan extends ConditionalHolder {
 
     @Override
     public String toString() {
-        return "if %s is greater than %s".formatted(getA(), getB());
+        return "%s is greater than %s".formatted(getA(), getB());
     }
 }

@@ -83,6 +83,7 @@ public abstract class Compiler extends LocalStorage {
                 case SET -> task = new SetTask(node);
                 case IF -> task = new IfTask(node);
                 case IF_ELSE -> task = new IfElseTask(node);
+                case WHILE -> task = new WhileTask(node);
                 default -> {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
                     return;
