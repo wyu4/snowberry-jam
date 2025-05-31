@@ -24,21 +24,20 @@ public class ValueHolder {
             return new ValueHolder();
         }
 
-        switch (id) {
-            case VARIABLE: return new VariableReference(Compiler.getName(node));
-            case EQUALS: return new Equals(node);
-            case GREATER_THAN: return new GreaterThan(node);
-            case GREATER_OR_EQUAL_TO: return new GreaterOrEqualTo(node);
-            case LESS_THAN: return new LessThan(node);
-            case LESS_OR_EQUAL_TO: return new LessOrEqualTo(node);
-            case PLUS: return new Plus(node);
-            case MINUS: return new Minus(node);
-            case AND: return new And(node);
-            case OR: return new Or(node);
-            case NOT: return new Not(node);
-        }
-        Compiler.warn("Non-primitive value with ID \"{}\" is not recognized.", id);
-        return new ValueHolder();
+        return switch (id) {
+            case VARIABLE -> new VariableReference(Compiler.getName(node));
+            case EQUALS -> new Equals(node);
+            case GREATER_THAN -> new GreaterThan(node);
+            case GREATER_OR_EQUAL_TO -> new GreaterOrEqualTo(node);
+            case LESS_THAN -> new LessThan(node);
+            case LESS_OR_EQUAL_TO -> new LessOrEqualTo(node);
+            case PLUS -> new Plus(node);
+            case MINUS -> new Minus(node);
+            case AND -> new And(node);
+            case OR -> new Or(node);
+            case NOT -> new Not(node);
+            default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
+        };
     }
 
     private final Object value;
