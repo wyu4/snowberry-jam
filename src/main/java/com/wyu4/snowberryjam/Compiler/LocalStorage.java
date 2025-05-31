@@ -1,9 +1,7 @@
 package com.wyu4.snowberryjam.Compiler;
 
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
-import com.wyu4.snowberryjam.Compiler.DataType.CoreElement;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
-import com.wyu4.snowberryjam.Compiler.DataType.Tasks.PrintTask;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

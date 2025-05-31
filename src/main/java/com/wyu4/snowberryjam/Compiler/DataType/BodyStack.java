@@ -2,7 +2,6 @@ package com.wyu4.snowberryjam.Compiler.DataType;
 
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
-import com.wyu4.snowberryjam.Compiler.LocalStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
