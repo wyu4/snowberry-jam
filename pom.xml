@@ -212,7 +212,7 @@
 
                     <!-- REQUIRED parameters -->
                     <destination>${packaging.dest}</destination>
-                    <name>${project.artifactId}</name>
+                    <name>Snowberry Jam</name>
                     <mainClass>${project.groupId}.Start</mainClass>
 
                     <!-- OS -->
@@ -235,7 +235,7 @@
                     <!-- Application metadata -->
                     <vendor>wyu4</vendor>
                     <appVersion>0.0.1</appVersion>
-<!--                    <icon>${install.icon}</icon>-->
+                    <icon>${install.icon}</icon>
 
                     <!-- Input configuration -->
                     <input>${packaging.input}</input>
@@ -278,7 +278,7 @@
         <imageName>sj-image</imageName>
 
         <install.winDir>C:/Program Files/${project.artifactId}</install.winDir>
-        <install.icon>${mainDir}/resources/com/wyu4/snowberryjam/images/icon.ico</install.icon>
+        <install.icon>${project.basedir}/icon.ico</install.icon>
         <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
 
         <skipModularization>false</skipModularization>
