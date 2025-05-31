@@ -1,15 +1,15 @@
 package com.wyu4.snowberryjam.Compiler.Helpers;
 
 public enum SourceKey {
-    ID("id"),
     BODY("body"),
-    VARIABLES("variables"),
+    ELSE("else"),
     EVENTS("events"),
+    ID("id"),
     NAME("name"),
-    VALUE("value"),
-
     PARAM_A("a"),
-    PARAM_B("b");
+    PARAM_B("b"),
+    VARIABLES("variables"),
+    VALUE("value"),;
 
     private final String key;
 

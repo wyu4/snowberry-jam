@@ -6,15 +6,19 @@
         "variables": [
             {
                 "name": "counter",
-                "value": 1
+                "value": "ksjhfgkdsjhfg"
             },
             {
                 "name": "counter2",
-                "value": 0
+                "value": 1
             },
             {
                 "name": "greeting",
                 "value": "Hello World"
+            },
+            {
+                "name": "myBool",
+                "value": false
             }
         ],
         "events": [
@@ -24,45 +28,43 @@
                     {
                         "id": "PRINT",
                         "value": {
-                                "id": "VARIABLE",
-                                "name": "greeting"
-                            }
-                    },
-
-                    {
-                        "id": "PRINT",
-                        "value": {
-                            "a": true,
-                            "id": "EQUALS",
-                            "b": false
-                        }
-                    },
-
-                    {
-                        "id": "PRINT",
-                        "value": {
-                            "a": 1,
-                            "id": "EQUALS",
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "counter"
-                            }
-                        }
-                    },
-
-                    {
-                        "id": "PRINT",
-                        "value": {
                             "a": {
                                 "id": "VARIABLE",
                                 "name": "counter"
                             },
-                            "id": "EQUALS",
+                            "id": ">",
                             "b": {
                                 "id": "VARIABLE",
                                 "name": "counter2"
                             }
                         }
+                    },
+
+                    {
+                        "id": "IF_ELSE",
+                        "value": {
+                            "a": {
+                                "id": "VARIABLE",
+                                "name": "counter"
+                            },
+                            "id": ">",
+                            "b": {
+                                "id": "VARIABLE",
+                                "name": "counter2"
+                            }
+                        },
+                        "body": [
+                            {
+                                "id": "PRINT",
+                                "value": "counter was greater than counter2."
+                            }
+                        ],
+                        "else": [
+                            {
+                                "id": "PRINT",
+                                "value": "counter was not greater than counter2."
+                            }
+                        ]
                     }
                 ]
             }

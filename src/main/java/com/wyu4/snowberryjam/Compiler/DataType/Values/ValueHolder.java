@@ -2,7 +2,7 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.Equals;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
@@ -18,12 +18,56 @@ public class ValueHolder {
         }
 
         SourceId id = EnumHelper.stringToId(Compiler.getId(node));
+        if (id == null) {
+            return new ValueHolder();
+        }
+
         switch (id) {
             case VARIABLE -> {
                 return new VariableReference(Compiler.getName(node));
             }
             case EQUALS -> {
                 return new Equals(
+                        fromNode(
+                                node.get(SourceKey.PARAM_A.toString())
+                        ),
+                        fromNode(
+                                node.get(SourceKey.PARAM_B.toString())
+                        )
+                );
+            }
+            case GREATER_THAN -> {
+                return new GreaterThan(
+                        fromNode(
+                                node.get(SourceKey.PARAM_A.toString())
+                        ),
+                        fromNode(
+                                node.get(SourceKey.PARAM_B.toString())
+                        )
+                );
+            }
+            case GREATER_OR_EQUAL_TO -> {
+                return new GreaterOrEqualTo(
+                        fromNode(
+                                node.get(SourceKey.PARAM_A.toString())
+                        ),
+                        fromNode(
+                                node.get(SourceKey.PARAM_B.toString())
+                        )
+                );
+            }
+            case LESS_THAN -> {
+                return new LessThan(
+                        fromNode(
+                                node.get(SourceKey.PARAM_A.toString())
+                        ),
+                        fromNode(
+                                node.get(SourceKey.PARAM_B.toString())
+                        )
+                );
+            }
+            case LESS_OR_EQUAL_TO -> {
+                return new LessOrEqualTo(
                         fromNode(
                                 node.get(SourceKey.PARAM_A.toString())
                         ),
@@ -72,6 +116,20 @@ public class ValueHolder {
 
     public boolean isEmpty() {
         return getValue() == null;
+    }
+
+    public Double getSize() {
+        if (getValue() instanceof ValueHolder holder) {
+            return holder.getSize();
+        }
+        else if (isType(Double.class)) {
+            return (double) getValue();
+        } else if (isType(String.class)) {
+            return (double) ((String) getValue()).length();
+        } else if (isType(Boolean.class)) {
+            return ((boolean) getValue()) ? 1D : 0D;
+        }
+        return null;
     }
 
     @Override

@@ -4,15 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
-import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
-import com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask;
+import com.wyu4.snowberryjam.Compiler.DataType.Tasks.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.wyu4.snowberryjam.Compiler.DataType.Tasks.PrintTask;
 
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
@@ -72,7 +69,7 @@ public abstract class Compiler extends LocalStorage {
         });
     }
 
-    private static void compileBody(JsonNode body, BodyStack stack) {
+    public static void compileBody(JsonNode body, BodyStack stack) {
         body.elements().forEachRemaining((node) -> {
             ExecutableTask task;
 
@@ -84,6 +81,8 @@ public abstract class Compiler extends LocalStorage {
             switch (id) {
                 case PRINT -> task = new PrintTask(node);
                 case SET -> task = new SetTask(node);
+                case IF -> task = new IfTask(node);
+                case IF_ELSE -> task = new IfElseTask(node);
                 default -> {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
                     return;

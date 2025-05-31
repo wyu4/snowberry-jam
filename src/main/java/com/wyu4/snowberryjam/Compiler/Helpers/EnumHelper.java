@@ -1,5 +1,7 @@
 package com.wyu4.snowberryjam.Compiler.Helpers;
 
+import com.wyu4.snowberryjam.Compiler.Compiler;
+
 public abstract class EnumHelper {
     public static SourceId stringToId(String str) {
         for (SourceId id : SourceId.values()) {
@@ -7,6 +9,7 @@ public abstract class EnumHelper {
                 return id;
             }
         }
+        Compiler.warn("ID \"{}\" is not registered.", str);
         return null;
     }
 
@@ -16,6 +19,7 @@ public abstract class EnumHelper {
                 return id;
             }
         }
+        Compiler.warn("Key \"{}\" is not registered.", str);
         return null;
     }
 }
