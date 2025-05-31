@@ -1,10 +1,12 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 
 public class GreaterThan extends ConditionalHolder {
-    public GreaterThan(ValueHolder a, ValueHolder b) {
-        super(a, b);
+
+    public GreaterThan(JsonNode node) {
+        super(node);
     }
 
     @Override

@@ -1,10 +1,11 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional;
 
-import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
+import com.fasterxml.jackson.databind.JsonNode;
 
 public class LessThan extends ConditionalHolder {
-    public LessThan(ValueHolder a, ValueHolder b) {
-        super(a, b);
+
+    public LessThan(JsonNode node) {
+        super(node);
     }
 
     @Override

@@ -2,11 +2,12 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.Arithmetic.Plus;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.Not;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Minus;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Plus;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 
 public class ValueHolder {
     public static ValueHolder fromNode(JsonNode node) {
@@ -24,74 +25,20 @@ public class ValueHolder {
         }
 
         switch (id) {
-            case VARIABLE -> {
-                return new VariableReference(Compiler.getName(node));
-            }
-            case EQUALS -> {
-                return new Equals(
-                        fromNode(
-                                node.get(SourceKey.PARAM_A.toString())
-                        ),
-                        fromNode(
-                                node.get(SourceKey.PARAM_B.toString())
-                        )
-                );
-            }
-            case GREATER_THAN -> {
-                return new GreaterThan(
-                        fromNode(
-                                node.get(SourceKey.PARAM_A.toString())
-                        ),
-                        fromNode(
-                                node.get(SourceKey.PARAM_B.toString())
-                        )
-                );
-            }
-            case GREATER_OR_EQUAL_TO -> {
-                return new GreaterOrEqualTo(
-                        fromNode(
-                                node.get(SourceKey.PARAM_A.toString())
-                        ),
-                        fromNode(
-                                node.get(SourceKey.PARAM_B.toString())
-                        )
-                );
-            }
-            case LESS_THAN -> {
-                return new LessThan(
-                        fromNode(
-                                node.get(SourceKey.PARAM_A.toString())
-                        ),
-                        fromNode(
-                                node.get(SourceKey.PARAM_B.toString())
-                        )
-                );
-            }
-            case LESS_OR_EQUAL_TO -> {
-                return new LessOrEqualTo(
-                        fromNode(
-                                node.get(SourceKey.PARAM_A.toString())
-                        ),
-                        fromNode(
-                                node.get(SourceKey.PARAM_B.toString())
-                        )
-                );
-            }
-            case PLUS -> {
-                return new Plus(
-                        fromNode(
-                                node.get(SourceKey.PARAM_A.toString())
-                        ),
-                        fromNode(
-                                node.get(SourceKey.PARAM_B.toString())
-                        )
-                );
-            }
-            default -> {
-                Compiler.warn("Non-primitive value with ID \"{}\" is not recognized.", id);
-                return new ValueHolder();
-            }
+            case VARIABLE: return new VariableReference(Compiler.getName(node));
+            case EQUALS: return new Equals(node);
+            case GREATER_THAN: return new GreaterThan(node);
+            case GREATER_OR_EQUAL_TO: return new GreaterOrEqualTo(node);
+            case LESS_THAN: return new LessThan(node);
+            case LESS_OR_EQUAL_TO: return new LessOrEqualTo(node);
+            case PLUS: return new Plus(node);
+            case MINUS: return new Minus(node);
+            case AND: return new And(node);
+            case OR: return new Or(node);
+            case NOT: return new Not(node);
         }
+        Compiler.warn("Non-primitive value with ID \"{}\" is not recognized.", id);
+        return new ValueHolder();
     }
 
     private final Object value;
@@ -113,7 +60,7 @@ public class ValueHolder {
     }
 
     public Class<?> getType() {
-        return value.getClass();
+        return getValue().getClass();
     }
 
     public boolean isType(Class<?> type) {
@@ -125,8 +72,8 @@ public class ValueHolder {
         return type.equals(String.class) || type.equals(Boolean.class) || type.equals(Double.class);
     }
 
-    public boolean isEmpty() {
-        return getValue() == null;
+    public boolean notEmpty() {
+        return getValue() != null;
     }
 
     public Double getSize() {

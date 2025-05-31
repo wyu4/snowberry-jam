@@ -20,6 +20,14 @@
                     {
                         "id": "PRINT",
                         "value": {
+                            "id": "NOT",
+                            "a": false
+                        }
+                    },
+
+                    {
+                        "id": "PRINT",
+                        "value": {
                             "a": "Now printing numbers 0 to ",
                             "id": "+",
                             "b": {
