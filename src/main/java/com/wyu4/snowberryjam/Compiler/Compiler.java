@@ -83,11 +83,8 @@ public abstract class Compiler extends LocalStorage {
             }
 
             switch (id) {
-                case PRINT -> task = new PrintTask(ValueHolder.fromNode(node.get(SourceKey.VALUE.toString())));
-                case SET -> task = new SetTask(
-                        ValueHolder.fromNode(node.get(SourceKey.NAME.toString())),
-                        ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()))
-                );
+                case PRINT -> task = new PrintTask(node);
+                case SET -> task = new SetTask(node);
                 default -> {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
                     return;

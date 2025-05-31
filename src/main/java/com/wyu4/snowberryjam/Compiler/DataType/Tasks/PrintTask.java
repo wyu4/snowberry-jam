@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Tasks;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.DataType.CoreElement;
 import com.wyu4.snowberryjam.Compiler.DataType.ValueHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.VariableReference;
@@ -10,6 +11,10 @@ import com.wyu4.snowberryjam.Compiler.LocalStorage;
 public class PrintTask extends CoreElement implements ExecutableTask {
 
     private final ValueHolder message;
+
+    public PrintTask(JsonNode node) {
+        this(ValueHolder.fromNode(node.get(SourceKey.VALUE.toString())));
+    }
 
     public PrintTask(ValueHolder message) {
         super(SourceId.PRINT);
