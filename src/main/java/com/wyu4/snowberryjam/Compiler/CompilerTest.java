@@ -17,11 +17,10 @@ public class CompilerTest {
             LocalStorage.flush();
 
             reader = new Scanner(sourceFile);
-            StringBuilder source = new StringBuilder("{");
+            StringBuilder source = new StringBuilder();
             while(reader.hasNextLine()) {
                 source.append(reader.nextLine().replaceAll("\t",""));
             }
-            source.append("}");
             reader.close();
 
             Compiler.compile(source.toString());

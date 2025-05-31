@@ -1,4 +1,4 @@
-package com.wyu4.snowberryjam.Compiler.DataType;
+package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.wyu4.snowberryjam.Compiler.LocalStorage;
 
@@ -19,5 +19,10 @@ public class VariableReference extends ValueHolder{
     @Override
     public Class<?> getType() {
         return getValue().getClass();
+    }
+
+    @Override
+    public String toString() {
+        return "value of variable \"%s\"".formatted(getName());
     }
 }

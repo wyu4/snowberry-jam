@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.Compiler.DataType;
 
+import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 
 public class CoreElement {

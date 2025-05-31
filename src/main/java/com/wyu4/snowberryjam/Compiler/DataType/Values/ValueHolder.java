@@ -1,12 +1,18 @@
-package com.wyu4.snowberryjam.Compiler.DataType;
+package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.Equals;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 
 public class ValueHolder {
     public static ValueHolder fromNode(JsonNode node) {
+        if (node == null) {
+            return new ValueHolder();
+        }
+
         if (Compiler.isPrimitive(node)) {
             return new ValueHolder(Compiler.asPrimitiveObject(node));
         }
@@ -15,6 +21,16 @@ public class ValueHolder {
         switch (id) {
             case VARIABLE -> {
                 return new VariableReference(Compiler.getName(node));
+            }
+            case EQUALS -> {
+                return new Equals(
+                        fromNode(
+                                node.get(SourceKey.PARAM_A.toString())
+                        ),
+                        fromNode(
+                                node.get(SourceKey.PARAM_B.toString())
+                        )
+                );
             }
             default -> {
                 Compiler.warn("Non-primitive value with ID \"{}\" is not recognized.", id);
@@ -45,6 +61,10 @@ public class ValueHolder {
         return value.getClass();
     }
 
+    public boolean isType(Class<?> type) {
+        return getType().equals(type);
+    }
+
     public boolean isPrimitive() {
         Class<?> type = getType();
         return type.equals(String.class) || type.equals(Boolean.class) || type.equals(Double.class);
@@ -52,5 +72,21 @@ public class ValueHolder {
 
     public boolean isEmpty() {
         return getValue() == null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ValueHolder parsed) {
+            return getValue().equals(parsed.getValue());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        if (isType(String.class)) {
+            return "\"%s\"".formatted(getValue());
+        }
+        return getValue().toString();
     }
 }

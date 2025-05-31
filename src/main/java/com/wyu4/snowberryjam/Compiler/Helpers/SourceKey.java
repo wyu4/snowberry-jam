@@ -6,7 +6,10 @@ public enum SourceKey {
     VARIABLES("variables"),
     EVENTS("events"),
     NAME("name"),
-    VALUE("value");
+    VALUE("value"),
+
+    PARAM_A("a"),
+    PARAM_B("b");
 
     private final String key;
 

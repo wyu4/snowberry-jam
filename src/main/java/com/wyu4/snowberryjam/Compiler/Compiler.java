@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask;
-import com.wyu4.snowberryjam.Compiler.DataType.ValueHolder;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;

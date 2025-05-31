@@ -1,68 +1,71 @@
-"id": "PROJECT",
-"name": "Concept",
-"description": "This is a concept of what a project could look like.",
-"body": {
-    "variables": [
-        {
-            "name": "counter",
-            "value": 0
-        },
-        {
-            "name": "greeting",
-            "value": "Hello World"
-        }
-    ],
-    "events": [
-        {
-            "id": "ON_RUN",
-            "body": [
-                {
-                    "id": "PRINT",
-                    "value": {
-                        "id": "VARIABLE",
-                        "name": "greeting"
+{
+    "id": "PROJECT",
+    "name": "Concept",
+    "description": "This is a concept of what a project could look like.",
+    "body": {
+        "variables": [
+            {
+                "name": "counter",
+                "value": 1
+            },
+            {
+                "name": "counter2",
+                "value": 0
+            },
+            {
+                "name": "greeting",
+                "value": "Hello World"
+            }
+        ],
+        "events": [
+            {
+                "id": "ON_RUN",
+                "body": [
+                    {
+                        "id": "PRINT",
+                        "value": {
+                                "id": "VARIABLE",
+                                "name": "greeting"
+                            }
+                    },
+
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "a": true,
+                            "id": "EQUALS",
+                            "b": false
+                        }
+                    },
+
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "a": 1,
+                            "id": "EQUALS",
+                            "b": {
+                                "id": "VARIABLE",
+                                "name": "counter"
+                            }
+                        }
+                    },
+
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "a": {
+                                "id": "VARIABLE",
+                                "name": "counter"
+                            },
+                            "id": "EQUALS",
+                            "b": {
+                                "id": "VARIABLE",
+                                "name": "counter2"
+                            }
+                        }
                     }
-                },
-                {
-                    "id": "PRINT",
-                    "value": {
-                        "id": "VARIABLE",
-                        "name": "counter"
-                    }
-                },
-                {
-                    "id": "PRINT",
-                    "value": "We can increase the counter by one:"
-                },
-                {
-                    "id": "SET",
-                    "name": "counter",
-                    "value": 1
-                },
-                {
-                    "id": "PRINT",
-                    "value": {
-                        "id": "VARIABLE",
-                        "name": "counter"
-                    }
-                },
-                {
-                    "id": "PRINT",
-                    "value": "Here's a new greeting:"
-                },
-                {
-                    "id": "SET",
-                    "name": "greeting",
-                    "value": "New greeting!"
-                },
-                {
-                    "id": "PRINT",
-                    "value": {
-                        "id": "VARIABLE",
-                        "name": "greeting"
-                    }
-                }
-            ]
-        }
-    ]
+                ]
+            }
+        ]
+    }
 }
