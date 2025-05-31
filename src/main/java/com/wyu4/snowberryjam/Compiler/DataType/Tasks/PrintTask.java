@@ -1,23 +1,19 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Tasks;
 
 import com.wyu4.snowberryjam.Compiler.DataType.CoreElement;
+import com.wyu4.snowberryjam.Compiler.DataType.ValueHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.VariableReference;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 import com.wyu4.snowberryjam.Compiler.LocalStorage;
 
 public class PrintTask extends CoreElement implements ExecutableTask {
-    private String message = "";
-    private VariableReference<?> reference;
 
-    public PrintTask(String message) {
+    private final ValueHolder message;
+
+    public PrintTask(ValueHolder message) {
         super(SourceId.PRINT);
         this.message = message;
-    }
-
-    public PrintTask(VariableReference<?> reference) {
-        super(SourceId.PRINT);
-        this.reference = reference;
     }
 
     @Override
@@ -27,20 +23,11 @@ public class PrintTask extends CoreElement implements ExecutableTask {
 
     @Override
     public Object feedback() {
-        if (reference != null) {
-            return reference.getValue();
-        }
-        return message;
+        return message.getString();
     }
 
     @Override
     public String toString() {
-        String result = "{\"%s\":\"%s\",\"%s\":".formatted(SourceKey.ID, SourceId.PRINT, SourceKey.VALUE);
-        if (reference != null) {
-            result += "%s}".formatted(reference.toString());
-        } else {
-            result += "\"%s\"}".formatted(message);
-        }
-        return result;
+        return "print \"%s\"".formatted(feedback());
     }
 }

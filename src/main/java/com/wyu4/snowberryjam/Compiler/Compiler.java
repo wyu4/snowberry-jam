@@ -6,16 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask;
-import com.wyu4.snowberryjam.Compiler.DataType.VariableReference;
+import com.wyu4.snowberryjam.Compiler.DataType.ValueHolder;
+import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.PrintTask;
-
-import java.io.File;
-import java.util.Scanner;
 
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
@@ -51,7 +49,7 @@ public abstract class Compiler extends LocalStorage {
                 return;
             }
 
-            Object rawValue = asObject(valueNode);
+            Object rawValue = asPrimitiveObject(valueNode);
             printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
 
             try {
@@ -65,7 +63,7 @@ public abstract class Compiler extends LocalStorage {
     private static void compileEvents(JsonNode projectBody) {
         JsonNode projectEvents = projectBody.get(SourceKey.EVENTS.toString());
         projectEvents.elements().forEachRemaining((eventNode) -> {
-            if (sameId(eventNode, SourceId.ON_RUN)) {
+            if (SourceId.ON_RUN.toString().equals(getId(eventNode))) {
                 BodyStack onRunBody = new BodyStack(SourceId.ON_RUN);
                 compileBody(eventNode.get(SourceKey.BODY.toString()), onRunBody);
                 stackAdd(onRunBody);
@@ -77,24 +75,22 @@ public abstract class Compiler extends LocalStorage {
 
     private static void compileBody(JsonNode body, BodyStack stack) {
         body.elements().forEachRemaining((node) -> {
-            ExecutableTask task = null;
+            ExecutableTask task;
 
-            // Print
-            if (sameId(node, SourceId.PRINT)) {
-                JsonNode messageNode = node.get(SourceKey.VALUE.toString());
-                if (messageNode.isTextual()) {
-                    task = new PrintTask(messageNode.asText());
-                } else {
-                    task = new PrintTask(createVariableReference(messageNode));
-                }
+            SourceId id = EnumHelper.stringToId(getId(node));
+            if (id == null) {
+                return;
+            }
 
-            } else if (sameId(node, SourceId.SET)) {
-                String name = getName(node);
-                JsonNode valueNode = node.get(SourceKey.VALUE.toString());
-                if (isValue(valueNode)) {
-                    task = new SetTask(name, asObject(valueNode));
-                } else {
-                    task = new SetTask(name, createVariableReference(valueNode));
+            switch (id) {
+                case PRINT -> task = new PrintTask(ValueHolder.fromNode(node.get(SourceKey.VALUE.toString())));
+                case SET -> task = new SetTask(
+                        ValueHolder.fromNode(node.get(SourceKey.NAME.toString())),
+                        ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()))
+                );
+                default -> {
+                    warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
+                    return;
                 }
             }
 
@@ -118,15 +114,11 @@ public abstract class Compiler extends LocalStorage {
         return getProperty(node, SourceKey.NAME.toString());
     }
 
-    public static boolean sameId(JsonNode node, SourceId id) {
-        return id.toString().equals(getId(node));
-    }
-
-    public static boolean isValue(JsonNode node) {
+    public static boolean isPrimitive(JsonNode node) {
         return node.isTextual() || node.isBoolean() || node.isNumber();
     }
 
-    public static Object asObject(JsonNode node) {
+    public static Object asPrimitiveObject(JsonNode node) {
         if (node.isNumber()) {
             return node.asDouble();
         } else if (node.isTextual()) {
@@ -135,21 +127,6 @@ public abstract class Compiler extends LocalStorage {
             return node.asBoolean();
         }
         return null;
-    }
-
-    private static VariableReference<?> createVariableReference(JsonNode node) {
-        if (!sameId(node, SourceId.VARIABLE)) {
-            throw new ClassCastException(node + " is not a variable reference.");
-        }
-
-        JsonNode nameNode = node.get(SourceKey.NAME.toString());
-        if (nameNode.isTextual()) {
-            String name = nameNode.asText();
-            Object defaultValue = LocalStorage.getRaw(name);
-            return new VariableReference<>(name, defaultValue.getClass());
-        }
-
-        return new VariableReference<Object>(node.get(SourceKey.NAME.toString()).asText(), Object.class);
     }
 
     public static void print(Object message, Object... args) {
@@ -167,5 +144,9 @@ public abstract class Compiler extends LocalStorage {
 
     public static void error(Object error, Exception e) {
         logger.error(error.toString(), e);
+    }
+
+    public static void warn(Object message, Object... args) {
+        logger.warn(message.toString(), args);
     }
 }
