@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.TimeHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Minus;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Plus;
@@ -35,6 +36,7 @@ public class ValueHolder {
             case AND -> new And(node);
             case OR -> new Or(node);
             case NOT -> new Not(node);
+            case TIME -> new TimeHolder();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
     }

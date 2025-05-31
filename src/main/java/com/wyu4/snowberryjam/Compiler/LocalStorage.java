@@ -87,4 +87,8 @@ public abstract class LocalStorage {
     public static void print(Object message, Object... args) {
         getLogger().info(message.toString(), args);
     }
+
+    public static void warn(Object message, Object... args) {
+        getLogger().warn(message.toString(), args);
+    }
 }

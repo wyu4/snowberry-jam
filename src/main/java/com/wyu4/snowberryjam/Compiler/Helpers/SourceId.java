@@ -17,6 +17,7 @@ public enum SourceId {
     PRINT("PRINT"),
     PROJECT("PROJECT"),
     SET("SET"),
+    TIME("TIME"),
     VARIABLE("VARIABLE"),
     WHILE("WHILE");
 

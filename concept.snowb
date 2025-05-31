@@ -14,13 +14,23 @@
             },
             {
                 "name": "test",
-                "value": [1,2,3]
+                "value": [
+                    1,
+                    2,
+                    3
+                ]
             }
         ],
         "events": [
             {
                 "id": "ON_RUN",
                 "body": [
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "id": "TIME"
+                        }
+                    },
                     {
                         "id": "PRINT",
                         "value": {
@@ -32,7 +42,6 @@
                             }
                         }
                     },
-
                     {
                         "id": "WHILE",
                         "value": {
