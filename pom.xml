@@ -231,6 +231,9 @@
                     <javaOptions>
                         <javaOption>-Dhttps.protocols=TLSv1.2</javaOption>
                     </javaOptions>
+                    <fileAssociations>
+                        <fileAssociation>${snowbProperties}</fileAssociation>
+                    </fileAssociations>
 
                     <!-- Application metadata -->
                     <vendor>wyu4</vendor>
@@ -278,7 +281,9 @@
         <imageName>sj-image</imageName>
 
         <install.winDir>C:/Program Files/${project.artifactId}</install.winDir>
-        <install.icon>${project.basedir}/icon.ico</install.icon>
+        <resourceDir>${mainDir}/resources/com/wyu4/snowberryjam</resourceDir>
+        <install.icon>${resourceDir}/images/icon.ico</install.icon>
+        <snowbProperties>${resourceDir}/snowb.properties</snowbProperties>
         <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
 
         <skipModularization>false</skipModularization>
