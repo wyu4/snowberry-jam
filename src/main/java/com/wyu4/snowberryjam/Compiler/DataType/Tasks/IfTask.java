@@ -39,4 +39,9 @@ public class IfTask extends CoreElement implements ExecutableTask {
             body.execute();
         }
     }
+
+    @Override
+    public String toString() {
+        return "run \"body\" if %s".formatted(condition);
+    }
 }

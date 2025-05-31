@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.Compiler;
 
+import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,6 +10,7 @@ import java.util.Scanner;
 public class CompilerTest {
 
     public static void main(String[] args) {
+        BodyStack.setDebuggingEnabled(false);
         final Logger logger = LoggerFactory.getLogger("Test");
 
         File sourceFile = new File("concept.snowb");

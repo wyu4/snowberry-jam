@@ -17,7 +17,6 @@ public class WhileTask extends CoreElement implements ExecutableTask {
         super(SourceId.IF);
 
         ValueHolder holder = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
-        System.out.println(holder);
         if (holder instanceof ConditionalHolder) {
             condition = (ConditionalHolder) holder;
             body = new BodyStack(SourceId.IF);
@@ -38,5 +37,10 @@ public class WhileTask extends CoreElement implements ExecutableTask {
         while(condition.getState()) {
             body.execute();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "while %s, run \"body\"".formatted(condition);
     }
 }

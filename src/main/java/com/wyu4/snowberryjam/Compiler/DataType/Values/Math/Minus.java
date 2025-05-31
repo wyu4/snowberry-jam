@@ -18,4 +18,9 @@ public class Minus extends ArithmeticHolder {
         }
         throw new ArithmeticException("Cannot perform subtraction on values type [%s] and [%s].".formatted(typeA.getCanonicalName(), typeB.getCanonicalName()));
     }
+
+    @Override
+    public String toString() {
+        return "%s - %s".formatted(getA(), getB());
+    }
 }

@@ -11,20 +11,16 @@
             {
                 "name": "maxNum",
                 "value": 250
+            },
+            {
+                "name": "test",
+                "value": [1,2,3]
             }
         ],
         "events": [
             {
                 "id": "ON_RUN",
                 "body": [
-                    {
-                        "id": "PRINT",
-                        "value": {
-                            "id": "NOT",
-                            "a": false
-                        }
-                    },
-
                     {
                         "id": "PRINT",
                         "value": {

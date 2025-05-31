@@ -44,4 +44,9 @@ public class IfElseTask extends CoreElement implements ExecutableTask {
             elseBody.execute();
         }
     }
+
+    @Override
+    public String toString() {
+        return "run \"body\" if %s, otherwise run \"else\" ";
+    }
 }

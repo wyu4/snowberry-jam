@@ -13,4 +13,9 @@ public class Plus extends ArithmeticHolder {
     public Object getValue() {
         return getA().add(getB());
     }
+
+    @Override
+    public String toString() {
+        return "%s + %s".formatted(getA(), getB());
+    }
 }

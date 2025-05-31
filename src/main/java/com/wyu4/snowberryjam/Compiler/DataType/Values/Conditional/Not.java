@@ -19,4 +19,9 @@ public class Not extends ConditionalHolder {
 
         throw new IllegalArgumentException("Cannot invert type [%s]".formatted(type.getCanonicalName()));
     }
+
+    @Override
+    public String toString() {
+        return "not %s".formatted(getA());
+    }
 }

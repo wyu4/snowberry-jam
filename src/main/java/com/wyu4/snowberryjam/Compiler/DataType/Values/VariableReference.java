@@ -23,6 +23,6 @@ public class VariableReference extends ValueHolder{
 
     @Override
     public String toString() {
-        return "value of variable \"%s\"".formatted(getName());
+        return "the value of variable \"%s\"".formatted(getName());
     }
 }
