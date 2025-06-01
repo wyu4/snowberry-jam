@@ -10,21 +10,19 @@ import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 
 public class IfTask extends CoreElement implements ExecutableTask {
-    private final ConditionalHolder condition;
+    private final ValueHolder condition;
     private final BodyStack body;
 
     public IfTask(JsonNode node) {
         super(SourceId.IF);
 
-        ValueHolder holder = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
+        condition = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
 
-        if (holder instanceof ConditionalHolder) {
-            condition = (ConditionalHolder) holder;
-            body = new BodyStack(SourceId.IF);
-            Compiler.compileBody(node.get(SourceKey.BODY.toString()), body);
-        } else {
+        if (!condition.isType(Boolean.class)) {
             throw new IllegalArgumentException("Value passed as condition is not conditional.");
         }
+        body = new BodyStack(SourceId.IF);
+        Compiler.compileBody(node.get(SourceKey.BODY.toString()), body);
     }
 
     public IfTask(ConditionalHolder condition, BodyStack body) {
@@ -35,7 +33,7 @@ public class IfTask extends CoreElement implements ExecutableTask {
 
     @Override
     public void execute() {
-        if (condition.getState()) {
+        if (condition.getValue().equals(true)) {
             body.execute();
         }
     }
