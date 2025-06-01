@@ -1,12 +1,11 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Values.Array;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.InteractiveValueHolder;
 
 import java.util.Arrays;
 
-public class ElementAtIndex extends ArrayHolder {
-    public ElementAtIndex(JsonNode node) {
+public class WithUpdatedElement extends ArrayHolder {
+    public WithUpdatedElement(JsonNode node) {
         super(node);
     }
 
@@ -17,11 +16,12 @@ public class ElementAtIndex extends ArrayHolder {
         if (array.length < index) {
             throw new IllegalArgumentException("Array %s is too small for index %s".formatted(Arrays.toString(array), index));
         }
-        return array[index];
+        array[index] = getB().getValue();
+        return array;
     }
 
     @Override
-    public String toString() {
-        return "index %s of %s".formatted(getI(), getA());
+    public Class<?> getType() {
+        return Object[].class;
     }
 }

@@ -3,13 +3,17 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Array.ElementAtIndex;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Array.WithUpdatedElement;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.RandomHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.TimeHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Conversion.ArrayOf;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Conversion.SizeOf;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 
+import javax.lang.model.type.NullType;
 import java.util.Arrays;
 
 public class ValueHolder {
@@ -44,7 +48,10 @@ public class ValueHolder {
             case DIVIDE -> new Divide(node);
             case MODULUS -> new Modulus(node);
             case ROUND -> new Round(node);
+            case SIZE_OF -> new SizeOf(node);
+            case ARRAY_OF -> new ArrayOf(node);
             case ELEMENT_AT_INDEX -> new ElementAtIndex(node);
+            case WITH_UPDATED_ELEMENT -> new WithUpdatedElement(node);
             case RANDOM -> new RandomHolder();
             case TIME -> new TimeHolder();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
@@ -68,15 +75,34 @@ public class ValueHolder {
         return value;
     }
 
+    public Object[] getArray() {
+        if (!notEmpty()) {
+            return new Object[0];
+        }
+        if (isType(Object[].class)) {
+            return (Object[]) getValue();
+        }
+        String str = getString();
+        Object[] array = new Object[str.length()];
+        for (int i = 0; i < array.length; i++) {
+            array[i] = String.valueOf(str.charAt(i));
+        }
+        return array;
+    }
+
     public String getString() {
         if (isType(Object[].class)) {
             return Arrays.toString((Object[]) getValue());
         }
-        return getValue().toString();
+        return String.valueOf(getValue());
     }
 
     public Class<?> getType() {
-        return getValue().getClass();
+        Object value = getValue();
+        if (value == null) {
+            return NullType.class;
+        }
+        return value.getClass();
     }
 
     public boolean isType(Class<?> type) {

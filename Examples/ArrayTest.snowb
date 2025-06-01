@@ -6,7 +6,25 @@
         "variables": [
             {
                 "name": "myArray",
-                "value": [1,2,3,4,5,6,7,8,9]
+                "value": [
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9
+                ]
+            },
+            {
+                "name": "newValue",
+                "value": 248379
+            },
+            {
+                "name": "index",
+                "value": 1
             }
         ],
         "events": [
@@ -16,19 +34,40 @@
                     {
                         "id": "PRINT",
                         "value": {
-                                "id": "VARIABLE",
-                                "name": "myArray"
-                            }
+                            "id": "VARIABLE",
+                            "name": "myArray"
+                        }
                     },
                     {
                         "id": "PRINT",
                         "value": {
-                            "id": "ELEMENT_AT",
+                            "id": "WITH_UPDATED_ELEMENT",
                             "a": {
                                 "id": "VARIABLE",
                                 "name": "myArray"
                             },
-                            "b": 1
+                            "i": {
+                                "id": "VARIABLE",
+                                "name": "index"
+                            },
+                            "b": {
+                                "id": "VARIABLE",
+                                "name": "newValue"
+                            }
+                        }
+                    },
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "a": "Size of the array: ",
+                            "id": "+",
+                            "b": {
+                                "id": "SIZE_OF",
+                                "a": {
+                                    "id": "VARIABLE",
+                                    "name": "myArray"
+                                }
+                            }
                         }
                     }
                 ]

@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.Compiler.Helpers;
 
 public enum SourceKey {
+    ARRAY("array"),
     BODY("body"),
     ELSE("else"),
     EVENTS("events"),
@@ -8,6 +9,7 @@ public enum SourceKey {
     NAME("name"),
     PARAM_A("a"),
     PARAM_B("b"),
+    PARAM_I("i"),
     VARIABLES("variables"),
     VALUE("value"),;
 
