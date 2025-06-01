@@ -1,0 +1,38 @@
+{
+    "id": "PROJECT",
+    "name": "Array Test",
+    "description": "This is a concept of what a project could look like.",
+    "body": {
+        "variables": [
+            {
+                "name": "myArray",
+                "value": [1,2,3,4,5,6,7,8,9]
+            }
+        ],
+        "events": [
+            {
+                "id": "ON_RUN",
+                "body": [
+                    {
+                        "id": "PRINT",
+                        "value": {
+                                "id": "VARIABLE",
+                                "name": "myArray"
+                            }
+                    },
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "id": "ELEMENT_AT",
+                            "a": {
+                                "id": "VARIABLE",
+                                "name": "myArray"
+                            },
+                            "b": 1
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

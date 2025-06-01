@@ -2,7 +2,7 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn;
 
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 
-public class Random extends ValueHolder {
+public class RandomHolder extends ValueHolder {
     @Override
     public Object getValue() {
         return Math.random();

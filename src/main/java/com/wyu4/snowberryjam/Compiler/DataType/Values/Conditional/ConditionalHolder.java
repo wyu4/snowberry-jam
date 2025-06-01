@@ -27,11 +27,6 @@ public class ConditionalHolder extends InteractiveValueHolder {
     }
 
     @Override
-    public boolean isPrimitive() {
-        return true;
-    }
-
-    @Override
     public boolean notEmpty() {
         return true;
     }

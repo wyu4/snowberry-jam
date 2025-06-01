@@ -2,12 +2,15 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.Random;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Array.ElementAtIndex;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.RandomHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.TimeHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+
+import java.util.Arrays;
 
 public class ValueHolder {
     public static ValueHolder fromNode(JsonNode node) {
@@ -31,16 +34,19 @@ public class ValueHolder {
             case GREATER_OR_EQUAL_TO -> new GreaterOrEqualTo(node);
             case LESS_THAN -> new LessThan(node);
             case LESS_OR_EQUAL_TO -> new LessOrEqualTo(node);
+            case SAME_TYPE -> new SameType(node);
+            case AND -> new And(node);
+            case OR -> new Or(node);
+            case NOT -> new Not(node);
             case PLUS -> new Plus(node);
             case MINUS -> new Minus(node);
             case MULTIPLY -> new Multiply(node);
             case DIVIDE -> new Divide(node);
             case MODULUS -> new Modulus(node);
-            case AND -> new And(node);
-            case OR -> new Or(node);
-            case NOT -> new Not(node);
+            case ROUND -> new Round(node);
+            case ELEMENT_AT_INDEX -> new ElementAtIndex(node);
+            case RANDOM -> new RandomHolder();
             case TIME -> new TimeHolder();
-            case RANDOM -> new Random();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
     }
@@ -63,6 +69,9 @@ public class ValueHolder {
     }
 
     public String getString() {
+        if (isType(Object[].class)) {
+            return Arrays.toString((Object[]) getValue());
+        }
         return getValue().toString();
     }
 
@@ -74,11 +83,6 @@ public class ValueHolder {
         return getType().equals(type);
     }
 
-    public boolean isPrimitive() {
-        Class<?> type = getType();
-        return type.equals(String.class) || type.equals(Boolean.class) || type.equals(Double.class);
-    }
-
     public boolean notEmpty() {
         return getValue() != null;
     }
@@ -86,12 +90,17 @@ public class ValueHolder {
     public Double getSize() {
         if (getValue() instanceof ValueHolder holder) {
             return holder.getSize();
-        } else if (isType(Double.class)) {
+        }
+        Class<?> type = getType();
+
+        if (type.equals(Double.class)) {
             return (double) getValue();
-        } else if (isType(String.class)) {
+        } else if (type.equals(String.class)) {
             return (double) ((String) getValue()).length();
-        } else if (isType(Boolean.class)) {
+        } else if (type.equals(Boolean.class)) {
             return ((boolean) getValue()) ? 1D : 0D;
+        } else if (type.equals(Object[].class)) {
+            return (double) ((Object[]) getValue()).length;
         }
         return null;
     }
@@ -109,6 +118,6 @@ public class ValueHolder {
         if (isType(String.class)) {
             return "\"%s\"".formatted(getValue());
         }
-        return getValue().toString();
+        return getString();
     }
 }

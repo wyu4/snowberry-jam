@@ -11,6 +11,10 @@ import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
 
@@ -124,6 +128,13 @@ public abstract class Compiler extends LocalStorage {
             return node.asText();
         } else if (node.isBoolean()) {
             return node.asBoolean();
+        } else if (node.isArray()) {
+            Iterator<JsonNode> iterator = node.iterator();
+            List<Object> list = new ArrayList<>();
+            iterator.forEachRemaining((listNode) -> {
+                list.add(asPrimitiveObject(listNode));
+            });
+            return list.toArray();
         }
         return null;
     }
