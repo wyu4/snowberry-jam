@@ -13,7 +13,7 @@ public class CompilerTest {
         BodyStack.setDebuggingEnabled(false);
         final Logger logger = LoggerFactory.getLogger("Test");
 
-        File sourceFile = new File("EvenNumbers.snowb");
+        File sourceFile = new File("Examples\\EvenNumbers.snowb");
         Scanner reader = null;
         try {
             LocalStorage.flush();
