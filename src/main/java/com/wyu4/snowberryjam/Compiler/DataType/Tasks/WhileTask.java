@@ -14,12 +14,12 @@ public class WhileTask extends CoreElement implements ExecutableTask {
     private final BodyStack body;
 
     public WhileTask(JsonNode node) {
-        super(SourceId.IF);
+        super(SourceId.WHILE);
 
         ValueHolder holder = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
         if (holder instanceof ConditionalHolder) {
             condition = (ConditionalHolder) holder;
-            body = new BodyStack(SourceId.IF);
+            body = new BodyStack(SourceId.WHILE);
             Compiler.compileBody(node.get(SourceKey.BODY.toString()), body);
         } else {
             throw new IllegalArgumentException("Value passed as condition is not conditional.");
@@ -27,7 +27,7 @@ public class WhileTask extends CoreElement implements ExecutableTask {
     }
 
     public WhileTask(ConditionalHolder condition, BodyStack body) {
-        super(SourceId.IF);
+        super(SourceId.WHILE);
         this.condition = condition;
         this.body = body;
     }
