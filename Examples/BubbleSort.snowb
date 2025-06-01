@@ -3,20 +3,64 @@
     "name": "Array Test",
     "description": "This is a concept of what a project could look like.",
     "body": {
-        "variables": [],
+        "variables": [
+            {
+                "name": "arr",
+                "value": []
+            },
+            {
+                "name": "sorted",
+                "value": []
+            },
+            {
+                "name": "len",
+                "value": 20
+            }
+        ],
         "events": [
             {
                 "id": "ON_RUN",
                 "body": [
                     {
                         "id": "REPEAT",
-                        "value": 5,
+                        "value": {
+                            "id": "VARIABLE",
+                            "name": "len"
+                        },
                         "body": [
                             {
-                                "id": "PRINT",
-                                "value": "Hello World!"
+                                "id": "SET",
+                                "name": "arr",
+                                "value": {
+                                    "a": {
+                                        "id": "VARIABLE",
+                                        "name": "arr"
+                                    },
+                                    "id": "+",
+                                    "b": {
+                                        "a": {
+                                            "id": "ROUND",
+                                            "a": {
+                                                "a": {
+                                                    "id": "RANDOM"
+                                                },
+                                                "id": "*",
+                                                "b": 100
+                                            }
+                                        },
+                                        "id": "/",
+                                        "b": 100
+                                    }
+                                }
                             }
                         ]
+                    },
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "id": "VARIABLE",
+                            "name": "arr"
+                        }
                     }
                 ]
             }

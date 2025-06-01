@@ -12,7 +12,7 @@ public class Round extends ArithmeticHolder {
     public Object getValue() {
         Class<?> typeA = getA().getType();
         if (typeA.equals(Double.class)) {
-            return Math.round((double) getA().getValue());
+            return (double) Math.round((double) getA().getValue());
         }
         throw new ArithmeticException("Cannot round value with type [%s].".formatted(typeA.getCanonicalName()));
     }
