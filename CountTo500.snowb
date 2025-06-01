@@ -1,0 +1,70 @@
+{
+    "id": "PROJECT",
+    "name": "Numbers From 0 to 500",
+    "description": "This is a concept of what a project could look like.",
+    "body": {
+        "variables": [
+            {
+                "name": "counter",
+                "value": 0
+            },
+            {
+                "name": "maxNum",
+                "value": 500
+            }
+        ],
+        "events": [
+            {
+                "id": "ON_RUN",
+                "body": [
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "a": "Now printing numbers 0 to ",
+                            "id": "+",
+                            "b": {
+                                "id": "VARIABLE",
+                                "name": "maxNum"
+                            }
+                        }
+                    },
+                    {
+                        "id": "WHILE",
+                        "value": {
+                            "a": {
+                                "id": "VARIABLE",
+                                "name": "counter"
+                            },
+                            "id": "<=",
+                            "b": {
+                                "id": "VARIABLE",
+                                "name": "maxNum"
+                            }
+                        },
+                        "body": [
+                            {
+                                "id": "PRINT",
+                                "value": {
+                                    "id": "VARIABLE",
+                                    "name": "counter"
+                                }
+                            },
+                            {
+                                "id": "SET",
+                                "name": "counter",
+                                "value": {
+                                    "a": {
+                                        "id": "VARIABLE",
+                                        "name": "counter"
+                                    },
+                                    "id": "+",
+                                    "b": 1
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

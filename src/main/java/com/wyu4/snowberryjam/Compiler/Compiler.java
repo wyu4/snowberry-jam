@@ -70,6 +70,9 @@ public abstract class Compiler extends LocalStorage {
     }
 
     public static void compileBody(JsonNode body, BodyStack stack) {
+        if (body == null) { // Skip if body isn't found. Empty stack.
+            return;
+        }
         body.elements().forEachRemaining((node) -> {
             ExecutableTask task;
 

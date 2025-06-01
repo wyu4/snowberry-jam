@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.Compiler.Helpers;
 
 public enum SourceId {
     AND("AND"),
+    DIVIDE("/"),
     EQUALS("=="),
     GREATER_THAN(">"),
     GREATER_OR_EQUAL_TO(">="),
@@ -12,10 +13,13 @@ public enum SourceId {
     ON_RUN("ON_RUN"),
     OR("OR"),
     MINUS("-"),
+    MODULUS("%"),
+    MULTIPLY("*"),
     NOT("NOT"),
     PLUS("+"),
     PRINT("PRINT"),
     PROJECT("PROJECT"),
+    RANDOM("random"),
     SET("SET"),
     TIME("TIME"),
     VARIABLE("VARIABLE"),

@@ -2,10 +2,10 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn;
 
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 
-public class TimeHolder extends ValueHolder {
+public class Random extends ValueHolder {
     @Override
     public Object getValue() {
-        return (double) System.currentTimeMillis();
+        return Math.random();
     }
 
     @Override
@@ -15,6 +15,6 @@ public class TimeHolder extends ValueHolder {
 
     @Override
     public String toString() {
-        return "the current time in milliseconds";
+        return "random number between 0 and 1";
     }
 }

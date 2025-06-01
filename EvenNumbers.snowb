@@ -1,6 +1,6 @@
 {
     "id": "PROJECT",
-    "name": "Concept",
+    "name": "Even Numbers",
     "description": "This is a concept of what a project could look like.",
     "body": {
         "variables": [
@@ -10,7 +10,7 @@
             },
             {
                 "name": "maxNum",
-                "value": 500
+                "value": 100
             }
         ],
         "events": [
@@ -20,7 +20,7 @@
                     {
                         "id": "PRINT",
                         "value": {
-                            "a": "Now printing numbers 0 to ",
+                            "a": "Now printing even numbers from 0 to ",
                             "id": "+",
                             "b": {
                                 "id": "VARIABLE",
@@ -43,11 +43,28 @@
                         },
                         "body": [
                             {
-                                "id": "PRINT",
+                                "id": "IF",
                                 "value": {
-                                    "id": "VARIABLE",
-                                    "name": "counter"
-                                }
+                                    "a": {
+                                        "a": {
+                                            "id": "VARIABLE",
+                                            "name": "counter"
+                                        },
+                                        "id": "%",
+                                        "b": 2
+                                    },
+                                    "id": "==",
+                                    "b": 0
+                                },
+                                "body": [
+                                    {
+                                        "id": "PRINT",
+                                        "value": {
+                                            "id": "VARIABLE",
+                                            "name": "counter"
+                                        }
+                                    }
+                                ]
                             },
                             {
                                 "id": "SET",

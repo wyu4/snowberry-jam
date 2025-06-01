@@ -2,10 +2,10 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.Random;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.TimeHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Minus;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Plus;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.*;
 import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 
@@ -33,10 +33,14 @@ public class ValueHolder {
             case LESS_OR_EQUAL_TO -> new LessOrEqualTo(node);
             case PLUS -> new Plus(node);
             case MINUS -> new Minus(node);
+            case MULTIPLY -> new Multiply(node);
+            case DIVIDE -> new Divide(node);
+            case MODULUS -> new Modulus(node);
             case AND -> new And(node);
             case OR -> new Or(node);
             case NOT -> new Not(node);
             case TIME -> new TimeHolder();
+            case RANDOM -> new Random();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
     }
@@ -52,6 +56,9 @@ public class ValueHolder {
     }
 
     public Object getValue() {
+        if (value instanceof ValueHolder parsed) {
+            return parsed.getValue();
+        }
         return value;
     }
 
@@ -79,8 +86,7 @@ public class ValueHolder {
     public Double getSize() {
         if (getValue() instanceof ValueHolder holder) {
             return holder.getSize();
-        }
-        else if (isType(Double.class)) {
+        } else if (isType(Double.class)) {
             return (double) getValue();
         } else if (isType(String.class)) {
             return (double) ((String) getValue()).length();
@@ -88,13 +94,6 @@ public class ValueHolder {
             return ((boolean) getValue()) ? 1D : 0D;
         }
         return null;
-    }
-
-    public Object add(ValueHolder holder) {
-        if (isType(Double.class) && holder.isType(Double.class)) {
-            return ((double) getValue()) + ((double) holder.getValue());
-        }
-        return getString() + holder.getString();
     }
 
     @Override
