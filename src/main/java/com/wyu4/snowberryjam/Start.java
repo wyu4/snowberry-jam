@@ -1,17 +1,22 @@
 package com.wyu4.snowberryjam;
 
 import atlantafx.base.theme.NordLight;
+import com.wyu4.snowberryjam.Compiler.CompilerTest;
 import com.wyu4.snowberryjam.Framework.Controller;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.stage.FileChooser;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
+import java.util.List;
+
 public class Start extends Application {
-    private static final Logger logger = LoggerFactory.getLogger(Start.class);
+    private static final Logger logger = LoggerFactory.getLogger("Launcher");
 
     public static void main(String[] args) {
         System.out.println("Launching Snowberry Jam");
@@ -38,5 +43,37 @@ public class Start extends Application {
             logger.info("Window closing...");
             System.exit(0);
         });
+
+        File sourceFile = null;
+
+        List<String> args = getParameters().getRaw();
+        if (!args.isEmpty() && args.getFirst() != null) {
+            sourceFile = new File(args.getFirst());
+            logger.info("Opened: {}", sourceFile.getAbsolutePath());
+        } else {
+            logger.info("Please open a file: ");
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Select a Snowberry Jam Source File to run");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Snowberry Jam Source File (*.snowb)", "*.snowb"));
+            File file = fileChooser.showOpenDialog(stage);
+
+            if (file != null) {
+                sourceFile = file;
+                logger.info("File opened from chooser: {}", sourceFile.getAbsolutePath());
+            } else {
+                logger.info("No file selected.");
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    System.exit(0);
+                }).start();
+            }
+        }
+        if (sourceFile != null) {
+            CompilerTest.test(sourceFile);
+        }
     }
 }

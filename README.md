@@ -4,6 +4,9 @@ A JSON-based programming language with a visual compiler made in Java.
 ## Smooth Logic, Clear Vision.
 WIP mission
 
+## Documentation
+WIP Documentation
+
 ## Source Files
 Snowberry Jam source files end with the `.snowb` suffix. The contents of these follow the JSON syntax.
 

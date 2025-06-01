@@ -9,11 +9,8 @@ import java.util.Scanner;
 
 public class CompilerTest {
 
-    public static void main(String[] args) {
-        BodyStack.setDebuggingEnabled(false);
+    public static void test(File sourceFile) {
         final Logger logger = LoggerFactory.getLogger("Test");
-
-        File sourceFile = new File("Examples\\BubbleSort.snowb");
         Scanner reader = null;
         try {
             LocalStorage.flush();
@@ -34,5 +31,10 @@ public class CompilerTest {
         }
 
         LocalStorage.runStack();
+    }
+
+    public static void main(String[] args) {
+        BodyStack.setDebuggingEnabled(true);
+        test(new File("Examples\\BubbleSort.snowb"));
     }
 }
