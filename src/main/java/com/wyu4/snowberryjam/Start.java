@@ -15,6 +15,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.List;
 
+/**
+ * Main entrypoint for the JavaFX launcher
+ */
 public class Start extends Application {
     private static final Logger logger = LoggerFactory.getLogger("Launcher");
 
@@ -23,6 +26,11 @@ public class Start extends Application {
         launch(args);
     }
 
+    /**
+     * Creates a new Snowberry Jam process
+     * @param stage JavaFX Stage
+     * @throws Exception Exceptions that arise during the setup
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();

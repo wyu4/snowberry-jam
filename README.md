@@ -17,3 +17,5 @@ In order for VSCode to treat this filetype properly, hold down `ctrl + shift + p
     "*.snowb": "json"
 }
 ```
+
+# Additional Resources
