@@ -1,0 +1,25 @@
+{
+    "id": "PROJECT",
+    "name": "Array Test",
+    "description": "This is a concept of what a project could look like.",
+    "body": {
+        "variables": [],
+        "events": [
+            {
+                "id": "ON_RUN",
+                "body": [
+                    {
+                        "id": "REPEAT",
+                        "value": 5,
+                        "body": [
+                            {
+                                "id": "PRINT",
+                                "value": "Hello World!"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

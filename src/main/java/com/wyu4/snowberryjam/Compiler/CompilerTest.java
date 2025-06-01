@@ -13,7 +13,7 @@ public class CompilerTest {
         BodyStack.setDebuggingEnabled(false);
         final Logger logger = LoggerFactory.getLogger("Test");
 
-        File sourceFile = new File("Examples\\ArrayTest.snowb");
+        File sourceFile = new File("Examples\\BubbleSort.snowb");
         Scanner reader = null;
         try {
             LocalStorage.flush();

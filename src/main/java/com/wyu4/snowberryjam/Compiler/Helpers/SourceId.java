@@ -22,6 +22,7 @@ public enum SourceId {
     PRINT("PRINT"),
     PROJECT("PROJECT"),
     RANDOM("RANDOM"),
+    REPEAT("REPEAT"),
     ROUND("ROUND"),
     SAME_TYPE("SAME_TYPE"),
     SET("SET"),
