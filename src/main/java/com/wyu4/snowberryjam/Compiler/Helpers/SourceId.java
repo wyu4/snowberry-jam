@@ -19,7 +19,7 @@ public enum SourceId {
     PLUS("+"),
     PRINT("PRINT"),
     PROJECT("PROJECT"),
-    RANDOM("random"),
+    RANDOM("RANDOM"),
     SET("SET"),
     TIME("TIME"),
     VARIABLE("VARIABLE"),
