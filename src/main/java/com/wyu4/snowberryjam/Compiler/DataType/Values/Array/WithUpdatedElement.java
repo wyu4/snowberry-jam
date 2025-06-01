@@ -14,7 +14,7 @@ public class WithUpdatedElement extends ArrayHolder {
         Object[] array = getA().getArray();
         int index = getValidIndex();
         if (array.length < index) {
-            throw new IllegalArgumentException("Array %s is too small for index %s".formatted(Arrays.toString(array), index));
+            throw new ArrayIndexOutOfBoundsException("Array %s is too small for index %s".formatted(Arrays.toString(array), index));
         }
         array[index] = getB().getValue();
         return array;

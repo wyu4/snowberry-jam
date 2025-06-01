@@ -118,7 +118,7 @@ public abstract class Compiler extends LocalStorage {
     }
 
     public static boolean isPrimitive(JsonNode node) {
-        return node.isTextual() || node.isBoolean() || node.isNumber();
+        return node.isTextual() || node.isBoolean() || node.isNumber() || node.isArray();
     }
 
     public static Object asPrimitiveObject(JsonNode node) {

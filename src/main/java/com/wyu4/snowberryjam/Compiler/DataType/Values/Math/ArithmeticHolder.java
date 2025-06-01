@@ -14,11 +14,6 @@ public class ArithmeticHolder extends InteractiveValueHolder {
     }
 
     @Override
-    public Class<?> getType() {
-        return Boolean.class;
-    }
-
-    @Override
     public boolean notEmpty() {
         return true;
     }

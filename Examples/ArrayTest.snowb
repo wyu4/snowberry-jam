@@ -33,6 +33,10 @@
                 "body": [
                     {
                         "id": "PRINT",
+                        "value": [2,3,5,1,3,6]
+                    },
+                    {
+                        "id": "PRINT",
                         "value": {
                             "id": "VARIABLE",
                             "name": "myArray"
@@ -68,6 +72,24 @@
                                     "name": "myArray"
                                 }
                             }
+                        }
+                    },
+                    {
+                        "id": "PRINT",
+                        "value": {
+                            "a": {
+                                "id": "VARIABLE",
+                                "name": "myArray"
+                            },
+                            "id": "+",
+                            "b": [
+                                "this",
+                                "is",
+                                "a",
+                                "merged",
+                                "array",
+                                "!"
+                            ]
                         }
                     }
                 ]
