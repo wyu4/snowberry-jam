@@ -16,18 +16,17 @@ import java.io.File;
 import java.util.List;
 
 /**
- * Main entrypoint for the JavaFX launcher
+ * The main entry point.
  */
 public class Start extends Application {
     private static final Logger logger = LoggerFactory.getLogger("Launcher");
 
     public static void main(String[] args) {
-        System.out.println("Launching Snowberry Jam");
         launch(args);
     }
 
     /**
-     * Creates a new Snowberry Jam process
+     * Starts a new Snowberry Jam process
      * @param stage JavaFX Stage
      * @throws Exception Exceptions that arise during the setup
      */

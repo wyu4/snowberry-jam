@@ -35,6 +35,6 @@ public class CompilerTest {
 
     public static void main(String[] args) {
         BodyStack.setDebuggingEnabled(true);
-        test(new File("Examples\\BubbleSort.snowb"));
+        test(new File("\\exampleCode\\BubbleSort.snowb"));
     }
 }
