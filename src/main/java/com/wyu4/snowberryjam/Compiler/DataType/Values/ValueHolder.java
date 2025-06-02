@@ -17,12 +17,17 @@ import javax.lang.model.type.NullType;
 import java.util.Arrays;
 
 public class ValueHolder {
+
+    private static boolean isPrimitive(JsonNode node) {
+        return node.isTextual() || node.isBoolean() || node.isNumber() || node.isArray();
+    }
+
     public static ValueHolder fromNode(JsonNode node) {
         if (node == null) {
             return new ValueHolder();
         }
 
-        if (Compiler.isPrimitive(node)) {
+        if (isPrimitive(node)) {
             return new ValueHolder(Compiler.asPrimitiveObject(node));
         }
 
