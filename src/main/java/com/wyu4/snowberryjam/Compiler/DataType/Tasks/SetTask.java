@@ -33,11 +33,6 @@ public class SetTask extends CoreElement implements ExecutableTask {
     }
 
     @Override
-    public boolean isValid() {
-        return value.getType().equals(LocalStorage.getRaw(getName()).getClass());
-    }
-
-    @Override
     public String toString() {
         return "set variable \"%s\" to %s".formatted(getName(), value);
     }

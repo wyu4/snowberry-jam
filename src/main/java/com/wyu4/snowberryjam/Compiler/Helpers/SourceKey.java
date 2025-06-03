@@ -1,5 +1,8 @@
 package com.wyu4.snowberryjam.Compiler.Helpers;
 
+/**
+ * The keys that can be found in a Snowberry Jam source code.
+ */
 public enum SourceKey {
     ARRAY("array"),
     BODY("body"),
@@ -13,6 +16,9 @@ public enum SourceKey {
     VARIABLES("variables"),
     VALUE("value"),;
 
+    /**
+     * The string format of the enum
+     */
     private final String key;
 
     SourceKey(String key) {

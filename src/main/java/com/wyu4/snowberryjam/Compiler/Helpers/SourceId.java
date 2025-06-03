@@ -1,5 +1,8 @@
 package com.wyu4.snowberryjam.Compiler.Helpers;
 
+/**
+ * Enum of all the types of nodes that a Snowberry Jam source file should have
+ */
 public enum SourceId {
     AND("AND"),
     ARRAY_OF("ARRAY_OF"),
@@ -32,6 +35,9 @@ public enum SourceId {
     VARIABLE("VARIABLE"),
     WHILE("WHILE");
 
+    /**
+     * The string of what is actually found in {@code "id":...}
+     */
     private final String id;
     SourceId(String id) {
         this.id = id;

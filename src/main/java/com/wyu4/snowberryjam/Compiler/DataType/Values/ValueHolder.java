@@ -16,12 +16,27 @@ import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import javax.lang.model.type.NullType;
 import java.util.Arrays;
 
+/**
+ * A pointer to a stored value.
+ */
 public class ValueHolder {
 
+    /**
+     * Check if a {@link JsonNode} is primitive, in the context of Snowberry Jam
+     * @param node Node
+     * @return {@code true} if the value is a {@link String}, {@link Boolean}, {@link Double}, or {@code Array}. Returns {@code false} otherwise.
+     * @see JsonNode
+     */
     private static boolean isPrimitive(JsonNode node) {
         return node.isTextual() || node.isBoolean() || node.isNumber() || node.isArray();
     }
 
+    /**
+     * Manufacture a ValueHolder object from a {@link JsonNode} object. Uses the ID node to identify which type of {@link ValueHolder} should be created
+     * @param node Node containing Snowberry Jam Source code
+     * @return A ValueHolder object. Might be casted from child classes.
+     * @see com.wyu4.snowberryjam.Compiler.DataType.Values
+     */
     public static ValueHolder fromNode(JsonNode node) {
         if (node == null) {
             return new ValueHolder();
@@ -63,16 +78,32 @@ public class ValueHolder {
         };
     }
 
+    /**
+     * The value to be pointing to. Could be another {@link ValueHolder} object, or null
+     * @see #notEmpty()
+     */
     private final Object value;
 
+    /**
+     * Creates a pointer to null. Flags as empty.
+     * @see #notEmpty()
+     */
     public ValueHolder() {
         this(null);
     }
 
+    /**
+     * Creates a new pointer to a value
+     * @param value The value to point towards. Type should be compatible with the compiler.
+     */
     public ValueHolder(Object value) {
         this.value = value;
     }
 
+    /**
+     * Get the value being pointed to casted as an {@link Object}. The contents being returned by this method are mutable.
+     * @return The value being pointed to, in its current state.
+     */
     public Object getValue() {
         if (value instanceof ValueHolder parsed) {
             return parsed.getValue();
@@ -80,6 +111,11 @@ public class ValueHolder {
         return value;
     }
 
+    /**
+     * Get the stored value as an {@link Object} array. If the original value was already an {@link Object} array, it wil lremain untouched. Otherwise, it will take the string format of the value and return an array of all the characters (casted to {@link String})
+     * @return {@link Object} array
+     * @see #getValue()
+     */
     public Object[] getArray() {
         if (!notEmpty()) {
             return new Object[0];
@@ -95,6 +131,12 @@ public class ValueHolder {
         return array;
     }
 
+    /**
+     * Get the stored value as a {@link String}
+     * @return The value casted to a {@link String}. If the value is an array, this method will take care of converting it into a string.
+     * @see Arrays#toString(Object[])
+     * @see String#valueOf(Object)
+     */
     public String getString() {
         if (isType(Object[].class)) {
             return Arrays.toString((Object[]) getValue());
@@ -102,6 +144,12 @@ public class ValueHolder {
         return String.valueOf(getValue());
     }
 
+    /**
+     * Get the type being pointed to
+     * @return The class type
+     * @see Class
+     * @see Object#getClass()
+     */
     public Class<?> getType() {
         Object value = getValue();
         if (value == null) {
@@ -110,14 +158,27 @@ public class ValueHolder {
         return value.getClass();
     }
 
+    /**
+     * Check if the type being pointed to is the same as parameter {@code type}.
+     * @param type The other type
+     * @return {@code true} if tne value shares the same class. {@code false} if not.
+     */
     public boolean isType(Class<?> type) {
         return getType().equals(type);
     }
 
+    /**
+     * Check if this holder doesn't points to null
+     * @return {@code true} if this points to a value, {@code false} if it points to {@code null}
+     */
     public boolean notEmpty() {
         return getValue() != null;
     }
 
+    /**
+     * Get the value as a number. If the value is numerical, it returns the value as a {@link Double}. If it's a {@link String} or an {@code Array}, it will return its length. If it's a {@link Boolean}, {@code true} will return 1, and {@code false} will return 0.
+     * @return {@link Double} representation of the value
+     */
     public Double getSize() {
         if (getValue() instanceof ValueHolder holder) {
             return holder.getSize();
