@@ -292,7 +292,7 @@
 
                     <!-- Application metadata -->
                     <vendor>wyu4</vendor>
-                    <appVersion>0.0.2</appVersion>
+                    <appVersion>0.0.3</appVersion>
                     <icon>${install.icon}</icon>
 
                     <!-- Input configuration -->
@@ -337,7 +337,8 @@
 
         <install.winDir>C:/Program Files/${project.artifactId}</install.winDir>
         <resourceDir>${mainDir}/resources/com/wyu4/snowberryjam</resourceDir>
-        <install.icon>${resourceDir}/images/icon.ico</install.icon>
+        <file.icon>${resourceDir}/images/icon.ico</file.icon>
+        <install.icon>${resourceDir}/images/compilericon.ico</install.icon>
         <snowbProperties>${resourceDir}/snowb.properties</snowbProperties>
         <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
 
