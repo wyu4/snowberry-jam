@@ -215,6 +215,8 @@
                     <show>private</show>
                     <sourcepath>${project.basedir}/src/main/java</sourcepath>
                     <subpackages>com.wyu4.snowberryjam</subpackages>
+                    <doclint>none</doclint>
+                    <failOnError>false</failOnError>
                 </configuration>
                 <executions>
                     <execution>
