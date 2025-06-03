@@ -2,17 +2,33 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values.Conversion;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.InteractiveValueHolder;
+import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 
+/**
+ * Converts any value into a number/size.
+ */
 public class SizeOf extends InteractiveValueHolder {
+    /**
+     * Create a new SizeOf operation
+     * @param node The {@link JsonNode} to refer
+     */
     public SizeOf(JsonNode node) {
         super(node);
     }
 
+    /**
+     * The size of a value.
+     * @return A {@link Double} casted to an {@link Object}
+     * @see ValueHolder#getSize()
+     */
     @Override
     public Object getValue() {
         return getA().getSize();
     }
 
+    /**
+     * @return Always return {@link Double}
+     */
     @Override
     public Class<?> getType() {
         return Double.class;

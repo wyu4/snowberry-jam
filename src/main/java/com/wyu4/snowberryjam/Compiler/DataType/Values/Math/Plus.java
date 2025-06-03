@@ -4,12 +4,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Arrays;
 
+/**
+ * Arithmetic Holder that handles addition between value A and value B.
+ * @apiNote Can also be used for string concatenation and array appending/merging, as well as boolean algebra gate for boolean values.
+ */
 public class Plus extends ArithmeticHolder {
 
+    /**
+     * Create a new addition operation
+     * @param node The {@link JsonNode} to refer
+     */
     public Plus(JsonNode node) {
         super(node);
     }
 
+    /**
+     * @return A + B for numerical values. Concatenates strings, acts as an {@code OR} gate for boolean values, and appends or merges values to arrays.
+     */
     @Override
     public Object getValue() {
         Class<?> typeA = getA().getType();
