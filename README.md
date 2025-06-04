@@ -8,6 +8,7 @@ WIP mission
 Here's a list of different documentation resources directly related to this project.
 - Snowberry Jam Language Guide `[Work In Progress]`
 - [**Compiler Javadoc Documentation**](https://wyu4.github.io/snowberry-jam/)
+- [**Compiler UML Diagram**](https://wyu4.github.io/snowberry-jam/UML.svg)
 
 ## Source Files
 Snowberry Jam source files end with the `.snowb` suffix. The contents of these follow the JSON syntax.
