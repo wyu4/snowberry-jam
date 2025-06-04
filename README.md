@@ -1,6 +1,8 @@
 # Snowberry Jam
 A JSON-based programming language with a visual compiler made in Java.
 
+![AppBanner](src/main/resources/com/wyu4/snowberryjam/images/AppBanner.png)
+
 ## Smooth Logic, Clear Vision.
 WIP mission
 
