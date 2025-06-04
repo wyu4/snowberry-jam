@@ -2,12 +2,23 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+/**
+ * Conditional Holder that handles {@code OR} conditions
+ */
 public class Or extends ConditionalHolder {
 
+    /**
+     * Create a new {@code OR} operation
+     * @param node The {@link JsonNode} to refer
+     */
     public Or(JsonNode node) {
         super(node);
     }
 
+    /**
+     * @return {@code true} if values A or B are {@code true}. If values are numerical, {@code true} if one of both values are greater than 0. If values are {@link String}, {@code true} if one of both strings are not empty. Otherwise, {@code true} if one of both pointers are not empty.
+     * @see #bothTypesAre(Class)
+     */
     @Override
     public Boolean getState() {
         if (bothTypesAre(Boolean.class)) {

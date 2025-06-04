@@ -168,7 +168,7 @@ public class ValueHolder {
     }
 
     /**
-     * Check if this holder doesn't points to null
+     * Check if this holder doesn't point to null
      * @return {@code true} if this points to a value, {@code false} if it points to {@code null}
      */
     public boolean notEmpty() {
@@ -199,16 +199,23 @@ public class ValueHolder {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof ValueHolder parsed) {
-            return getValue().equals(parsed.getValue());
+        Object value = getValue();
+        if (value == null) {
+            if (obj instanceof ValueHolder parsed) {
+                return !parsed.notEmpty();
+            }
+            return false;
         }
-        return false;
+        if (obj instanceof ValueHolder parsed) {
+            return value.equals(parsed.getValue());
+        }
+        return value.equals(obj);
     }
 
     @Override
     public String toString() {
         if (isType(String.class)) {
-            return "\"%s\"".formatted(getValue());
+            return "\"%s\"".formatted(((String) getValue()).replace("\"", "\\\""));
         }
         return getString();
     }

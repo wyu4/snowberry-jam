@@ -2,12 +2,22 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn;
 
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 
+/**
+ * Value Holder that provides time resources.
+ */
 public class TimeHolder extends ValueHolder {
+    /**
+     * @return The current time since the midnight of January 1, 1970 UTC, in milliseconds
+     * @see System#currentTimeMillis()
+     */
     @Override
     public Object getValue() {
         return (double) System.currentTimeMillis();
     }
 
+    /**
+     * @return Always returns {@link Double}
+     */
     @Override
     public Class<?> getType() {
         return Double.class;

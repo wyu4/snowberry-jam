@@ -4,11 +4,23 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.Arrays;
 
+/**
+ * Array Holder that handles element search given the index
+ */
 public class ElementAtIndex extends ArrayHolder {
+
+    /**
+     * Create a new Element-At-Index
+     * @param node The {@link JsonNode} to refer
+     */
     public ElementAtIndex(JsonNode node) {
         super(node);
     }
 
+    /**
+     * @return The element at index I in the array of value A
+     * @throws ArrayIndexOutOfBoundsException Value I is greater than the array size of value A
+     */
     @Override
     public Object getValue() {
         Object[] array = getA().getArray();
