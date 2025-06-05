@@ -12,9 +12,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * The stack that stores Snowberry Jam instructions
  */
-public class BodyStack extends CoreElement implements ExecutableTask {
+public class BodyStack implements ExecutableTask {
     private static final Logger logger = LoggerFactory.getLogger("Stack Debugger");
     private static final AtomicBoolean DEBUGGING_ENABLED = new AtomicBoolean(false);
+    private final SourceId id;
     private final List<ExecutableTask> stack = new ArrayList<>();
 
     public static void setDebuggingEnabled(boolean state) {
@@ -23,10 +24,10 @@ public class BodyStack extends CoreElement implements ExecutableTask {
 
     /**
      * Create a new Stack object
-     * @param id The ID of the stack (doesn't affect how the stacl executes its tasks.)
+     * @param id The ID of the stack (doesn't affect how the stack executes its tasks.)
      */
     public BodyStack(SourceId id) {
-        super(id);
+        this.id = id;
     }
 
     /**
@@ -66,5 +67,15 @@ public class BodyStack extends CoreElement implements ExecutableTask {
             }
             element.execute();
         }
+    }
+
+    @Override
+    public Object feedback() {
+        return copyStack();
+    }
+
+    @Override
+    public SourceId getId() {
+        return id;
     }
 }

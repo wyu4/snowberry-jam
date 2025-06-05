@@ -6,7 +6,7 @@
         "variables": [
             {
                 "name": "len",
-                "value": 40
+                "value": 10
             },
             {
                 "name": "debug",

@@ -3,18 +3,16 @@ package com.wyu4.snowberryjam.Compiler.DataType.Tasks;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
-import com.wyu4.snowberryjam.Compiler.DataType.CoreElement;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.ConditionalHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
 import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
 
-public class IfElseTask extends CoreElement implements ExecutableTask {
+public class IfElseTask implements ExecutableTask {
     private final ValueHolder condition;
     private final BodyStack body, elseBody;
 
     public IfElseTask(JsonNode node) {
-        super(SourceId.IF_ELSE);
 
         condition = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
 
@@ -28,7 +26,6 @@ public class IfElseTask extends CoreElement implements ExecutableTask {
     }
 
     public IfElseTask(ConditionalHolder condition, BodyStack body, BodyStack elseBody) {
-        super(SourceId.IF);
         this.condition = condition;
         this.body = body;
         this.elseBody = elseBody;
@@ -41,6 +38,11 @@ public class IfElseTask extends CoreElement implements ExecutableTask {
         } else {
             elseBody.execute();
         }
+    }
+
+    @Override
+    public SourceId getId() {
+        return SourceId.IF_ELSE;
     }
 
     @Override
