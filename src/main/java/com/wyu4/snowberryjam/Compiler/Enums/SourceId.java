@@ -1,4 +1,4 @@
-package com.wyu4.snowberryjam.Compiler.Helpers;
+package com.wyu4.snowberryjam.Compiler.Enums;
 
 /**
  * Enum of all the types of nodes that a Snowberry Jam source file should have

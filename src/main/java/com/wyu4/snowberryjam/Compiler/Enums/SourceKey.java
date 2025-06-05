@@ -1,4 +1,4 @@
-package com.wyu4.snowberryjam.Compiler.Helpers;
+package com.wyu4.snowberryjam.Compiler.Enums;
 
 /**
  * The keys that can be found in a Snowberry Jam source code.

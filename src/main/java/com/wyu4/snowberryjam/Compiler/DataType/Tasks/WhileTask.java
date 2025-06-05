@@ -5,24 +5,40 @@ import com.wyu4.snowberryjam.Compiler.Compiler;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.ConditionalHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceId;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceKey;
 
+/**
+ * A while loop. The condition is stored as {@link SourceKey#VALUE}. Runs {@link SourceKey#BODY} while true.
+ */
 public class WhileTask implements ExecutableTask {
-    private final ConditionalHolder condition;
+    /**
+     * The condition. Must be of type {@link Boolean}.
+     * @see ValueHolder#getType()
+     * @see ValueHolder#checkValueIsConditional(ValueHolder)
+     * @see com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.SameType
+     */
+    private final ValueHolder condition;
+    /**
+     * The body to run while the condition is true
+     */
     private final BodyStack body;
 
+    /**
+     * Create a new while loop
+     * @param node The {@link JsonNode} to refer
+     */
     public WhileTask(JsonNode node) {
-        ValueHolder holder = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
-        if (holder instanceof ConditionalHolder) {
-            condition = (ConditionalHolder) holder;
-            body = new BodyStack(SourceId.WHILE);
-            Compiler.compileBody(node.get(SourceKey.BODY.toString()), body);
-        } else {
-            throw new IllegalArgumentException("Value passed as condition is not conditional.");
-        }
+        condition = ValueHolder.checkValueIsConditional(ValueHolder.fromNode(node.get(SourceKey.VALUE.toString())));
+        body = new BodyStack(SourceId.WHILE);
+        Compiler.compileBody(node.get(SourceKey.BODY.toString()), body);
     }
 
+    /**
+     * Create a new while loop
+     * @param condition The condition to check before running {@code body}
+     * @param body The body to run while the condition is {@code true}
+     */
     public WhileTask(ConditionalHolder condition, BodyStack body) {
         this.condition = condition;
         this.body = body;
@@ -30,14 +46,25 @@ public class WhileTask implements ExecutableTask {
 
     @Override
     public void execute() {
-        while(condition.getState()) {
+        while(feedback().equals(true)) {
             body.execute();
         }
     }
 
+    /**
+     * @return {@link SourceId#WHILE}
+     */
     @Override
     public SourceId getId() {
         return SourceId.WHILE;
+    }
+
+    /**
+     * @return The current state of the condition.
+     */
+    @Override
+    public Object feedback() {
+        return condition.getValue().equals(true);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.wyu4.snowberryjam.Compiler.DataType;
 
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class BodyStack implements ExecutableTask {
      * Add an instruction into the stack
      * @param element Element containing an instruction
      */
-    public void addElement(ExecutableTask element) {
+    public void addTask(ExecutableTask element) {
         if (element == null) {
             return;
         }

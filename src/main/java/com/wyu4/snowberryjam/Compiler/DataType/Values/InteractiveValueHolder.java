@@ -1,7 +1,7 @@
 package com.wyu4.snowberryjam.Compiler.DataType.Values;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceKey;
 
 /**
  * A standard {@link ValueHolder} that takes two or more arguments.

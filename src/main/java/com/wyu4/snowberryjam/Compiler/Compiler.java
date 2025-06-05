@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.*;
-import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
+import com.wyu4.snowberryjam.Compiler.Enums.EnumHelper;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceId;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -139,7 +139,7 @@ public abstract class Compiler extends LocalStorage {
                 }
             }
 
-            stack.addElement(task);
+            stack.addTask(task);
         });
     }
 

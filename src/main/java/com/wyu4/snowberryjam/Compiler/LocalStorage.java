@@ -2,7 +2,7 @@ package com.wyu4.snowberryjam.Compiler;
 
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
 import com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,7 +118,7 @@ public abstract class LocalStorage {
      * @see ExecutableTask
      */
     protected static void stackAdd(ExecutableTask element) {
-        STACK.addElement(element);
+        STACK.addTask(element);
     }
 
     /**

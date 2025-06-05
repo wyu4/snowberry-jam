@@ -10,8 +10,8 @@ import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.*;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conversion.ArrayOf;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Conversion.SizeOf;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.Math.*;
-import com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
+import com.wyu4.snowberryjam.Compiler.Enums.EnumHelper;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceId;
 
 import javax.lang.model.type.NullType;
 import java.util.Arrays;
@@ -76,6 +76,19 @@ public class ValueHolder {
             case TIME -> new TimeHolder();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
+    }
+
+    /**
+     * Check if a {@link ValueHolder} object is conditional
+     * @param condition {@link ValueHolder} object to check
+     * @return The {@code condition} parameter, untouched.
+     * @throws IllegalArgumentException if the value holder is not conditional.
+     */
+    public static ValueHolder checkValueIsConditional(ValueHolder condition) throws IllegalArgumentException {
+        if (!condition.isType(Boolean.class)) {
+            throw new IllegalArgumentException("Value passed as condition is not conditional.");
+        }
+        return condition;
     }
 
     /**

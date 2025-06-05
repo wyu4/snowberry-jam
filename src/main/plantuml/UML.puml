@@ -30,12 +30,12 @@ class com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Plus {
 }
 
 class com.wyu4.snowberryjam.Compiler.DataType.Tasks.Repeat {
-- ValueHolder value
+- ValueHolder condition
 - BodyStack body
 + <<Create>> Repeat(JsonNode)
-+ <<Create>> Repeat(ValueHolder,BodyStack)
 + void execute()
 + SourceId getId()
++ Object feedback()
 + String toString()
 }
 
@@ -86,6 +86,11 @@ class com.wyu4.snowberryjam.Compiler.DataType.Values.Math.ArithmeticHolder {
 + String toString()
 }
 
+abstract class com.wyu4.snowberryjam.Compiler.Enums.EnumHelper {
++ {static} SourceId stringToId(String)
++ {static} SourceKey stringToKey(String)
+}
+
 abstract class com.wyu4.snowberryjam.Compiler.LocalStorage {
 - {static} Logger logger
 - {static} HashMap<String,Object> VARIABLES
@@ -124,6 +129,7 @@ class com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder {
 + <<Create>> ValueHolder(Object)
 - {static} boolean isPrimitive(JsonNode)
 + {static} ValueHolder fromNode(JsonNode)
++ {static} ValueHolder checkValueIsConditional(ValueHolder)
 + Object getValue()
 + Object[] getArray()
 + String getString()
@@ -143,28 +149,47 @@ class com.wyu4.snowberryjam.Start {
 }
 
 
+enum com.wyu4.snowberryjam.Compiler.Enums.SourceId {
++  AND
++  ARRAY_OF
++  ELEMENT_AT_INDEX
++  DIVIDE
++  EQUALS
++  GREATER_THAN
++  GREATER_OR_EQUAL_TO
++  IF
++  IF_ELSE
++  LESS_THAN
++  LESS_OR_EQUAL_TO
++  ON_RUN
++  OR
++  MINUS
++  MODULUS
++  MULTIPLY
++  NOT
++  PLUS
++  PRINT
++  PROJECT
++  RANDOM
++  REPEAT
++  ROUND
++  SAME_TYPE
++  SET
++  WITH_UPDATED_ELEMENT
++  SIZE_OF
++  TIME
++  VARIABLE
++  WHILE
+- String id
+~ <<Create>> SourceId(String)
++ String toString()
+}
+
+
 class com.wyu4.snowberryjam.Compiler.CompilerTest {
 + {static} void test(File)
 + {static} void main(String[])
 }
-
-enum com.wyu4.snowberryjam.Compiler.Helpers.SourceKey {
-+  ARRAY
-+  BODY
-+  ELSE
-+  EVENTS
-+  ID
-+  NAME
-+  PARAM_A
-+  PARAM_B
-+  PARAM_I
-+  VARIABLES
-+  VALUE
-- String key
-~ <<Create>> SourceKey(String)
-+ String toString()
-}
-
 
 class com.wyu4.snowberryjam.Framework.ViewBuilder {
 - {static} Logger logger
@@ -225,18 +250,32 @@ class com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.Equals {
 + String toString()
 }
 
-abstract class com.wyu4.snowberryjam.Compiler.Helpers.EnumHelper {
-+ {static} SourceId stringToId(String)
-+ {static} SourceKey stringToKey(String)
+enum com.wyu4.snowberryjam.Compiler.Enums.SourceKey {
++  ARRAY
++  BODY
++  ELSE
++  EVENTS
++  ID
++  NAME
++  PARAM_A
++  PARAM_B
++  PARAM_I
++  VARIABLES
++  VALUE
+- String key
+~ <<Create>> SourceKey(String)
++ String toString()
 }
 
+
 class com.wyu4.snowberryjam.Compiler.DataType.Tasks.WhileTask {
-- ConditionalHolder condition
+- ValueHolder condition
 - BodyStack body
 + <<Create>> WhileTask(JsonNode)
 + <<Create>> WhileTask(ConditionalHolder,BodyStack)
 + void execute()
 + SourceId getId()
++ Object feedback()
 + String toString()
 }
 
@@ -255,6 +294,7 @@ class com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Divide {
 
 class com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask {
 - ValueHolder name
+- ValueHolder value
 + <<Create>> SetTask(JsonNode)
 + <<Create>> SetTask(ValueHolder,ValueHolder)
 + void execute()
@@ -267,10 +307,11 @@ class com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask {
 class com.wyu4.snowberryjam.Compiler.DataType.Tasks.IfElseTask {
 - ValueHolder condition
 - BodyStack body
+- BodyStack elseBody
 + <<Create>> IfElseTask(JsonNode)
-+ <<Create>> IfElseTask(ConditionalHolder,BodyStack,BodyStack)
 + void execute()
 + SourceId getId()
++ Object feedback()
 + String toString()
 }
 
@@ -296,43 +337,6 @@ class com.wyu4.snowberryjam.Compiler.DataType.Values.Math.Minus {
 + Object getValue()
 + String toString()
 }
-
-enum com.wyu4.snowberryjam.Compiler.Helpers.SourceId {
-+  AND
-+  ARRAY_OF
-+  ELEMENT_AT_INDEX
-+  DIVIDE
-+  EQUALS
-+  GREATER_THAN
-+  GREATER_OR_EQUAL_TO
-+  IF
-+  IF_ELSE
-+  LESS_THAN
-+  LESS_OR_EQUAL_TO
-+  ON_RUN
-+  OR
-+  MINUS
-+  MODULUS
-+  MULTIPLY
-+  NOT
-+  PLUS
-+  PRINT
-+  PROJECT
-+  RANDOM
-+  REPEAT
-+  ROUND
-+  SAME_TYPE
-+  SET
-+  WITH_UPDATED_ELEMENT
-+  SIZE_OF
-+  TIME
-+  VARIABLE
-+  WHILE
-- String id
-~ <<Create>> SourceId(String)
-+ String toString()
-}
-
 
 class com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn.TimeHolder {
 + Object getValue()
@@ -379,7 +383,7 @@ class com.wyu4.snowberryjam.Compiler.DataType.BodyStack {
 - List<ExecutableTask> stack
 + <<Create>> BodyStack(SourceId)
 + {static} void setDebuggingEnabled(boolean)
-+ void addElement(ExecutableTask)
++ void addTask(ExecutableTask)
 + ExecutableTask[] copyStack()
 + void flush()
 + void execute()
@@ -405,9 +409,9 @@ class com.wyu4.snowberryjam.Compiler.DataType.Tasks.IfTask {
 - ValueHolder condition
 - BodyStack body
 + <<Create>> IfTask(JsonNode)
-+ <<Create>> IfTask(ConditionalHolder,BodyStack)
 + void execute()
 + SourceId getId()
++ Object feedback()
 + String toString()
 }
 

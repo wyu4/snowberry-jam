@@ -3,7 +3,7 @@ package com.wyu4.snowberryjam.Compiler.DataType.Values.Array;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceKey;
 
 /**
  * Default unset array holder. This is equivalent to an {@link InteractiveValueHolder}, but with an extra parameter {@code I}.

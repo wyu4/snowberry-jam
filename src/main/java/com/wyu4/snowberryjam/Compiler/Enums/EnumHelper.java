@@ -1,4 +1,4 @@
-package com.wyu4.snowberryjam.Compiler.Helpers;
+package com.wyu4.snowberryjam.Compiler.Enums;
 
 import com.wyu4.snowberryjam.Compiler.Compiler;
 

@@ -9,5 +9,5 @@ com.wyu4.snowberryjam.Compiler.DataType.Values.BuiltIn
 com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional
 com.wyu4.snowberryjam.Compiler.DataType.Values.Conversion
 com.wyu4.snowberryjam.Compiler.DataType.Values.Math
-com.wyu4.snowberryjam.Compiler.Helpers
+com.wyu4.snowberryjam.Compiler.Enums
 com.wyu4.snowberryjam.Framework

@@ -3,46 +3,67 @@ package com.wyu4.snowberryjam.Compiler.DataType.Tasks;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.Compiler.Compiler;
 import com.wyu4.snowberryjam.Compiler.DataType.BodyStack;
-import com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.ConditionalHolder;
 import com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceId;
-import com.wyu4.snowberryjam.Compiler.Helpers.SourceKey;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceId;
+import com.wyu4.snowberryjam.Compiler.Enums.SourceKey;
 
+/**
+ * An if-else statement. The condition is stored as {@link SourceKey#VALUE}. Runs {@link SourceKey#BODY} if true, else {@link SourceKey#ELSE}.
+ */
 public class IfElseTask implements ExecutableTask {
+    /**
+     * The condition. Must be of type {@link Boolean}.
+     * @see ValueHolder#getType()
+     * @see ValueHolder#checkValueIsConditional(ValueHolder)
+     * @see com.wyu4.snowberryjam.Compiler.DataType.Values.Conditional.SameType
+     */
     private final ValueHolder condition;
-    private final BodyStack body, elseBody;
+    /**
+     * The body to run if the condition is true
+     */
+    private final BodyStack body;
+    /**
+     * The body to run if the condition is false
+     */
+    private final BodyStack elseBody;
 
+    /**
+     * Create a new if-else statement
+     * @param node The {@link JsonNode} to refer
+     */
     public IfElseTask(JsonNode node) {
-
-        condition = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
-
-        if (!condition.isType(Boolean.class)) {
-            throw new IllegalArgumentException("Value passed as condition is not conditional.");
-        }
-        body = new BodyStack(SourceId.IF_ELSE);
-        elseBody = new BodyStack(SourceId.IF_ELSE);
+        this.condition = ValueHolder.checkValueIsConditional(
+                ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()))
+        );
+        this.body = new BodyStack(SourceId.IF_ELSE);
+        this.elseBody = new BodyStack(SourceId.IF_ELSE);
         Compiler.compileBody(node.get(SourceKey.BODY.toString()), body);
         Compiler.compileBody(node.get(SourceKey.ELSE.toString()), elseBody);
     }
 
-    public IfElseTask(ConditionalHolder condition, BodyStack body, BodyStack elseBody) {
-        this.condition = condition;
-        this.body = body;
-        this.elseBody = elseBody;
-    }
-
     @Override
     public void execute() {
-        if (condition.getValue().equals(true)) {
+        if (feedback().equals(true)) {
             body.execute();
         } else {
             elseBody.execute();
         }
     }
 
+    /**
+     * @return {@link SourceId#IF_ELSE}
+     */
     @Override
     public SourceId getId() {
         return SourceId.IF_ELSE;
+    }
+
+    /**
+     * @return The current state of the condition.
+     */
+    @Override
+    public Object feedback() {
+        return condition.getValue().equals(true);
     }
 
     @Override
