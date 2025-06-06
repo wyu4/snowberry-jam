@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="dc.created" content="2025-06-04">
-<meta name="description" content="declaration: module: com.wyu4.snowberryjam, package: com.wyu4.snowberryjam.Compiler.DataType, class: BodyStack">
+<meta name="description" content="declaration: module: com.wyu4.snowberryjam, package: com.wyu4.snowberryjam.compiler.data, class: BodyStack">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -84,21 +84,21 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../../../module-summary.html">com.wyu4.snowberryjam</a></div>
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.wyu4.snowberryjam.Compiler.DataType</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.wyu4.snowberryjam.compiler.data</a></div>
 <h1 title="Class BodyStack" class="title">Class BodyStack</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.wyu4.snowberryjam.Compiler.DataType.BodyStack</div>
+<div class="inheritance">com.wyu4.snowberryjam.compiler.data.BodyStack</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">BodyStack</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></span></div>
+implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></span></div>
 <div class="block">The stack that stores Snowberry Jam instructions</div>
 </section>
 <section class="summary">
@@ -115,13 +115,13 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <div class="col-first even-row-color"><code>private static final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/AtomicBoolean.html" title="class or interface in java.util.concurrent.atomic" class="external-link">AtomicBoolean</a></code></div>
 <div class="col-second even-row-color"><code><a href="#DEBUGGING_ENABLED" class="member-name-link">DEBUGGING_ENABLED</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>private final <a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a></code></div>
+<div class="col-first odd-row-color"><code>private final <a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#id" class="member-name-link">id</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>private static final org.slf4j.Logger</code></div>
 <div class="col-second even-row-color"><code><a href="#logger" class="member-name-link">logger</a></code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>private final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>private final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a><wbr>&lt;<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="#stack" class="member-name-link">stack</a></code></div>
 <div class="col-last odd-row-color">&nbsp;</div>
 </div>
@@ -135,7 +135,7 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <div class="summary-table two-column-summary">
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
-<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.wyu4.snowberryjam.Compiler.Enums.SourceId)" class="member-name-link">BodyStack</a><wbr>(<a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a>&nbsp;id)</code></div>
+<div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(com.wyu4.snowberryjam.Compiler.Enums.SourceId)" class="member-name-link">BodyStack</a><wbr>(<a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a>&nbsp;id)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Create a new Stack object</div>
 </div>
@@ -154,11 +154,11 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addTask(com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask)" class="member-name-link">addTask</a><wbr>(<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a>&nbsp;element)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addTask(com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask)" class="member-name-link">addTask</a><wbr>(<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a>&nbsp;element)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Add an instruction into the stack</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a>[]</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a>[]</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyStack()" class="member-name-link">copyStack</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get a deep copy of the stack</div>
@@ -178,7 +178,7 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Flush the contents of the stack</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the ID of the task</div>
@@ -218,13 +218,13 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <li>
 <section class="detail" id="id">
 <h3>id</h3>
-<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a></span>&nbsp;<span class="element-name">id</span></div>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a></span>&nbsp;<span class="element-name">id</span></div>
 </section>
 </li>
 <li>
 <section class="detail" id="stack">
 <h3>stack</h3>
-<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a>&gt;</span>&nbsp;<span class="element-name">stack</span></div>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a>&gt;</span>&nbsp;<span class="element-name">stack</span></div>
 </section>
 </li>
 </ul>
@@ -238,7 +238,7 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <li>
 <section class="detail" id="&lt;init&gt;(com.wyu4.snowberryjam.Compiler.Enums.SourceId)">
 <h3>BodyStack</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BodyStack</span><wbr><span class="parameters">(<a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a>&nbsp;id)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">BodyStack</span><wbr><span class="parameters">(<a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a>&nbsp;id)</span></div>
 <div class="block">Create a new Stack object</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -263,7 +263,7 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <li>
 <section class="detail" id="addTask(com.wyu4.snowberryjam.Compiler.DataType.Tasks.ExecutableTask)">
 <h3>addTask</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addTask</span><wbr><span class="parameters">(<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a>&nbsp;element)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addTask</span><wbr><span class="parameters">(<a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a>&nbsp;element)</span></div>
 <div class="block">Add an instruction into the stack</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -274,15 +274,15 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <li>
 <section class="detail" id="copyStack()">
 <h3>copyStack</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a>[]</span>&nbsp;<span class="element-name">copyStack</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a>[]</span>&nbsp;<span class="element-name">copyStack</span>()</div>
 <div class="block">Get a deep copy of the stack</div>
 <dl class="notes">
 <dt>Returns:</dt>
-<dd>An array of <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks"><code>ExecutableTask</code></a></dd>
+<dd>An array of <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks"><code>ExecutableTask</code></a></dd>
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list">
-<li><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks"><code>ExecutableTask</code></a></li>
+<li><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks"><code>ExecutableTask</code></a></li>
 </ul>
 </dd>
 </dl>
@@ -303,7 +303,7 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <div class="block">Run the task</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="Tasks/ExecutableTask.html#execute()">execute</a></code>&nbsp;in interface&nbsp;<code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="Tasks/ExecutableTask.html#execute()">execute</a></code>&nbsp;in interface&nbsp;<code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 </dl>
 </section>
 </li>
@@ -315,7 +315,7 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <div class="block">Get some feedback from the task. Can be anything, depending on the task.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="Tasks/ExecutableTask.html#feedback()">feedback</a></code>&nbsp;in interface&nbsp;<code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="Tasks/ExecutableTask.html#feedback()">feedback</a></code>&nbsp;in interface&nbsp;<code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 <dt>Returns:</dt>
 <dd>Data parsed as <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link"><code>Object</code></a></dd>
 </dl>
@@ -324,14 +324,14 @@ implements <a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snow
 <li>
 <section class="detail" id="getId()">
 <h3>getId</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a></span>&nbsp;<span class="element-name">getId</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a></span>&nbsp;<span class="element-name">getId</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Tasks/ExecutableTask.html#getId()">ExecutableTask</a></code></span></div>
 <div class="block">Get the ID of the task</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="Tasks/ExecutableTask.html#getId()">getId</a></code>&nbsp;in interface&nbsp;<code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="Tasks/ExecutableTask.html#getId()">getId</a></code>&nbsp;in interface&nbsp;<code><a href="Tasks/ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 <dt>Returns:</dt>
-<dd>Corresponding <a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums"><code>SourceId</code></a></dd>
+<dd>Corresponding <a href="../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums"><code>SourceId</code></a></dd>
 </dl>
 </section>
 </li>

@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="dc.created" content="2025-06-04">
-<meta name="description" content="declaration: module: com.wyu4.snowberryjam, package: com.wyu4.snowberryjam.Compiler.DataType.Tasks, class: SetTask">
+<meta name="description" content="declaration: module: com.wyu4.snowberryjam, package: com.wyu4.snowberryjam.compiler.data.tasks, class: SetTask">
 <meta name="generator" content="javadoc/ClassWriterImpl">
 <link rel="stylesheet" type="text/css" href="../../../../../../../stylesheet.css" title="Style">
 <link rel="stylesheet" type="text/css" href="../../../../../../../script-dir/jquery-ui.min.css" title="Style">
@@ -84,21 +84,21 @@ loadScripts(document, 'script');</script>
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 <div class="sub-title"><span class="module-label-in-type">Module</span>&nbsp;<a href="../../../../../../module-summary.html">com.wyu4.snowberryjam</a></div>
-<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.wyu4.snowberryjam.Compiler.DataType.Tasks</a></div>
+<div class="sub-title"><span class="package-label-in-type">Package</span>&nbsp;<a href="package-summary.html">com.wyu4.snowberryjam.compiler.data.tasks</a></div>
 <h1 title="Class SetTask" class="title">Class SetTask</h1>
 </div>
 <div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
-<div class="inheritance">com.wyu4.snowberryjam.Compiler.DataType.Tasks.SetTask</div>
+<div class="inheritance">com.wyu4.snowberryjam.compiler.data.tasks.SetTask</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 </dl>
 <hr>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">SetTask</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></span></div>
+implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></span></div>
 <div class="block">A variable setter statement. The name of the variable is stored as <a href="../../Enums/SourceKey.html#NAME"><code>SourceKey.NAME</code></a>, and the new value is stored as <a href="../../Enums/SourceKey.html#VALUE"><code>SourceKey.VALUE</code></a>.</div>
 </section>
 <section class="summary">
@@ -112,12 +112,12 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Field</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>private final <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a></code></div>
+<div class="col-first even-row-color"><code>private final <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a></code></div>
 <div class="col-second even-row-color"><code><a href="#name" class="member-name-link">name</a></code></div>
 <div class="col-last even-row-color">
 <div class="block">The name of the variable to set.</div>
 </div>
-<div class="col-first odd-row-color"><code>private final <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a></code></div>
+<div class="col-first odd-row-color"><code>private final <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#value" class="member-name-link">value</a></code></div>
 <div class="col-last odd-row-color">
 <div class="block">The new value of the variable.</div>
@@ -137,8 +137,8 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <div class="col-last even-row-color">
 <div class="block">Create a new set statement</div>
 </div>
-<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder,com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder)" class="member-name-link">SetTask</a><wbr>(<a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a>&nbsp;name,
- <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a>&nbsp;value)</code></div>
+<div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder,com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder)" class="member-name-link">SetTask</a><wbr>(<a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a>&nbsp;name,
+ <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a>&nbsp;value)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Create a new set statement</div>
 </div>
@@ -166,7 +166,7 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get some feedback from the task.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="../../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getId()" class="member-name-link">getId</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Get the ID of the task</div>
@@ -194,8 +194,8 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <li>
 <section class="detail" id="name">
 <h3>name</h3>
-<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a></span>&nbsp;<span class="element-name">name</span></div>
-<div class="block">The name of the variable to set. Can be any type, but the string value will be provided to <a href="../../LocalStorage.html" title="class in com.wyu4.snowberryjam.Compiler"><code>LocalStorage</code></a>.</div>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a></span>&nbsp;<span class="element-name">name</span></div>
+<div class="block">The name of the variable to set. Can be any type, but the string value will be provided to <a href="../../LocalStorage.html" title="class in com.wyu4.snowberryjam.compiler"><code>LocalStorage</code></a>.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
@@ -210,7 +210,7 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <li>
 <section class="detail" id="value">
 <h3>value</h3>
-<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a></span>&nbsp;<span class="element-name">value</span></div>
+<div class="member-signature"><span class="modifiers">private final</span>&nbsp;<span class="return-type"><a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a></span>&nbsp;<span class="element-name">value</span></div>
 <div class="block">The new value of the variable.</div>
 <dl class="notes">
 <dt>See Also:</dt>
@@ -244,8 +244,8 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <li>
 <section class="detail" id="&lt;init&gt;(com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder,com.wyu4.snowberryjam.Compiler.DataType.Values.ValueHolder)">
 <h3>SetTask</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SetTask</span><wbr><span class="parameters">(<a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a>&nbsp;name,
- <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.Compiler.DataType.Values">ValueHolder</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SetTask</span><wbr><span class="parameters">(<a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a>&nbsp;name,
+ <a href="../Values/ValueHolder.html" title="class in com.wyu4.snowberryjam.compiler.data.values">ValueHolder</a>&nbsp;value)</span></div>
 <div class="block">Create a new set statement</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -270,19 +270,19 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <div class="block">Run the task</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ExecutableTask.html#execute()">execute</a></code>&nbsp;in interface&nbsp;<code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="ExecutableTask.html#execute()">execute</a></code>&nbsp;in interface&nbsp;<code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 </dl>
 </section>
 </li>
 <li>
 <section class="detail" id="getId()">
 <h3>getId</h3>
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.Compiler.Enums">SourceId</a></span>&nbsp;<span class="element-name">getId</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../../Enums/SourceId.html" title="enum class in com.wyu4.snowberryjam.compiler.enums">SourceId</a></span>&nbsp;<span class="element-name">getId</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ExecutableTask.html#getId()">ExecutableTask</a></code></span></div>
 <div class="block">Get the ID of the task</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ExecutableTask.html#getId()">getId</a></code>&nbsp;in interface&nbsp;<code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="ExecutableTask.html#getId()">getId</a></code>&nbsp;in interface&nbsp;<code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 <dt>Returns:</dt>
 <dd><a href="../../Enums/SourceId.html#SET"><code>SourceId.SET</code></a></dd>
 </dl>
@@ -296,7 +296,7 @@ implements <a href="ExecutableTask.html" title="interface in com.wyu4.snowberryj
 <div class="block">Get some feedback from the task. Can be anything, depending on the task.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
-<dd><code><a href="ExecutableTask.html#feedback()">feedback</a></code>&nbsp;in interface&nbsp;<code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.Compiler.DataType.Tasks">ExecutableTask</a></code></dd>
+<dd><code><a href="ExecutableTask.html#feedback()">feedback</a></code>&nbsp;in interface&nbsp;<code><a href="ExecutableTask.html" title="interface in com.wyu4.snowberryjam.compiler.data.tasks">ExecutableTask</a></code></dd>
 <dt>Returns:</dt>
 <dd>The new value</dd>
 </dl>

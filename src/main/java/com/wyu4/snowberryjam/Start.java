@@ -1,8 +1,8 @@
 package com.wyu4.snowberryjam;
 
 import atlantafx.base.theme.NordLight;
-import com.wyu4.snowberryjam.Compiler.CompilerTest;
-import com.wyu4.snowberryjam.Framework.Controller;
+import com.wyu4.snowberryjam.compiler.CompilerTest;
+import com.wyu4.snowberryjam.framework.Controller;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
