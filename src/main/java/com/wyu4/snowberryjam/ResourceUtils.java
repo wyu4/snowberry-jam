@@ -31,9 +31,7 @@ public abstract class ResourceUtils {
     }
 
     public static String getFullPath(ResourceFile file) {
-        URL url = ResourceUtils.class.getResource(file.toString());
-        logger.debug(String.valueOf(url));
-        return Objects.requireNonNull(url).toExternalForm();
+        return Objects.requireNonNull(ResourceUtils.class.getResource(file.toString())).toExternalForm();
     }
 
     public static String getResource(ResourceFile file) {
