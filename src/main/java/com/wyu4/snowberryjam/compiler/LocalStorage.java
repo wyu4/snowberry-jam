@@ -5,11 +5,13 @@ import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.helpers.MessageFormatter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Consumer;
 
 /**
  * This class stores and handles anything related to compiling and running a source file.
@@ -25,6 +27,9 @@ public abstract class LocalStorage {
     private static final BodyStack STACK = new BodyStack(SourceId.PROJECT);
     /** Atomically stores the project name */
     private static final AtomicReference<String> NAME = new AtomicReference<>("");
+
+    private static final List<Consumer<String>> PRINT_LISTENERS =  new ArrayList<>();
+    private static final List<Consumer<String>> WARN_LISTENERS =  new ArrayList<>();
 
     /**
      * Get the raw value of a stored variable
@@ -143,6 +148,7 @@ public abstract class LocalStorage {
      */
     public static void print(Object message, Object... args) {
         getLogger().info(message.toString(), args);
+        PRINT_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message)));
     }
 
     /**
@@ -153,5 +159,53 @@ public abstract class LocalStorage {
      */
     public static void warn(Object message, Object... args) {
         getLogger().warn(message.toString(), args);
+        WARN_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message)));
+    }
+
+    /**
+     * Format a message by replacing instances of {@code "{}"} with a corresponding argument
+     * @param message Message
+     * @param args Arguments
+     * @return Formatted string
+     * @see MessageFormatter#format(String, Object) 
+     */
+    private static String formatMessage(Object message, Object... args) {
+        return MessageFormatter.format(message.toString(), args).getMessage();
+    }
+
+    /**
+     * Add a print listener
+     * @param consumer Consumer to run when something is printed
+     * @see #print(Object, Object...)
+     */
+    public static void addPrintListener(Consumer<String> consumer) {
+        PRINT_LISTENERS.add(consumer);
+    }
+
+    /**
+     * Add a warn listener
+     * @param consumer Consumer to run when something is warned
+     * @see #warn(Object, Object...)
+     */
+    public static void addWarnListener(Consumer<String> consumer) {
+        WARN_LISTENERS.add(consumer);
+    }
+
+    /**
+     * Remove a print listener
+     * @param consumer Consumer to run when something is printed
+     * @see #print(Object, Object...)
+     */
+    public static void removePrintListener(Consumer<String> consumer) {
+        PRINT_LISTENERS.remove(consumer);
+    }
+
+    /**
+     * Remove a warn listener
+     * @param consumer Consumer to run when something is warned
+     * @see #warn(Object, Object...)
+     */
+    public static void removeWarnListener(Consumer<String> consumer) {
+        WARN_LISTENERS.remove(consumer);
     }
 }

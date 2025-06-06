@@ -1,0 +1,49 @@
+{
+    "id": "PROJECT",
+    "name": "Multiplication Table",
+    "description": "A multiplication table.",
+    "body": {
+        "variables": [
+            {
+                "name": "max",
+                "value": 11
+            },
+            {
+                "name": "i",
+                "value": 1
+            },
+            {
+                "name": "j",
+                "value": 1
+            }
+        ],
+        "events": [
+            {
+                "id": "ON_RUN",
+                "body": [
+                    {
+                        "id": "REPEAT",
+                        "value": {
+                            "id": "VARIABLE",
+                            "name": "max"
+                        },
+                        "body": [
+                            {
+                                "id": "REPEAT",
+                                "value": {
+                                    "id": "VARIABLE",
+                                    "name": "max"
+                                },
+                                "body": [
+                                    {
+                                        "id": "SET"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

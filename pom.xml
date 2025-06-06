@@ -274,7 +274,7 @@
 
                     <!-- OS -->
                     <type>MSI</type>
-                    <winConsole>true</winConsole>
+                    <winConsole>false</winConsole>
 
                     <winShortcut>true</winShortcut>
                     <winMenu>true</winMenu>
@@ -339,8 +339,7 @@
 
         <install.winDir>C:/Program Files/${project.artifactId}</install.winDir>
         <resourceDir>${mainDir}/resources/com/wyu4/snowberryjam</resourceDir>
-        <file.icon>${resourceDir}/images/icon.ico</file.icon>
-        <install.icon>${resourceDir}/images/compilericon.ico</install.icon>
+        <install.icon>${resourceDir}/images/CompilerIcon.ico</install.icon>
         <snowbProperties>${resourceDir}/snowb.properties</snowbProperties>
         <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
 
