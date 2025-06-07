@@ -19,6 +19,7 @@ public class Model {
     private final BooleanProperty saveAsDisabledProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty runDisabledProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty compilingProperty = new SimpleBooleanProperty(false);
+    private final BooleanProperty runningProperty = new SimpleBooleanProperty(false);
 
     private final IntegerProperty logNumberProperty = new SimpleIntegerProperty(0);
 
@@ -36,6 +37,14 @@ public class Model {
 
     public BooleanProperty getRunDisabledProperty() {
         return runDisabledProperty;
+    }
+
+    public BooleanProperty getCompilingProperty() {
+        return compilingProperty;
+    }
+
+    public BooleanProperty getRunningProperty() {
+        return compilingProperty;
     }
 
     public IntegerProperty getLogNumberProperty() {
@@ -56,6 +65,14 @@ public class Model {
 
     public boolean getRunDisabled() {
         return getRunDisabledProperty().get();
+    }
+
+    public boolean getCompiling() {
+        return getCompilingProperty().get();
+    }
+
+    public boolean getRunning() {
+        return getRunningProperty().get();
     }
 
     public int getLogNumber() {

@@ -53,34 +53,60 @@ public class Interactor {
 
     public Runnable createCompileTask() {
         return () -> {
-            File sourceFile = model.getSourceFile();
-
-            if (sourceFile == null) {
-                Compiler.error("Source file not found.");
+            if (model.getCompiling()) {
                 return;
             }
 
-            Compiler.print("Reading...");
-            Scanner reader = null;
-            try {
-                LocalStorage.flush();
+            File sourceFile = model.getSourceFile();
 
-                reader = new Scanner(sourceFile);
-                StringBuilder source = new StringBuilder();
-                while (reader.hasNextLine()) {
-                    source.append(reader.nextLine().replaceAll("\t", ""));
-                }
-                reader.close();
-
-                Compiler.print("Compiling...");
-                Compiler.compile(source.toString());
-                Compiler.print("Done.");
-            } catch (Exception e) {
-                Compiler.error("Error compiling.", e);
-                if (reader != null) {
-                    reader.close();
-                }
+            if (sourceFile == null) {
+                return;
             }
+
+            new Thread(() -> {
+                Compiler.print("Reading...");
+                Scanner reader = null;
+                model.getCompilingProperty().setValue(true);
+                try {
+                    LocalStorage.flush();
+
+                    reader = new Scanner(sourceFile);
+                    StringBuilder source = new StringBuilder();
+                    while (reader.hasNextLine()) {
+                        source.append(reader.nextLine().replaceAll("\t", ""));
+                    }
+                    reader.close();
+
+                    Compiler.print("Compiling...");
+                    Compiler.compile(source.toString());
+                    Compiler.print("Done.");
+                } catch (Exception e) {
+                    Compiler.error("Error compiling.", e);
+                    if (reader != null) {
+                        reader.close();
+                    }
+                } finally {
+                    model.getCompilingProperty().setValue(false);
+                }
+            }).start();
+        };
+    }
+
+    public Runnable createRunTask() {
+        return () -> {
+            if (model.getCompiling() || model.getRunning()) {
+                return;
+            }
+            model.getRunningProperty().setValue(true);
+            new Thread(() -> {
+                try {
+                    LocalStorage.runStack();
+                } catch (Exception e) {
+                    LocalStorage.error("Error running.", e);
+                } finally {
+                    model.getRunningProperty().setValue(false);
+                }
+            }).start();
         };
     }
 }

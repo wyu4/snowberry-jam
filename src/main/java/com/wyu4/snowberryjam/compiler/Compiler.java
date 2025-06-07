@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -21,9 +22,9 @@ import java.util.function.Consumer;
  */
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
-    private static final List<Consumer<String>> PRINT_LISTENERS =  new ArrayList<>();
-    private static final List<Consumer<String>> WARN_LISTENERS =  new ArrayList<>();
-    private static final List<Consumer<String>> ERROR_LISTENERS =  new ArrayList<>();
+    private static final List<BiConsumer<String, String>> PRINT_LISTENERS =  new ArrayList<>();
+    private static final List<BiConsumer<String, String>> WARN_LISTENERS =  new ArrayList<>();
+    private static final List<BiConsumer<String, String>> ERROR_LISTENERS =  new ArrayList<>();
 
     /**
      * Creates a {@link JsonNode} tree from a JSON {@link String}
@@ -216,7 +217,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void print(Object message, Object... args) {
         logger.info(message.toString(), args);
-        PRINT_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
+        PRINT_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(message, args)));
     }
 
     /**
@@ -229,7 +230,7 @@ public abstract class Compiler extends LocalStorage {
      * @see #warn(Object, Object...)
      */
     public static void printTab(Object message, Object... args) {
-        message = "\t\t" + message.toString();
+        message = ">>>>>> " + message.toString();
         print(message, args);
     }
 
@@ -243,7 +244,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void error(Object error) {
         logger.error(error.toString());
-        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(error.toString())));
     }
 
     /**
@@ -257,7 +258,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void error(Object error, Exception e) {
         logger.error(error.toString(), e);
-        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(error.toString())));
     }
 
     /**
@@ -271,7 +272,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void warn(Object message, Object... args) {
         logger.warn(message.toString(), args);
-        WARN_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
+        WARN_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(message, args)));
     }
 
     /**
@@ -279,7 +280,7 @@ public abstract class Compiler extends LocalStorage {
      * @param consumer Consumer to run when something is printed
      * @see #print(Object, Object...)
      */
-    public static void addPrintListener(Consumer<String> consumer) {
+    public static void addPrintListener(BiConsumer<String, String> consumer) {
         PRINT_LISTENERS.add(consumer);
     }
 
@@ -288,7 +289,7 @@ public abstract class Compiler extends LocalStorage {
      * @param consumer Consumer to run when something is warned
      * @see #warn(Object, Object...)
      */
-    public static void addWarnListener(Consumer<String> consumer) {
+    public static void addWarnListener(BiConsumer<String, String> consumer) {
         WARN_LISTENERS.add(consumer);
     }
 
@@ -297,7 +298,7 @@ public abstract class Compiler extends LocalStorage {
      * @param consumer Consumer to run when something is errored
      * @see #warn(Object, Object...)
      */
-    public static void addErrorListener(Consumer<String> consumer) {
+    public static void addErrorListener(BiConsumer<String, String> consumer) {
         ERROR_LISTENERS.add(consumer);
     }
 }

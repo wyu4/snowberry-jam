@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 /**
@@ -30,9 +31,9 @@ public abstract class LocalStorage {
     /** Atomically stores the project name */
     private static final AtomicReference<String> NAME = new AtomicReference<>("");
 
-    private static final List<Consumer<String>> PRINT_LISTENERS = new ArrayList<>();
-    private static final List<Consumer<String>> WARN_LISTENERS = new ArrayList<>();
-    private static final List<Consumer<String>> ERROR_LISTENERS = new ArrayList<>();
+    private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
+    private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
+    private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
 
     /**
      * Get the raw value of a stored variable
@@ -156,7 +157,7 @@ public abstract class LocalStorage {
      */
     public static void print(Object message, Object... args) {
         getLogger().info(message.toString(), args);
-        PRINT_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
+        PRINT_LISTENERS.forEach(consumer -> consumer.accept(getLogger().getName(), formatMessage(message, args)));
     }
 
     /**
@@ -167,20 +168,19 @@ public abstract class LocalStorage {
      */
     public static void warn(Object message, Object... args) {
         getLogger().warn(message.toString(), args);
-        WARN_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
+        WARN_LISTENERS.forEach(consumer -> consumer.accept(getLogger().getName(), formatMessage(message, args)));
     }
 
     /**
      * Send an error statement to the development console.
      * @param error Message to send (arguments can be inserted by adding "{}" in the message).
      * @see #print(Object, Object...)
-     * @see #printTab(Object, Object...)
      * @see #error(Object, Exception)
      * @see #warn(Object, Object...)
      */
     public static void error(Object error) {
         logger.error(error.toString());
-        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(getLogger().getName(), formatMessage(error.toString())));
     }
 
     /**
@@ -188,13 +188,12 @@ public abstract class LocalStorage {
      * @param error Error to send
      * @param e Exception to send (used to print stack trace)
      * @see #print(Object, Object...)
-     * @see #printTab(Object, Object...)
      * @see #error(Object)
      * @see #warn(Object, Object...)
      */
     public static void error(Object error, Exception e) {
         logger.error(error.toString(), e);
-        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(getLogger().getName(), formatMessage(error.toString())));
     }
 
     /**
@@ -213,7 +212,7 @@ public abstract class LocalStorage {
      * @param consumer Consumer to run when something is printed
      * @see #print(Object, Object...)
      */
-    public static void addPrintListener(Consumer<String> consumer) {
+    public static void addPrintListener(BiConsumer<String, String> consumer) {
         PRINT_LISTENERS.add(consumer);
     }
 
@@ -222,7 +221,7 @@ public abstract class LocalStorage {
      * @param consumer Consumer to run when something is warned
      * @see #warn(Object, Object...)
      */
-    public static void addWarnListener(Consumer<String> consumer) {
+    public static void addWarnListener(BiConsumer<String, String> consumer) {
         WARN_LISTENERS.add(consumer);
     }
 
@@ -231,7 +230,7 @@ public abstract class LocalStorage {
      * @param consumer Consumer to run when something is errored
      * @see #warn(Object, Object...)
      */
-    public static void addErrorListener(Consumer<String> consumer) {
+    public static void addErrorListener(BiConsumer<String, String> consumer) {
         ERROR_LISTENERS.add(consumer);
     }
 }
