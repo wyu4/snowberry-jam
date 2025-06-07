@@ -34,7 +34,7 @@ public class Start extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         try {
-            stage.getIcons().add(new Image(ResourceUtils.getFullPath(ResourceUtils.ResourceFile.CompilerIcon)));
+            stage.getIcons().add(new Image(ResourceUtils.getFullPath(ResourceUtils.ResourceFile.COMPILER_ICON)));
         } catch (Exception e) {
             logger.error("Could not set app icon.", e);
         }
@@ -62,6 +62,7 @@ public class Start extends Application {
         stage.setMaxHeight(screenBounds.getHeight());
 
         Scene primaryScene = new Scene(controller.getView());
+        primaryScene.getStylesheets().add(ResourceUtils.getFullPath(ResourceUtils.ResourceFile.STYLE));
         stage.setScene(primaryScene);
 
         stage.show();

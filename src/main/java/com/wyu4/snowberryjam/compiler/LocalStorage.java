@@ -21,6 +21,8 @@ public abstract class LocalStorage {
 
     /** Stores variables */
     private static final HashMap<String, Object> VARIABLES = new HashMap<>();
+    private static final HashMap<String, Object> VARIABLES_COPY = new HashMap<>();
+
     /** Stores threads */
     private static final List<Thread> THREADS = new ArrayList<>();
     /** Stores tasks starting from index 0 */
@@ -28,8 +30,9 @@ public abstract class LocalStorage {
     /** Atomically stores the project name */
     private static final AtomicReference<String> NAME = new AtomicReference<>("");
 
-    private static final List<Consumer<String>> PRINT_LISTENERS =  new ArrayList<>();
-    private static final List<Consumer<String>> WARN_LISTENERS =  new ArrayList<>();
+    private static final List<Consumer<String>> PRINT_LISTENERS = new ArrayList<>();
+    private static final List<Consumer<String>> WARN_LISTENERS = new ArrayList<>();
+    private static final List<Consumer<String>> ERROR_LISTENERS = new ArrayList<>();
 
     /**
      * Get the raw value of a stored variable
@@ -39,7 +42,7 @@ public abstract class LocalStorage {
      * @see #createVariable(String, Object)
      */
     public static Object getRaw(String name) throws NullPointerException {
-        Object currentValue = VARIABLES.get(name);
+        Object currentValue = VARIABLES_COPY.get(name);
         if (currentValue == null) {
             throw new NullPointerException("No variable with the name \"" + name + "\" was found.");
         }
@@ -54,6 +57,7 @@ public abstract class LocalStorage {
 
         STACK.flush();
         VARIABLES.clear();
+        VARIABLES_COPY.clear();
         THREADS.clear();
     }
 
@@ -78,7 +82,7 @@ public abstract class LocalStorage {
     public static void setVariable(String name, Object newValue) throws NullPointerException {
         Object currentValue = getRaw(name);
         if (currentValue.getClass().equals(newValue.getClass())) {
-            VARIABLES.put(name, newValue);
+            VARIABLES_COPY.put(name, newValue);
         }
     }
 
@@ -86,7 +90,10 @@ public abstract class LocalStorage {
      * Run {@link #STACK}
      * @see BodyStack#execute()
      */
-    protected static void runStack() {
+    public static void runStack() {
+        VARIABLES_COPY.putAll(VARIABLES);
+        print("-----------------------------");
+
         STACK.execute();
     }
 
@@ -115,6 +122,7 @@ public abstract class LocalStorage {
             throw new IllegalStateException("Variable name \"" + name + "\" is already occupied.");
         }
         VARIABLES.put(name, value);
+        VARIABLES_COPY.put(name, value);
     }
 
     /**
@@ -148,7 +156,7 @@ public abstract class LocalStorage {
      */
     public static void print(Object message, Object... args) {
         getLogger().info(message.toString(), args);
-        PRINT_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message)));
+        PRINT_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
     }
 
     /**
@@ -159,7 +167,34 @@ public abstract class LocalStorage {
      */
     public static void warn(Object message, Object... args) {
         getLogger().warn(message.toString(), args);
-        WARN_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message)));
+        WARN_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
+    }
+
+    /**
+     * Send an error statement to the development console.
+     * @param error Message to send (arguments can be inserted by adding "{}" in the message).
+     * @see #print(Object, Object...)
+     * @see #printTab(Object, Object...)
+     * @see #error(Object, Exception)
+     * @see #warn(Object, Object...)
+     */
+    public static void error(Object error) {
+        logger.error(error.toString());
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
+    }
+
+    /**
+     * Send an error statement and stack trace to the development console.
+     * @param error Error to send
+     * @param e Exception to send (used to print stack trace)
+     * @see #print(Object, Object...)
+     * @see #printTab(Object, Object...)
+     * @see #error(Object)
+     * @see #warn(Object, Object...)
+     */
+    public static void error(Object error, Exception e) {
+        logger.error(error.toString(), e);
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
     }
 
     /**
@@ -169,8 +204,8 @@ public abstract class LocalStorage {
      * @return Formatted string
      * @see MessageFormatter#format(String, Object) 
      */
-    private static String formatMessage(Object message, Object... args) {
-        return MessageFormatter.format(message.toString(), args).getMessage();
+    protected static String formatMessage(Object message, Object... args) {
+        return MessageFormatter.arrayFormat(String.valueOf(message), args).getMessage();
     }
 
     /**
@@ -192,20 +227,11 @@ public abstract class LocalStorage {
     }
 
     /**
-     * Remove a print listener
-     * @param consumer Consumer to run when something is printed
-     * @see #print(Object, Object...)
-     */
-    public static void removePrintListener(Consumer<String> consumer) {
-        PRINT_LISTENERS.remove(consumer);
-    }
-
-    /**
-     * Remove a warn listener
-     * @param consumer Consumer to run when something is warned
+     * Add a error listener
+     * @param consumer Consumer to run when something is errored
      * @see #warn(Object, Object...)
      */
-    public static void removeWarnListener(Consumer<String> consumer) {
-        WARN_LISTENERS.remove(consumer);
+    public static void addErrorListener(Consumer<String> consumer) {
+        ERROR_LISTENERS.add(consumer);
     }
 }

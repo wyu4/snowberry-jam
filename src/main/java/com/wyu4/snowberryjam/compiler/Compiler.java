@@ -14,12 +14,16 @@ import org.slf4j.LoggerFactory;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * The Snowberry Jam compiler class
  */
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
+    private static final List<Consumer<String>> PRINT_LISTENERS =  new ArrayList<>();
+    private static final List<Consumer<String>> WARN_LISTENERS =  new ArrayList<>();
+    private static final List<Consumer<String>> ERROR_LISTENERS =  new ArrayList<>();
 
     /**
      * Creates a {@link JsonNode} tree from a JSON {@link String}
@@ -212,6 +216,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void print(Object message, Object... args) {
         logger.info(message.toString(), args);
+        PRINT_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
     }
 
     /**
@@ -238,6 +243,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void error(Object error) {
         logger.error(error.toString());
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
     }
 
     /**
@@ -251,6 +257,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void error(Object error, Exception e) {
         logger.error(error.toString(), e);
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(error.toString())));
     }
 
     /**
@@ -264,5 +271,33 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void warn(Object message, Object... args) {
         logger.warn(message.toString(), args);
+        WARN_LISTENERS.forEach(consumer -> consumer.accept(formatMessage(message, args)));
+    }
+
+    /**
+     * Add a print listener
+     * @param consumer Consumer to run when something is printed
+     * @see #print(Object, Object...)
+     */
+    public static void addPrintListener(Consumer<String> consumer) {
+        PRINT_LISTENERS.add(consumer);
+    }
+
+    /**
+     * Add a warn listener
+     * @param consumer Consumer to run when something is warned
+     * @see #warn(Object, Object...)
+     */
+    public static void addWarnListener(Consumer<String> consumer) {
+        WARN_LISTENERS.add(consumer);
+    }
+
+    /**
+     * Add a error listener
+     * @param consumer Consumer to run when something is errored
+     * @see #warn(Object, Object...)
+     */
+    public static void addErrorListener(Consumer<String> consumer) {
+        ERROR_LISTENERS.add(consumer);
     }
 }

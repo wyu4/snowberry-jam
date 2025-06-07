@@ -7,7 +7,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -16,8 +15,9 @@ public abstract class ResourceUtils {
     public static final String IMAGES = "images";
 
     public enum ResourceFile {
-        ImagesFolder(IMAGES),
-        CompilerIcon(IMAGES + "/CompilerIcon.png");
+        COMPILER_ICON(IMAGES + "/CompilerIcon.png"),
+        IMAGES_FOLDER(IMAGES),
+        STYLE("style.css");
 
         private final String path;
         ResourceFile(String path) {

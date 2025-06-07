@@ -1,8 +1,10 @@
 package com.wyu4.snowberryjam.framework;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.io.File;
@@ -17,6 +19,8 @@ public class Model {
     private final BooleanProperty saveAsDisabledProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty runDisabledProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty compilingProperty = new SimpleBooleanProperty(false);
+
+    private final IntegerProperty logNumberProperty = new SimpleIntegerProperty(0);
 
     public ObjectProperty<File> getSourceFileProperty() {
         return sourceFileProperty;
@@ -34,6 +38,10 @@ public class Model {
         return runDisabledProperty;
     }
 
+    public IntegerProperty getLogNumberProperty() {
+        return logNumberProperty;
+    }
+
     public File getSourceFile() {
         return getSourceFileProperty().get();
     }
@@ -48,5 +56,9 @@ public class Model {
 
     public boolean getRunDisabled() {
         return getRunDisabledProperty().get();
+    }
+
+    public int getLogNumber() {
+        return getLogNumberProperty().get();
     }
 }
