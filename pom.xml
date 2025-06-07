@@ -26,6 +26,11 @@
             <version>11.1.2</version>
         </dependency>
         <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.11.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>${junit.version}</version>
@@ -89,15 +94,12 @@
             </plugin>
 
             <!-- Clear necessary dependencies -->
-            <plugin>
+            <!-- <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
                     <includes>
-                        <include>org.jsoup</include> <!-- JSoup -->
-                        <include>com.alphacephei</include>  <!-- Vosk -->
-                        <include>net.java.dev.jna</include> <!-- JNA -->
                     </includes>
                 </configuration>
                 <executions>
@@ -112,39 +114,7 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>com.github.davidmoten</groupId>
-                <artifactId>plantuml-maven-plugin</artifactId>
-                <version>0.2.13</version>
-                <executions>
-                    <execution>
-                        <id>generate-diagrams</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <sources>
-                        <directory>${basedir}/src/main/plantuml</directory>
-                        <includes>
-                            <include>**/*.puml</include>
-                        </includes>
-                        <excludes>
-                            <exclude>**/ignore-me.puml</exclude>
-                        </excludes>
-                    </sources>
-                    <outputDirectory>${project.build.directory}/generated-diagrams</outputDirectory>
-                    <formats>
-                        <format>png</format>
-                        <format>svg</format>
-                    </formats>
-                    <preserveDirectoryStructure>false</preserveDirectoryStructure>
-                </configuration>
-            </plugin>
+            </plugin> -->
 
             <!-- Modularize automatic JARs (if not already) -->
 <!--            <plugin>-->
@@ -177,6 +147,38 @@
 <!--                <executions>-->
 <!--                </executions>-->
 <!--            </plugin>-->
+
+            <plugin>
+                <groupId>com.github.davidmoten</groupId>
+                <artifactId>plantuml-maven-plugin</artifactId>
+                <version>0.2.13</version>
+                <executions>
+                    <execution>
+                        <id>generate-diagrams</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sources>
+                        <directory>${basedir}/src/main/plantuml</directory>
+                        <includes>
+                            <include>**/*.puml</include>
+                        </includes>
+                        <excludes>
+                            <exclude>**/ignore-me.puml</exclude>
+                        </excludes>
+                    </sources>
+                    <outputDirectory>${project.build.directory}/generated-diagrams</outputDirectory>
+                    <formats>
+                        <format>png</format>
+                        <format>svg</format>
+                    </formats>
+                    <preserveDirectoryStructure>false</preserveDirectoryStructure>
+                </configuration>
+            </plugin>
 
             <!-- Shading the default JAR output -->
             <plugin>

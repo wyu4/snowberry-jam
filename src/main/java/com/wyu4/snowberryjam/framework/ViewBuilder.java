@@ -12,6 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
+
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
@@ -44,7 +48,7 @@ public class ViewBuilder implements Builder<Region> {
         BorderPane root = new BorderPane();
         root.setTop(createMenuBar());
 
-        SplitPane body = new SplitPane(new StackPane(), createConsole());
+        SplitPane body = new SplitPane(createCodeEditor(), createConsole());
         body.setOrientation(Orientation.VERTICAL);
         root.setCenter(body);
 
@@ -187,5 +191,14 @@ public class ViewBuilder implements Builder<Region> {
         root.getChildren().addAll(sourceLabel, messageArea);
 
         return root;
+    }
+
+    public Node createCodeEditor() {
+        CodeArea area = new CodeArea();
+        area.setParagraphGraphicFactory(LineNumberFactory.get(area));
+
+        VirtualizedScrollPane<CodeArea> scrollPane = new VirtualizedScrollPane<>(area);
+
+        return scrollPane;
     }
 }

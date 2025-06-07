@@ -10,6 +10,8 @@ module com.wyu4.snowberryjam {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.feather;
     requires org.apache.logging.log4j.core;
+    requires org.fxmisc.richtext;
+    requires org.fxmisc.flowless;
 
     exports com.wyu4.snowberryjam;
 }
