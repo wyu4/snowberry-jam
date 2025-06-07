@@ -197,8 +197,6 @@ public class ViewBuilder implements Builder<Region> {
         CodeArea area = new CodeArea();
         area.setParagraphGraphicFactory(LineNumberFactory.get(area));
 
-        VirtualizedScrollPane<CodeArea> scrollPane = new VirtualizedScrollPane<>(area);
-
-        return scrollPane;
+        return new VirtualizedScrollPane<>(area);
     }
 }

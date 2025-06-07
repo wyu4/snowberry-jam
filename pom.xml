@@ -17,6 +17,16 @@
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
+            <artifactId>javafx-base</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>21</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>21</version>
         </dependency>
@@ -29,6 +39,26 @@
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
             <version>0.11.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.flowless</groupId>
+            <artifactId>flowless</artifactId>
+            <version>0.7.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.undo</groupId>
+            <artifactId>undofx</artifactId>
+            <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fxmisc.wellbehaved</groupId>
+            <artifactId>wellbehavedfx</artifactId>
+            <version>0.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.reactfx</groupId>
+            <artifactId>reactfx</artifactId>
+            <version>2.0-M5</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -94,12 +124,17 @@
             </plugin>
 
             <!-- Clear necessary dependencies -->
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
                     <includes>
+                        <include>org.fxmisc.richtext</include> <!-- RichText -->
+                        <include>org.fxmisc.flowless</include> <!-- Flowless -->
+                        <include>org.fxmisc.undo</include> <!-- Undo -->
+                        <include>org.fxmisc.wellbehaved</include> <!-- Wellbehaved -->
+                        <include>org.reactfx</include> <!-- ReactFX -->
                     </includes>
                 </configuration>
                 <executions>
@@ -114,40 +149,208 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin> -->
+            </plugin>
 
             <!-- Modularize automatic JARs (if not already) -->
-<!--            <plugin>-->
-<!--                <groupId>org.moditect</groupId>-->
-<!--                <artifactId>moditect-maven-plugin</artifactId>-->
-<!--                <version>1.2.2.Final</version>-->
-<!--                <configuration>-->
-<!--                    <outputDirectory>${modularizedDir}</outputDirectory>-->
-<!--                    <modules>-->
-<!--                    </modules>-->
-<!--                    <overwriteExistingFiles>true</overwriteExistingFiles>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>add-module-info</id>-->
-<!--                        <phase>generate-resources</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>add-module-info</goal>-->
-<!--                        </goals>-->
-<!--                        <configuration><skip>${skipModularization}</skip></configuration>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.moditect</groupId>
+                <artifactId>moditect-maven-plugin</artifactId>
+                <version>1.2.2.Final</version>
+                <configuration>
+                    <outputDirectory>${modularizedDir}</outputDirectory>
+                    <modules>
+                        <module>
+                            <artifact>
+                                <groupId>org.fxmisc.richtext</groupId>
+                                <artifactId>richtextfx</artifactId>
+                                <version>0.11.5</version>
+                            </artifact>
+                            <moduleInfoSource>
+                                module org.fxmisc.richtext {
+                                    requires transitive javafx.controls;
+                                    requires transitive javafx.graphics;
+                                    requires transitive org.fxmisc.flowless;
+                                    requires transitive org.fxmisc.undo;
+                                    requires transitive org.fxmisc.wellbehaved;
+                                    requires transitive org.reactfx;
+
+                                    exports org.fxmisc.richtext;
+                                    exports org.fxmisc.richtext.event;
+                                    exports org.fxmisc.richtext.model;
+                                    exports org.fxmisc.richtext.util;
+                                }
+                            </moduleInfoSource>
+                        </module>
+                        <module>
+                            <artifact>
+                                <groupId>org.fxmisc.flowless</groupId>
+                                <artifactId>flowless</artifactId>
+                                <version>0.7.4</version>
+                            </artifact>
+                            <moduleInfoSource>
+                                module org.fxmisc.flowless {
+                                    requires transitive javafx.controls;
+                                    requires transitive javafx.graphics;
+                                    requires transitive org.reactfx;
+
+                                    exports org.fxmisc.flowless;
+                                }
+                            </moduleInfoSource>
+                        </module>
+                        <module>
+                            <artifact>
+                                <groupId>org.fxmisc.undo</groupId>
+                                <artifactId>undofx</artifactId>
+                                <version>2.1.1</version>
+                            </artifact>
+                            <moduleInfoSource>
+                                module org.fxmisc.undo {
+                                    requires transitive javafx.controls;
+                                    requires transitive javafx.graphics;
+                                    requires transitive org.reactfx;
+
+                                    exports org.fxmisc.undo;
+                                    exports org.fxmisc.undo.impl;
+                                }
+                            </moduleInfoSource>
+                        </module>
+                        <module>
+                            <artifact>
+                                <groupId>org.fxmisc.wellbehaved</groupId>
+                                <artifactId>wellbehavedfx</artifactId>
+                                <version>0.3.3</version>
+                            </artifact>
+                            <moduleInfoSource>
+                                module org.fxmisc.wellbehaved {
+                                requires transitive javafx.base;
+                                requires transitive javafx.controls;
+                                requires transitive javafx.graphics;
+
+                                exports org.fxmisc.wellbehaved.event;
+                                exports org.fxmisc.wellbehaved.event.template;
+                                }
+                            </moduleInfoSource>
+                        </module>
+                        <module>
+                            <artifact>
+                                <groupId>org.reactfx</groupId>
+                                <artifactId>reactfx</artifactId>
+                                <version>2.0-M5</version>
+                            </artifact>
+                            <moduleInfoSource>
+                                module org.reactfx {
+                                requires transitive javafx.base;
+                                requires transitive javafx.graphics;
+                                requires transitive javafx.controls;
+
+                                exports org.reactfx;
+                                exports org.reactfx.collection;
+                                exports org.reactfx.inhibeans;
+                                exports org.reactfx.inhibeans.collection;
+                                exports org.reactfx.inhibeans.binding;
+                                exports org.reactfx.inhibeans.property;
+                                exports org.reactfx.inhibeans.value;
+                                exports org.reactfx.util;
+                                exports org.reactfx.value;
+                                }
+                            </moduleInfoSource>
+                        </module>
+                    </modules>
+                    <overwriteExistingFiles>true</overwriteExistingFiles>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>add-module-info</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-module-info</goal>
+                        </goals>
+                        <configuration><skip>${skipModularization}</skip></configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <!-- Pointing Maven towards the modularized JARs instead of the default ones -->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.maven.plugins</groupId>-->
-<!--                <artifactId>maven-install-plugin</artifactId>-->
-<!--                <version>3.1.4</version>-->
-<!--                <executions>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.1.4</version>
+                <executions>
+                    <execution>
+                        <id>install-richtext</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${modularizedDir}/richtextfx-0.11.5.jar</file>
+                            <groupId>org.fxmisc.richtext</groupId>
+                            <artifactId>richtextfx</artifactId>
+                            <version>0.11.5</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-flowless</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${modularizedDir}/flowless-0.7.4.jar</file>
+                            <groupId>org.fxmisc.flowless</groupId>
+                            <artifactId>flowless</artifactId>
+                            <version>0.7.4</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-undo</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${modularizedDir}/undofx-2.1.1.jar</file>
+                            <groupId>org.fxmisc.undo</groupId>
+                            <artifactId>undofx</artifactId>
+                            <version>2.1.1</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-wellbehaved</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${modularizedDir}/wellbehavedfx-0.3.3.jar</file>
+                            <groupId>org.fxmisc.wellbehaved</groupId>
+                            <artifactId>wellbehavedfx</artifactId>
+                            <version>0.3.3</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>install-reactfx</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <file>${modularizedDir}/reactfx-2.0-M5.jar</file>
+                            <groupId>org.reactfx</groupId>
+                            <artifactId>reactfx</artifactId>
+                            <version>2.0-M5</version>
+                            <packaging>jar</packaging>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
+
+            <!-- Generate PlantUML diagram -->
             <plugin>
                 <groupId>com.github.davidmoten</groupId>
                 <artifactId>plantuml-maven-plugin</artifactId>

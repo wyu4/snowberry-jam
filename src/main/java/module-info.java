@@ -1,17 +1,29 @@
 module com.wyu4.snowberryjam {
-    requires org.apache.logging.log4j;
-    requires ch.qos.logback.classic;
-    requires java.desktop;
-    requires org.slf4j;
-    requires java.logging;
-    requires com.fasterxml.jackson.databind;
-    requires java.base;
-    requires atlantafx.base;
-    requires org.kordamp.ikonli.javafx;
-    requires org.kordamp.ikonli.feather;
-    requires org.apache.logging.log4j.core;
+    // JavaFX
+    requires transitive javafx.controls;
+    requires transitive javafx.fxml;
+    requires transitive javafx.graphics;
+    requires transitive javafx.base;
+    requires transitive atlantafx.base;
+
+    // RichTextFX
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
+
+    // Logging
+    requires org.apache.logging.log4j;
+    requires ch.qos.logback.classic;
+    requires org.slf4j;
+    requires java.logging;
+
+    // Ikonli
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.feather;
+
+    // Other
+    requires java.desktop;
+    requires com.fasterxml.jackson.databind;
+    requires java.compiler;
 
     exports com.wyu4.snowberryjam;
 }
