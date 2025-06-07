@@ -30,7 +30,6 @@ public class Controller {
         Interactor interactor = new Interactor(model, stage);
         this.builder = new ViewBuilder(model, interactor);
         model.getSourceFileProperty().set(file);
-        interactor.createCompileTask().run();
     }
 
     /**

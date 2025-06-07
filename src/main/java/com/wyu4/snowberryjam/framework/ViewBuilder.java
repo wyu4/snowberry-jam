@@ -47,6 +47,11 @@ public class ViewBuilder implements Builder<Region> {
         SplitPane body = new SplitPane(new StackPane(), createConsole());
         body.setOrientation(Orientation.VERTICAL);
         root.setCenter(body);
+
+        if (model.getSourceFile() != null) {
+            interactor.createCompileTask().run();
+        }
+
         return root;
     }
 
