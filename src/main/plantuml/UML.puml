@@ -138,6 +138,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 - {static} List<BiConsumer<String,String>> PRINT_LISTENERS
 - {static} List<BiConsumer<String,String>> WARN_LISTENERS
 - {static} List<BiConsumer<String,String>> ERROR_LISTENERS
++ {static} String getDefaultSource()
 + {static} Object getRaw(String)
 + {static} void flush()
 + {static} Thread createThread(Runnable)
@@ -171,6 +172,7 @@ class com.wyu4.snowberryjam.framework.Interactor {
 + <<Create>> Interactor(Model,Stage)
 + Runnable createOpenFileTask()
 + Runnable createCompileTask()
++ Runnable createCompileTask(Runnable)
 + Runnable createRunTask()
 }
 
@@ -212,6 +214,7 @@ class com.wyu4.snowberryjam.framework.ViewBuilder {
 + Node createMenuBar()
 + Node createConsole()
 + Node createLog(String,String,Color)
++ Node createCodeEditor()
 }
 
 
@@ -256,6 +259,8 @@ class com.wyu4.snowberryjam.framework.Model {
 - BooleanProperty runDisabledProperty
 - BooleanProperty compilingProperty
 - BooleanProperty runningProperty
+- StringProperty sourceCodeProperty
+- StringProperty builtSourceCodeProperty
 - IntegerProperty logNumberProperty
 + ObjectProperty<File> getSourceFileProperty()
 + BooleanProperty getSaveDisabledProperty()
@@ -263,6 +268,8 @@ class com.wyu4.snowberryjam.framework.Model {
 + BooleanProperty getRunDisabledProperty()
 + BooleanProperty getCompilingProperty()
 + BooleanProperty getRunningProperty()
++ StringProperty getSourceCodeProperty()
++ StringProperty getBuiltSourceCodeProperty()
 + IntegerProperty getLogNumberProperty()
 + File getSourceFile()
 + boolean getSaveDisabled()
@@ -270,6 +277,8 @@ class com.wyu4.snowberryjam.framework.Model {
 + boolean getRunDisabled()
 + boolean getCompiling()
 + boolean getRunning()
++ String getSourceCode()
++ String getBuiltSourceCode()
 + int getLogNumber()
 }
 
@@ -346,12 +355,15 @@ abstract class com.wyu4.snowberryjam.ResourceUtils {
 - {static} Logger logger
 + {static} String IMAGES
 + {static} String getFullPath(ResourceFile)
-+ {static} String getResource(ResourceFile)
++ {static} URL getFullPathAsUrl(ResourceFile)
++ {static} String readFile(ResourceFile)
++ {static} String readFile(File)
 }
 
 
 enum com.wyu4.snowberryjam.ResourceFile {
 +  COMPILER_ICON
++  DEFAULT_SOURCE
 +  IMAGES_FOLDER
 +  STYLE
 - String path
