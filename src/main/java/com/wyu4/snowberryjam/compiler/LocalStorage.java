@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.compiler;
 
+import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
@@ -12,7 +13,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * This class stores and handles anything related to compiling and running a source file.
@@ -34,6 +34,10 @@ public abstract class LocalStorage {
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
+
+    public static String getDefaultSource() {
+        return ResourceUtils.readFile(ResourceUtils.ResourceFile.DEFAULT_SOURCE);
+    }
 
     /**
      * Get the raw value of a stored variable

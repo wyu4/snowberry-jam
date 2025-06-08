@@ -3,12 +3,11 @@ package com.wyu4.snowberryjam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.Objects;
+import java.util.Scanner;
 
 public abstract class ResourceUtils {
     private static final Logger logger = LoggerFactory.getLogger("ResourceUtils");
@@ -16,6 +15,7 @@ public abstract class ResourceUtils {
 
     public enum ResourceFile {
         COMPILER_ICON(IMAGES + "/CompilerIcon.png"),
+        DEFAULT_SOURCE("DefaultSourceFile.snowb"),
         IMAGES_FOLDER(IMAGES),
         STYLE("style.css");
 
@@ -31,28 +31,34 @@ public abstract class ResourceUtils {
     }
 
     public static String getFullPath(ResourceFile file) {
-        return Objects.requireNonNull(ResourceUtils.class.getResource(file.toString())).toExternalForm();
+        return getFullPathAsUrl(file).toExternalForm();
     }
 
-    public static String getResource(ResourceFile file) {
-        try (InputStream inputStream = ResourceUtils.class.getClassLoader().getResourceAsStream(file.toString())) {
-            if (inputStream == null) {
-                throw new IOException("File not found.");
+    public static URL getFullPathAsUrl(ResourceFile file) {
+        return Objects.requireNonNull(ResourceUtils.class.getResource(file.toString()));
+    }
+
+    public static String readFile(ResourceFile file) {
+        try {
+            return readFile(new File(getFullPathAsUrl(file).toURI()));
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String readFile(File file) {
+        try (Scanner reader = new Scanner(file)) {
+            StringBuilder source = new StringBuilder();
+            while (reader.hasNextLine()) {
+                source.append(reader.nextLine()).append("\n");
             }
 
-            try(BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
-                StringBuilder result = new StringBuilder();
-                String line;
-                while((line = reader.readLine()) != null) {
-                    result.append(line).append("\n");
-                }
-                if (!result.isEmpty()) {
-                    int lastNewLine = result.lastIndexOf("\n");
-                    result.delete(lastNewLine, lastNewLine + 1);
-                }
-
-                return result.toString();
+            int lastIndex = source.lastIndexOf("\n");
+            if (lastIndex != -1) {
+                source.delete(lastIndex, lastIndex + 1);
             }
+
+            return source.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

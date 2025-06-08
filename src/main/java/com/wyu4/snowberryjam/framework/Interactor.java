@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.framework;
 
+import com.wyu4.snowberryjam.ResourceUtils;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -42,8 +43,17 @@ public class Interactor {
 
                 if (file != null) {
                     model.getSourceFileProperty().set(file);
-                    Compiler.print("Opened {}", file.getName());
-                    createCompileTask().run();
+
+                    try {
+                        LocalStorage.flush();
+
+                        String source = ResourceUtils.readFile(file);
+
+                        model.getSourceCodeProperty().set(source);
+                        Compiler.print("Opened {}", file.getName());
+                    } catch (Exception e) {
+                        Compiler.error("Could not open file.", e);
+                    }
                 } else {
                     LocalStorage.warn("Cancelled file selection.");
                 }
@@ -52,39 +62,26 @@ public class Interactor {
     }
 
     public Runnable createCompileTask() {
+        return createCompileTask(() -> {});
+    }
+
+    public Runnable createCompileTask(Runnable callback) {
         return () -> {
             if (model.getCompiling()) {
                 return;
             }
 
-            File sourceFile = model.getSourceFile();
-
-            if (sourceFile == null) {
-                return;
-            }
-
             new Thread(() -> {
-                Compiler.print("Reading...");
-                Scanner reader = null;
                 model.getCompilingProperty().setValue(true);
                 try {
-                    LocalStorage.flush();
-
-                    reader = new Scanner(sourceFile);
-                    StringBuilder source = new StringBuilder();
-                    while (reader.hasNextLine()) {
-                        source.append(reader.nextLine().replaceAll("\t", ""));
-                    }
-                    reader.close();
-
+                    String sourceCode = model.getSourceCode();
                     Compiler.print("Compiling...");
-                    Compiler.compile(source.toString());
+                    Compiler.compile(sourceCode);
                     Compiler.print("Done.");
+                    model.getBuiltSourceCodeProperty().set(sourceCode);
+                    callback.run();
                 } catch (Exception e) {
                     Compiler.error("Error compiling.", e);
-                    if (reader != null) {
-                        reader.close();
-                    }
                 } finally {
                     model.getCompilingProperty().setValue(false);
                 }
@@ -94,19 +91,24 @@ public class Interactor {
 
     public Runnable createRunTask() {
         return () -> {
-            if (model.getCompiling() || model.getRunning()) {
+            if (model.getRunning()) {
                 return;
             }
-            model.getRunningProperty().setValue(true);
-            new Thread(() -> {
-                try {
-                    LocalStorage.runStack();
-                } catch (Exception e) {
-                    LocalStorage.error("Error running.", e);
-                } finally {
-                    model.getRunningProperty().setValue(false);
-                }
-            }).start();
+
+            if (!model.getSourceCode().equals(model.getBuiltSourceCode())) {
+                createCompileTask(createRunTask()).run();
+            } else {
+                model.getRunningProperty().setValue(true);
+                new Thread(() -> {
+                    try {
+                        LocalStorage.runStack();
+                    } catch (Exception e) {
+                        LocalStorage.error("Error running.", e);
+                    } finally {
+                        model.getRunningProperty().setValue(false);
+                    }
+                }).start();
+            }
         };
     }
 }

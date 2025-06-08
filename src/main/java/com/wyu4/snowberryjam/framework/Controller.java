@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.framework;
 
+import com.wyu4.snowberryjam.compiler.LocalStorage;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.util.Builder;
@@ -29,7 +30,11 @@ public class Controller {
         Model model = new Model();
         Interactor interactor = new Interactor(model, stage);
         this.builder = new ViewBuilder(model, interactor);
-        model.getSourceFileProperty().set(file);
+        if (file == null) {
+            model.getSourceCodeProperty().set(LocalStorage.getDefaultSource());
+        } else {
+            model.getSourceFileProperty().set(file);
+        }
     }
 
     /**

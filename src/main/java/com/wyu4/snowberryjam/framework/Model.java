@@ -6,6 +6,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 import java.io.File;
 
@@ -20,6 +22,9 @@ public class Model {
     private final BooleanProperty runDisabledProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty compilingProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty runningProperty = new SimpleBooleanProperty(false);
+
+    private final StringProperty sourceCodeProperty = new SimpleStringProperty("");
+    private final StringProperty builtSourceCodeProperty = new SimpleStringProperty("");
 
     private final IntegerProperty logNumberProperty = new SimpleIntegerProperty(0);
 
@@ -44,7 +49,15 @@ public class Model {
     }
 
     public BooleanProperty getRunningProperty() {
-        return compilingProperty;
+        return runningProperty;
+    }
+
+    public StringProperty getSourceCodeProperty() {
+        return sourceCodeProperty;
+    }
+
+    public StringProperty getBuiltSourceCodeProperty() {
+        return builtSourceCodeProperty;
     }
 
     public IntegerProperty getLogNumberProperty() {
@@ -73,6 +86,14 @@ public class Model {
 
     public boolean getRunning() {
         return getRunningProperty().get();
+    }
+
+    public String getSourceCode() {
+        return getSourceCodeProperty().get();
+    }
+
+    public String getBuiltSourceCode() {
+        return getBuiltSourceCodeProperty().get();
     }
 
     public int getLogNumber() {

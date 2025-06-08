@@ -197,6 +197,20 @@ public class ViewBuilder implements Builder<Region> {
         CodeArea area = new CodeArea();
         area.setParagraphGraphicFactory(LineNumberFactory.get(area));
 
+        area.textProperty().addListener((evt, old, source) -> {
+            if (!source.equals(model.getSourceCode())) {
+                model.getSourceCodeProperty().set(source);
+            }
+        });
+
+
+        area.replaceText(model.getSourceCode());
+        model.getSourceCodeProperty().addListener((evt, old, source) -> {
+            if (!source.equals(area.getText())) {
+                area.replaceText(source);
+            }
+        });
+
         return new VirtualizedScrollPane<>(area);
     }
 }
