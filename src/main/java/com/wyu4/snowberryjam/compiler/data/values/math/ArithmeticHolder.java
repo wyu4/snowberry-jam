@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
+import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 
 /**
  * A default unset arithmetic holder. This handles any math operations
@@ -13,6 +14,15 @@ public class ArithmeticHolder extends InteractiveValueHolder {
      */
     public ArithmeticHolder(JsonNode node) {
         super(node);
+    }
+
+    /**
+     * Create a new Arithmetic Holder
+     * @param a Value A
+     * @param b Value B
+     */
+    public ArithmeticHolder(ValueHolder a, ValueHolder b) {
+        super(a, b);
     }
 
     @Override

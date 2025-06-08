@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.function.Consumer;
 
 /**
@@ -33,7 +35,6 @@ public class Interactor {
         Consumer<File> updateItems = file -> {
             Platform.runLater(() -> {
                 model.getSaveDisabledProperty().set(file == null);
-                model.getSaveAsDisabledProperty().set(file == null);
             });
         };
         updateItems.accept(model.getSourceFile());
@@ -54,7 +55,7 @@ public class Interactor {
                 if (file != null) {
                     createSetFileTask(file).run();
                 } else {
-                    LocalStorage.warn("Cancelled file selection.");
+                    Compiler.warn("Cancelled file selection.");
                 }
             });
         };
@@ -66,15 +67,75 @@ public class Interactor {
 
             try {
                 model.getSourceCodeProperty().set(ResourceUtils.readFile(file));
-                Compiler.print("Opened {}", file.getName());
+                Compiler.print("Opened \"{}\"", file.getName());
             } catch (Exception e) {
                 Compiler.error("Could not open file.", e);
             }
         };
     }
 
+    public Runnable createSaveFileTask() {
+        return createSaveFileTask(model.getSourceFile());
+    }
+
+    public Runnable createSaveFileTask(File file) {
+        return () -> {
+            if (file == null) {
+                createSaveAsFileTask().run();
+                return;
+            }
+
+            try (FileWriter writer = new FileWriter(file)) {
+                writer.write(model.getSourceCode());
+                Compiler.print("Saved to \"{}\"", file.getName());
+            } catch (Exception e) {
+                Compiler.error("Could not save file.", e);
+            }
+        };
+    }
+
+    public Runnable createSaveAsFileTask() {
+        return () -> {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Save as");
+            fileChooser.getExtensionFilters()
+                    .add(new FileChooser.ExtensionFilter("Snowberry Jam Source File (*.snowb)", "*.snowb"));
+            Platform.runLater(() -> {
+                File file = fileChooser.showSaveDialog(stage);
+
+                if (file == null) {
+                    Compiler.warn("Saving cancelled.");
+                    return;
+                }
+
+                try {
+                    if (!file.exists()) {
+                        file.createNewFile();
+                    }
+                } catch (IOException e) {
+                    Compiler.error("Could not create file \"%s\"".formatted(file.getName()), e);
+                    return;
+                }
+
+                createSaveFileTask(file).run();
+                createSetFileTask(file).run();
+            });
+        };
+    }
+
+    public Runnable createNewProjectTask() {
+        return () -> {
+            Platform.runLater(() -> {
+                model.getSourceFileProperty().set(null);
+                model.getSourceCodeProperty().set(LocalStorage.getDefaultSource());
+                Compiler.print("Created new project.");
+            });
+        };
+    }
+
     public Runnable createCompileTask() {
-        return createCompileTask(() -> {});
+        return createCompileTask(() -> {
+        });
     }
 
     public Runnable createCompileTask(Runnable callback) {

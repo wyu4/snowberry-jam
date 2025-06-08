@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 
 /**
  * Arithmetic Holder that handles subtraction between value A and value B.
@@ -13,6 +14,15 @@ public class Minus extends ArithmeticHolder {
      */
     public Minus(JsonNode node) {
         super(node);
+    }
+
+    /**
+     * Create a new subtraction operation
+     * @param a Value A
+     * @param b Value B, subtracts from value A
+     */
+    public Minus(ValueHolder a, ValueHolder b) {
+        super(a, b);
     }
 
     /**

@@ -2,6 +2,8 @@ package com.wyu4.snowberryjam.compiler.data.values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
+import com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro;
+import com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.*;

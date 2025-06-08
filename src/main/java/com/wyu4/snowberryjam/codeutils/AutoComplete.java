@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import javafx.scene.input.KeyEvent;
 
 public abstract class AutoComplete {
-    public static void autoIndent(CodeArea area) {
+    public static void persistIndent(CodeArea area) {
         int caretPos = area.getCaretPosition();
         int currentParagraph = area.getCurrentParagraph();
 
@@ -17,13 +17,12 @@ public abstract class AutoComplete {
             while (i < prevLine.length() && (prevLine.charAt(i) == ' ' || prevLine.charAt(i) == '\t')) {
                 i++;
             };
-            insertContentBefore(area, prevLine.substring(0, i), caretPos);
+            insertBefore(area, prevLine.substring(0, i), caretPos);
         }
     }
 
-    public static void formatIndent(CodeArea area, KeyEvent event) {
-        event.consume();
-        area.insertText(area.getCaretPosition(), "    "); // Insert 4 spaces
+    public static void formatIndent(CodeArea area) {
+        replaceBefore(area, "    ", area.getCaretPosition());
     }
 
     public static void fullfillPunctation(CodeArea area) {
@@ -31,21 +30,31 @@ public abstract class AutoComplete {
         if (cursorPosition > 0) {
             char code = area.getText(cursorPosition - 1, cursorPosition).charAt(0);
             switch (code) {
-                case '[' -> insertContentAfter(area, ']', cursorPosition);
-                case '{' -> insertContentAfter(area, '}', cursorPosition);
-                case '"' -> insertContentAfter(area, '"', cursorPosition);
-                case '\'' -> insertContentAfter(area, '\'', cursorPosition);
+                case '[' -> insertAfter(area, ']', cursorPosition);
+                case '{' -> insertAfter(area, '}', cursorPosition);
+                case '"' -> insertAfter(area, '"', cursorPosition);
+                case '\'' -> insertAfter(area, '\'', cursorPosition);
             }
         }
     }
 
-    public static void insertContentBefore(CodeArea area, Object content, int position) {
+    public static void replaceBefore(CodeArea area, Object content, int cursorPos) {
+        replace(area, content, cursorPos-1, cursorPos);
+    }
+
+    public static void replace(CodeArea area, Object content, int start, int end) {
+        Platform.runLater(() -> {
+            area.replaceText(start, end, String.valueOf(content));
+        });
+    }
+
+    public static void insertBefore(CodeArea area, Object content, int position) {
         Platform.runLater(() -> {
             area.insertText(position, String.valueOf(content));
         });
     }
 
-    public static void insertContentAfter(CodeArea area, Object content, int position) {
+    public static void insertAfter(CodeArea area, Object content, int position) {
         Platform.runLater(() -> {
             area.insertText(position, String.valueOf(content));
             area.moveTo(position);

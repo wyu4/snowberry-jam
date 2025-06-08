@@ -1,6 +1,9 @@
 package com.wyu4.snowberryjam.framework;
 
+import com.fasterxml.jackson.databind.deser.impl.FieldProperty;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+
+import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
 import javafx.util.Builder;
@@ -31,6 +34,14 @@ public class Controller {
         } else {
             interactor.createSetFileTask(file).run();
         }
+    }
+
+    public File getSourceFile() {
+        return model.getSourceFile();
+    }
+
+    public ObjectProperty<File> getSourceFileProperty() {
+        return model.getSourceFileProperty();
     }
 
     /**

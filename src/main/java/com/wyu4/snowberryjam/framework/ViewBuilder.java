@@ -6,18 +6,21 @@ import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.wellbehaved.event.EventPattern;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
@@ -70,12 +73,13 @@ public class ViewBuilder implements Builder<Region> {
         Menu editCategory = new Menu("Edit");
         MenuItem formatDocument = new MenuItem("Format Document");
 
-
-        newFile.disableProperty().set(true);
         saveFile.disableProperty().bindBidirectional(model.getSaveDisabledProperty());
         saveAsFile.disableProperty().bindBidirectional(model.getSaveAsDisabledProperty());
 
+        newFile.setOnAction(evt -> interactor.createNewProjectTask().run());
         openFile.setOnAction(evt -> interactor.createOpenFileTask().run());
+        saveFile.setOnAction(evt -> interactor.createSaveFileTask().run());
+        saveAsFile.setOnAction(evt -> interactor.createSaveAsFileTask().run());
         exit.setOnAction(evt -> System.exit(0));
 
         formatDocument.setOnAction(evt -> interactor.createFormatCodeTask().run());
@@ -99,7 +103,8 @@ public class ViewBuilder implements Builder<Region> {
         BorderPane root = new BorderPane();
         root.getStyleClass().add("console");
         root.setBorder(new Border(new BorderStroke(
-                Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT, new Insets(1, 0, 0, 0))));
+                Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT,
+                new Insets(1, 0, 0, 0))));
 
         HBox topBar = new HBox();
         topBar.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.1), null, null)));
@@ -131,9 +136,9 @@ public class ViewBuilder implements Builder<Region> {
             model.getLogNumberProperty().set(model.getLogNumber() + 1);
             Platform.runLater(() -> {
                 ObservableList<Node> children = logs.getChildren();
-                    if (children.size() >= 1000) {
-                        children.removeFirst();
-                    }
+                if (children.size() >= 1000) {
+                    children.removeFirst();
+                }
                 if (atBottom.get()) {
                     children.add(log);
                     new Thread(() -> {
@@ -150,9 +155,11 @@ public class ViewBuilder implements Builder<Region> {
             });
         };
 
-        LocalStorage.addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
+        LocalStorage
+                .addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
         LocalStorage.addWarnListener((name, message) -> addLog.accept(createLog(name, message, Color.LIGHTYELLOW)));
-        LocalStorage.addErrorListener((name, message) -> addLog.accept(createLog(name, message, Color.MEDIUMVIOLETRED)));
+        LocalStorage
+                .addErrorListener((name, message) -> addLog.accept(createLog(name, message, Color.MEDIUMVIOLETRED)));
 
         Compiler.addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
         Compiler.addWarnListener((name, message) -> addLog.accept(createLog(name, message, Color.YELLOW)));
@@ -178,7 +185,7 @@ public class ViewBuilder implements Builder<Region> {
         Label messageArea = new Label(message);
         messageArea.setText(message);
         messageArea.setWrapText(true);
-        
+
         HBox.setHgrow(messageArea, Priority.NEVER);
 
         root.getChildren().addAll(sourceLabel, messageArea);
@@ -188,7 +195,6 @@ public class ViewBuilder implements Builder<Region> {
 
     public Node createCodeEditor() {
         CodeArea area = new CodeArea(LocalStorage.getDefaultSource());
-        area.getStyleClass().add("editor");
         area.setParagraphGraphicFactory(LineNumberFactory.get(area));
 
         area.textProperty().addListener((evt, old, source) -> {
@@ -197,32 +203,23 @@ public class ViewBuilder implements Builder<Region> {
             }
         });
 
-        area.setOnKeyPressed(event -> {
-            if (Filter.isSpecialOperation(event)) {
-                return;
-            };
-
-            KeyCode keyCode = event.getCode();
-            if (keyCode.equals(KeyCode.TAB)) {
-                AutoComplete.formatIndent(area, event);
-            }
-        });
-
         area.setOnKeyReleased(event -> {
             if (Filter.isSpecialOperation(event)) {
                 return;
-            };
+            }
 
-            KeyCode keyCode = event.getCode();
-            if (
-                !keyCode.equals(KeyCode.SHIFT) &&
-                !keyCode.equals(KeyCode.ALT) &&
-                !keyCode.equals(KeyCode.CONTROL) &&
-                !keyCode.equals(KeyCode.TAB) &&
-                !keyCode.equals(KeyCode.CAPS) &&
-                !keyCode.equals(KeyCode.BACK_SPACE) &&
-                !keyCode.isArrowKey()
-            ) {
+            KeyCode code = event.getCode();
+            if (code == null) {
+                return;
+            }
+
+            if (!KeyCode.SHIFT.equals(code) &&
+                    !KeyCode.ALT.equals(code) &&
+                    !KeyCode.CONTROL.equals(code) &&
+                    !KeyCode.TAB.equals(code) &&
+                    !KeyCode.CAPS.equals(code) &&
+                    !KeyCode.BACK_SPACE.equals(code) &&
+                    !code.isArrowKey()) {
                 AutoComplete.fullfillPunctation(area);
             }
         });
@@ -230,13 +227,19 @@ public class ViewBuilder implements Builder<Region> {
         area.setOnKeyPressed(event -> {
             if (Filter.isSpecialOperation(event)) {
                 return;
-            };
-            
-            KeyCode keyCode = event.getCode();
+            }
 
-            if (keyCode.equals(KeyCode.ENTER)) {
-                AutoComplete.autoIndent(area);
-                return;
+            KeyCode code = event.getCode();
+            if (KeyCode.ENTER.equals(code)) {
+                AutoComplete.persistIndent(area);
+            }
+        });
+
+        area.setOnKeyTyped(event -> {
+            String character = event.getCharacter();
+            System.out.println(character);
+            if ("\t".equals(character)) {
+                AutoComplete.formatIndent(area);
             }
         });
 

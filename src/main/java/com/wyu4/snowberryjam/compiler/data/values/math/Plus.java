@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 
 import java.util.Arrays;
 
@@ -16,6 +17,10 @@ public class Plus extends ArithmeticHolder {
      */
     public Plus(JsonNode node) {
         super(node);
+    }
+
+    public Plus(ValueHolder a, ValueHolder b) {
+        super(a, b);
     }
 
     /**

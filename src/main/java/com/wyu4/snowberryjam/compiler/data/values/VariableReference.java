@@ -9,13 +9,21 @@ public class VariableReference extends ValueHolder{
     /**
      * The name of the variable
      */
-    private final String name;
+    private final ValueHolder name;
 
     /**
      * Create a new Vairable Reference
-     * @param name The name of the variable
+     * @param name The name of the variable as a String
      */
     public VariableReference(String name) {
+        this(new ValueHolder(name));
+    }
+
+    /**
+     * Create a new Vairable Reference
+     * @param name The name of the variable as a {@link ValueHolder}
+     */
+    public VariableReference(ValueHolder name) {
         this.name = name;
     }
 
@@ -24,7 +32,7 @@ public class VariableReference extends ValueHolder{
      * @return Name
      */
     public String getName() {
-        return name;
+        return name.getString();
     }
 
     /**

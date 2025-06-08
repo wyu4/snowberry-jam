@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * The main entry point.
@@ -55,7 +56,15 @@ public class Start extends Application {
 
         javafx.application.Application.setUserAgentStylesheet(new NordLight().getUserAgentStylesheet());
 
-        stage.setTitle("Snowberry Jam");
+        Consumer<File> updateTitle = file -> {
+            if (file == null) {
+                stage.setTitle("Snowberry Jam");
+            } else {
+                stage.setTitle("[" + file.getName() + "] - Snowberry Jam");
+            }
+        };
+        updateTitle.accept(controller.getSourceFile());
+        controller.getSourceFileProperty().addListener((evt, old, file) -> updateTitle.accept(file));
         stage.setMaximized(true);
         stage.setMinWidth(screenBounds.getWidth()*0.5);
         stage.setMinHeight(screenBounds.getHeight()*0.5);

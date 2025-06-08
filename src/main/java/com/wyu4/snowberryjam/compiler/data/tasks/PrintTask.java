@@ -25,6 +25,14 @@ public class PrintTask implements ExecutableTask {
 
     /**
      * Create a new print statement.
+     * @param message the message to print
+     */
+    public PrintTask(String message) {
+        this(new ValueHolder(message));
+    }
+
+    /**
+     * Create a new print statement.
      * @param message {@link ValueHolder} pointing to the message to print
      */
     public PrintTask(ValueHolder message) {

@@ -9,6 +9,7 @@ module com.wyu4.snowberryjam {
     // RichTextFX
     requires org.fxmisc.richtext;
     requires org.fxmisc.flowless;
+    requires org.fxmisc.wellbehaved;
 
     // Logging
     requires org.apache.logging.log4j;

@@ -8,6 +8,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.*;
+import com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro;
+import com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro;
 import com.wyu4.snowberryjam.compiler.enums.EnumHelper;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -159,9 +161,11 @@ public abstract class Compiler extends LocalStorage {
                 case IF_ELSE -> task = new IfElseTask(node);
                 case WHILE -> task = new WhileTask(node);
                 case REPEAT -> task = new Repeat(node);
+                case INCREASE_MACRO -> task = new IncreaseMacro(node);
+                case DECREASE_MACRO -> task = new DecreaseMacro(node);
                 default -> {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
-                    return;
+                    task = new WarnTask("Unknown task \"" + id.toString() + "\"");
                 }
             }
 

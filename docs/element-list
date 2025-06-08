@@ -1,8 +1,10 @@
 module:com.wyu4.snowberryjam
 com.wyu4.snowberryjam
+com.wyu4.snowberryjam.codeutils
 com.wyu4.snowberryjam.compiler
 com.wyu4.snowberryjam.compiler.data
 com.wyu4.snowberryjam.compiler.data.tasks
+com.wyu4.snowberryjam.compiler.data.tasks.macros
 com.wyu4.snowberryjam.compiler.data.values
 com.wyu4.snowberryjam.compiler.data.values.builtin
 com.wyu4.snowberryjam.compiler.data.values.conditional

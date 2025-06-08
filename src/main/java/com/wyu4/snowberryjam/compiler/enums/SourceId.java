@@ -7,12 +7,14 @@ public enum SourceId {
     AND("AND"),
     ARRAY_OF("ARRAY_OF"),
     ELEMENT_AT_INDEX("ELEMENT_AT"),
+    DECREASE_MACRO("-="),
     DIVIDE("/"),
     EQUALS("=="),
     GREATER_THAN(">"),
     GREATER_OR_EQUAL_TO(">="),
     IF("IF"),
     IF_ELSE("IF_ELSE"),
+    INCREASE_MACRO("+="),
     LESS_THAN("<"),
     LESS_OR_EQUAL_TO("<="),
     ON_RUN("ON_RUN"),
@@ -29,11 +31,12 @@ public enum SourceId {
     ROUND("ROUND"),
     SAME_TYPE("SAME_TYPE"),
     SET("SET"),
-    WITH_UPDATED_ELEMENT("WITH_UPDATED_ELEMENT"),
     SIZE_OF("SIZE_OF"),
     TIME("TIME"),
     VARIABLE("VARIABLE"),
-    WHILE("WHILE");
+    WARN("WARN"),
+    WHILE("WHILE"),
+    WITH_UPDATED_ELEMENT("WITH_UPDATED_ELEMENT");
 
     /**
      * The string of what is actually found in {@code "id":...}
