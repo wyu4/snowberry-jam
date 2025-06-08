@@ -1,12 +1,12 @@
 {
-    "id": "PROJECT",
-    "name": "Array Test",
-    "description": "This is a concept of what a project could look like.",
-    "body": {
-        "variables": [
+    "id" : "PROJECT",
+    "name" : "Array Test",
+    "description" : "This is a concept of what a project could look like.",
+    "body" : {
+        "variables" : [
             {
-                "name": "myArray",
-                "value": [
+                "name" : "myArray",
+                "value" : [
                     1,
                     2,
                     3,
@@ -19,70 +19,77 @@
                 ]
             },
             {
-                "name": "newValue",
-                "value": 248379
+                "name" : "newValue",
+                "value" : 248379
             },
             {
-                "name": "index",
-                "value": 1
+                "name" : "index",
+                "value" : 1
             }
         ],
-        "events": [
+        "events" : [
             {
-                "id": "ON_RUN",
-                "body": [
+                "id" : "ON_RUN",
+                "body" : [
                     {
-                        "id": "PRINT",
-                        "value": [2,3,5,1,3,6]
+                        "id" : "PRINT",
+                        "value" : [
+                            2,
+                            3,
+                            5,
+                            1,
+                            3,
+                            6
+                        ]
                     },
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "id": "VARIABLE",
-                            "name": "myArray"
+                        "id" : "PRINT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "myArray"
                         }
                     },
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "id": "WITH_UPDATED_ELEMENT",
-                            "a": {
-                                "id": "VARIABLE",
-                                "name": "myArray"
+                        "id" : "PRINT",
+                        "value" : {
+                            "id" : "WITH_UPDATED_ELEMENT",
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "myArray"
                             },
-                            "i": {
-                                "id": "VARIABLE",
-                                "name": "index"
+                            "i" : {
+                                "id" : "VARIABLE",
+                                "name" : "index"
                             },
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "newValue"
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "newValue"
                             }
                         }
                     },
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "a": "Size of the array: ",
-                            "id": "+",
-                            "b": {
-                                "id": "SIZE_OF",
-                                "a": {
-                                    "id": "VARIABLE",
-                                    "name": "myArray"
+                        "id" : "PRINT",
+                        "value" : {
+                            "a" : "Size of the array: ",
+                            "id" : "+",
+                            "b" : {
+                                "id" : "SIZE_OF",
+                                "a" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "myArray"
                                 }
                             }
                         }
                     },
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "a": {
-                                "id": "VARIABLE",
-                                "name": "myArray"
+                        "id" : "PRINT",
+                        "value" : {
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "myArray"
                             },
-                            "id": "+",
-                            "b": [
+                            "id" : "+",
+                            "b" : [
                                 "this",
                                 "is",
                                 "a",

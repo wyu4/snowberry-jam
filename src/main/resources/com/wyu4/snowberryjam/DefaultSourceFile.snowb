@@ -1,13 +1,13 @@
 {
-    "id": "PROJECT",
-    "name": "Unnamed",
-    "description": "No description",
-    "body": {
-        "variables": [],
-        "events": [
+    "id" : "PROJECT",
+    "name" : "Unnamed",
+    "description" : "No description",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
             {
-                "id": "ON_RUN",
-                "body": []
+                "id" : "ON_RUN",
+                "body" : [ ]
             }
         ]
     }

@@ -91,10 +91,8 @@ public class Interactor {
                     String sourceCode = model.getSourceCode();
                     Compiler.compile(sourceCode);
                     Compiler.print("Done.");
-                    Platform.runLater(() -> {
-                        model.getSourceCodeProperty().set(sourceCode);
-                        model.getBuiltSourceCodeProperty().set(sourceCode);
-                    });
+                    model.getSourceCodeProperty().set(sourceCode);
+                    model.getBuiltSourceCodeProperty().set(sourceCode);
                     callback.run();
                 } catch (Exception e) {
                     Compiler.error("Error compiling:", e);
@@ -125,6 +123,12 @@ public class Interactor {
                     }
                 }).start();
             }
+        };
+    }
+
+    public Runnable createFormatCodeTask() {
+        return () -> {
+            model.getSourceCodeProperty().set(Compiler.formatString(model.getSourceCode()));
         };
     }
 }

@@ -1,6 +1,9 @@
 package com.wyu4.snowberryjam.compiler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.util.DefaultIndenter;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
@@ -11,6 +14,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +28,25 @@ public abstract class Compiler extends LocalStorage {
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS =  new ArrayList<>();
     private static final List<BiConsumer<String, String>> WARN_LISTENERS =  new ArrayList<>();
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS =  new ArrayList<>();
+
+    public static String formatString(String str) {
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            DefaultPrettyPrinter printer = new DefaultPrettyPrinter();
+            DefaultIndenter indenter = new DefaultIndenter("    ", System.lineSeparator());
+            
+            printer.indentArraysWith(indenter);
+            printer.indentObjectsWith(indenter);
+
+            return mapper.writer(printer).writeValueAsString(mapper.readTree(str));
+        } catch (JsonMappingException e) {
+            Compiler.warn("Could not format document. Check syntaxe:\n{}", e.getMessage());
+            return str;
+        } catch (Exception e) {
+            Compiler.error("Something went wrong. Please try again.", e);
+            return str;
+        }
+    }
 
     /**
      * Creates a {@link JsonNode} tree from a JSON {@link String}
@@ -47,10 +70,13 @@ public abstract class Compiler extends LocalStorage {
      * @see #mapProjectVariables(JsonNode) 
      * @see #compileEvents(JsonNode) 
      */
-    public static void compile(String source) throws JsonProcessingException {
+    public static void compile(String source) throws JsonMappingException, JsonProcessingException {
         JsonNode tree = getTree(source);
         mapProjectData(tree);
         JsonNode projectBody = tree.get(SourceKey.BODY.toString());
+        if (projectBody == null) {
+            throw JsonMappingException.fromUnexpectedIOE(new IOException("Could not find the project body."));
+        }
         mapProjectVariables(projectBody);
         compileEvents(projectBody);
     }

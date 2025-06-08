@@ -1,258 +1,258 @@
 {
-    "id": "PROJECT",
-    "name": "Bubble Sort",
-    "description": "This is a concept of what a project could look like.",
-    "body": {
-        "variables": [
+    "id" : "PROJECT",
+    "name" : "Bubble Sort",
+    "description" : "This is a concept of what a project could look like.",
+    "body" : {
+        "variables" : [
             {
-                "name": "len",
-                "value": 50
+                "name" : "len",
+                "value" : 50
             },
             {
-                "name": "debug",
-                "value": false
+                "name" : "debug",
+                "value" : false
             },
             {
-                "name": "arr",
-                "value": []
+                "name" : "arr",
+                "value" : [ ]
             },
             {
-                "name": "sorted",
-                "value": []
+                "name" : "sorted",
+                "value" : [ ]
             },
             {
-                "name": "timeElapsed",
-                "value": 0
+                "name" : "timeElapsed",
+                "value" : 0
             },
             {
-                "name": "i",
-                "value": 0
+                "name" : "i",
+                "value" : 0
             },
             {
-                "name": "j",
-                "value": 0
+                "name" : "j",
+                "value" : 0
             },
             {
-                "name": "temp",
-                "value": 0
+                "name" : "temp",
+                "value" : 0
             },
             {
-                "name": "swapped",
-                "value": true
+                "name" : "swapped",
+                "value" : true
             }
         ],
-        "events": [
+        "events" : [
             {
-                "id": "ON_RUN",
-                "body": [
+                "id" : "ON_RUN",
+                "body" : [
                     {
-                        "id": "REPEAT",
-                        "value": {
-                            "id": "VARIABLE",
-                            "name": "len"
+                        "id" : "REPEAT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "len"
                         },
-                        "body": [
+                        "body" : [
                             {
-                                "id": "SET",
-                                "name": "arr",
-                                "value": {
-                                    "a": {
-                                        "id": "VARIABLE",
-                                        "name": "arr"
+                                "id" : "SET",
+                                "name" : "arr",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "arr"
                                     },
-                                    "id": "+",
-                                    "b": {
-                                        "a": {
-                                            "id": "ROUND",
-                                            "a": {
-                                                "a": {
-                                                    "id": "RANDOM"
+                                    "id" : "+",
+                                    "b" : {
+                                        "a" : {
+                                            "id" : "ROUND",
+                                            "a" : {
+                                                "a" : {
+                                                    "id" : "RANDOM"
                                                 },
-                                                "id": "*",
-                                                "b": 10000
+                                                "id" : "*",
+                                                "b" : 10000
                                             }
                                         },
-                                        "id": "/",
-                                        "b": 100
+                                        "id" : "/",
+                                        "b" : 100
                                     }
                                 }
                             }
                         ]
                     },
                     {
-                        "id": "SET",
-                        "name": "sorted",
-                        "value": {
-                            "id": "VARIABLE",
-                            "name": "arr"
+                        "id" : "SET",
+                        "name" : "sorted",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "arr"
                         }
                     },
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "a": "Sorting: ",
-                            "id": "+",
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "arr"
+                        "id" : "PRINT",
+                        "value" : {
+                            "a" : "Sorting: ",
+                            "id" : "+",
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "arr"
                             }
                         }
                     },
                     {
-                        "id": "SET",
-                        "name": "timeElapsed",
-                        "value": {
-                            "id": "TIME"
+                        "id" : "SET",
+                        "name" : "timeElapsed",
+                        "value" : {
+                            "id" : "TIME"
                         }
                     },
                     {
-                        "id": "WHILE",
-                        "value": {
-                            "a": {
-                                "a": {
-                                    "id": "VARIABLE",
-                                    "name": "i"
+                        "id" : "WHILE",
+                        "value" : {
+                            "a" : {
+                                "a" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "i"
                                 },
-                                "id": "<",
-                                "b": {
-                                    "a": {
-                                        "id": "VARIABLE",
-                                        "name": "len"
+                                "id" : "<",
+                                "b" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "len"
                                     },
-                                    "id": "-",
-                                    "b": 1
+                                    "id" : "-",
+                                    "b" : 1
                                 }
                             },
-                            "id": "AND",
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "swapped"
+                            "id" : "AND",
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "swapped"
                             }
                         },
-                        "body": [
+                        "body" : [
                             {
-                                "id": "SET",
-                                "name": "swapped",
-                                "value": false
+                                "id" : "SET",
+                                "name" : "swapped",
+                                "value" : false
                             },
                             {
-                                "id": "SET",
-                                "name": "j",
-                                "value": 0
+                                "id" : "SET",
+                                "name" : "j",
+                                "value" : 0
                             },
                             {
-                                "id": "WHILE",
-                                "value": {
-                                    "a": {
-                                        "id": "VARIABLE",
-                                        "name": "j"
+                                "id" : "WHILE",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "j"
                                     },
-                                    "id": "<",
-                                    "b": {
-                                        "a": {
-                                            "a": {
-                                                "id": "VARIABLE",
-                                                "name": "len"
+                                    "id" : "<",
+                                    "b" : {
+                                        "a" : {
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "len"
                                             },
-                                            "id": "-",
-                                            "b": {
-                                                "id": "VARIABLE",
-                                                "name": "i"
+                                            "id" : "-",
+                                            "b" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "i"
                                             }
                                         },
-                                        "id": "-",
-                                        "b": 1
+                                        "id" : "-",
+                                        "b" : 1
                                     }
                                 },
-                                "body": [
+                                "body" : [
                                     {
-                                        "id": "IF",
-                                        "value": {
-                                            "a": {
-                                                "id": "ELEMENT_AT",
-                                                "a": {
-                                                    "id": "VARIABLE",
-                                                    "name": "sorted"
+                                        "id" : "IF",
+                                        "value" : {
+                                            "a" : {
+                                                "id" : "ELEMENT_AT",
+                                                "a" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "sorted"
                                                 },
-                                                "i": {
-                                                    "id": "VARIABLE",
-                                                    "name": "j"
+                                                "i" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "j"
                                                 }
                                             },
-                                            "id": ">",
-                                            "b": {
-                                                "id": "ELEMENT_AT",
-                                                "a": {
-                                                    "id": "VARIABLE",
-                                                    "name": "sorted"
+                                            "id" : ">",
+                                            "b" : {
+                                                "id" : "ELEMENT_AT",
+                                                "a" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "sorted"
                                                 },
-                                                "i": {
-                                                    "a": {
-                                                        "id": "VARIABLE",
-                                                        "name": "j"
+                                                "i" : {
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "j"
                                                     },
-                                                    "id": "+",
-                                                    "b": 1
+                                                    "id" : "+",
+                                                    "b" : 1
                                                 }
                                             }
                                         },
-                                        "body": [
+                                        "body" : [
                                             {
-                                                "id": "SET",
-                                                "name": "temp",
-                                                "value": {
-                                                    "id": "ELEMENT_AT",
-                                                    "a": {
-                                                        "id": "VARIABLE",
-                                                        "name": "sorted"
+                                                "id" : "SET",
+                                                "name" : "temp",
+                                                "value" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "sorted"
                                                     },
-                                                    "i": {
-                                                        "id": "VARIABLE",
-                                                        "name": "j"
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "j"
                                                     }
                                                 }
                                             },
                                             {
-                                                "id": "IF",
-                                                "value": {
-                                                    "id": "VARIABLE",
-                                                    "name": "debug"
+                                                "id" : "IF",
+                                                "value" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "debug"
                                                 },
-                                                "body": [
+                                                "body" : [
                                                     {
-                                                        "id": "PRINT",
-                                                        "value": {
-                                                            "a": "Swapping ",
-                                                            "id": "+",
-                                                            "b": {
-                                                                "a": {
-                                                                    "id": "ELEMENT_AT",
-                                                                    "a": {
-                                                                        "id": "VARIABLE",
-                                                                        "name": "sorted"
+                                                        "id" : "PRINT",
+                                                        "value" : {
+                                                            "a" : "Swapping ",
+                                                            "id" : "+",
+                                                            "b" : {
+                                                                "a" : {
+                                                                    "id" : "ELEMENT_AT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "sorted"
                                                                     },
-                                                                    "i": {
-                                                                        "id": "VARIABLE",
-                                                                        "name": "j"
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "j"
                                                                     }
                                                                 },
-                                                                "id": "+",
-                                                                "b": {
-                                                                    "a": " and ",
-                                                                    "id": "+",
-                                                                    "b": {
-                                                                        "id": "ELEMENT_AT",
-                                                                        "a": {
-                                                                            "id": "VARIABLE",
-                                                                            "name": "sorted"
+                                                                "id" : "+",
+                                                                "b" : {
+                                                                    "a" : " and ",
+                                                                    "id" : "+",
+                                                                    "b" : {
+                                                                        "id" : "ELEMENT_AT",
+                                                                        "a" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "sorted"
                                                                         },
-                                                                        "i": {
-                                                                            "a": {
-                                                                                "id": "VARIABLE",
-                                                                                "name": "j"
+                                                                        "i" : {
+                                                                            "a" : {
+                                                                                "id" : "VARIABLE",
+                                                                                "name" : "j"
                                                                             },
-                                                                            "id": "+",
-                                                                            "b": 1
+                                                                            "id" : "+",
+                                                                            "b" : 1
                                                                         }
                                                                     }
                                                                 }
@@ -262,138 +262,138 @@
                                                 ]
                                             },
                                             {
-                                                "id": "SET",
-                                                "name": "sorted",
-                                                "value": {
-                                                    "id": "WITH_UPDATED_ELEMENT",
-                                                    "a": {
-                                                        "id": "VARIABLE",
-                                                        "name": "sorted"
+                                                "id" : "SET",
+                                                "name" : "sorted",
+                                                "value" : {
+                                                    "id" : "WITH_UPDATED_ELEMENT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "sorted"
                                                     },
-                                                    "i": {
-                                                        "id": "VARIABLE",
-                                                        "name": "j"
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "j"
                                                     },
-                                                    "b": {
-                                                        "id": "ELEMENT_AT",
-                                                        "a": {
-                                                            "id": "VARIABLE",
-                                                            "name": "sorted"
+                                                    "b" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "sorted"
                                                         },
-                                                        "i": {
-                                                            "a": {
-                                                                "id": "VARIABLE",
-                                                                "name": "j"
+                                                        "i" : {
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "j"
                                                             },
-                                                            "id": "+",
-                                                            "b": 1
+                                                            "id" : "+",
+                                                            "b" : 1
                                                         }
                                                     }
                                                 }
                                             },
                                             {
-                                                "id": "SET",
-                                                "name": "sorted",
-                                                "value": {
-                                                    "id": "WITH_UPDATED_ELEMENT",
-                                                    "a": {
-                                                        "id": "VARIABLE",
-                                                        "name": "sorted"
+                                                "id" : "SET",
+                                                "name" : "sorted",
+                                                "value" : {
+                                                    "id" : "WITH_UPDATED_ELEMENT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "sorted"
                                                     },
-                                                    "i": {
-                                                        "a": {
-                                                            "id": "VARIABLE",
-                                                            "name": "j"
+                                                    "i" : {
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "j"
                                                         },
-                                                        "id": "+",
-                                                        "b": 1
+                                                        "id" : "+",
+                                                        "b" : 1
                                                     },
-                                                    "b": {
-                                                        "id": "VARIABLE",
-                                                        "name": "temp"
+                                                    "b" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "temp"
                                                     }
                                                 }
                                             },
                                             {
-                                                "id": "SET",
-                                                "name": "swapped",
-                                                "value": true
+                                                "id" : "SET",
+                                                "name" : "swapped",
+                                                "value" : true
                                             }
                                         ]
                                     },
                                     {
-                                        "id": "SET",
-                                        "name": "j",
-                                        "value": {
-                                            "a": {
-                                                "id": "VARIABLE",
-                                                "name": "j"
+                                        "id" : "SET",
+                                        "name" : "j",
+                                        "value" : {
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "j"
                                             },
-                                            "id": "+",
-                                            "b": 1
+                                            "id" : "+",
+                                            "b" : 1
                                         }
                                     }
                                 ]
                             },
                             {
-                                "id": "IF",
-                                "value": {
-                                    "id": "VARIABLE",
-                                    "name": "debug"
+                                "id" : "IF",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "debug"
                                 },
-                                "body": [
+                                "body" : [
                                     {
-                                        "id": "PRINT",
-                                        "value": {
-                                            "id": "VARIABLE",
-                                            "name": "sorted"
+                                        "id" : "PRINT",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "sorted"
                                         }
                                     }
                                 ]
                             },
                             {
-                                "id": "SET",
-                                "name": "i",
-                                "value": {
-                                    "a": {
-                                        "id": "VARIABLE",
-                                        "name": "i"
+                                "id" : "SET",
+                                "name" : "i",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "i"
                                     },
-                                    "id": "+",
-                                    "b": 1
+                                    "id" : "+",
+                                    "b" : 1
                                 }
                             }
                         ]
                     },
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "a": {
-                                "a": "Sorted in ",
-                                "id": "+",
-                                "b": {
-                                    "a": {
-                                        "a": {
-                                            "a": {
-                                                "id": "TIME"
+                        "id" : "PRINT",
+                        "value" : {
+                            "a" : {
+                                "a" : "Sorted in ",
+                                "id" : "+",
+                                "b" : {
+                                    "a" : {
+                                        "a" : {
+                                            "a" : {
+                                                "id" : "TIME"
                                             },
-                                            "id": "-",
-                                            "b": {
-                                                "id": "VARIABLE",
-                                                "name": "timeElapsed"
+                                            "id" : "-",
+                                            "b" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "timeElapsed"
                                             }
                                         },
-                                        "id": "/",
-                                        "b": 1000
+                                        "id" : "/",
+                                        "b" : 1000
                                     },
-                                    "id": "+",
-                                    "b": " seconds: "
+                                    "id" : "+",
+                                    "b" : " seconds: "
                                 }
                             },
-                            "id": "+",
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "sorted"
+                            "id" : "+",
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "sorted"
                             }
                         }
                     }

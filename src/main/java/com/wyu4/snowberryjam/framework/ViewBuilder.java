@@ -1,5 +1,7 @@
 package com.wyu4.snowberryjam.framework;
 
+import com.wyu4.snowberryjam.codeutils.AutoComplete;
+import com.wyu4.snowberryjam.codeutils.Filter;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import javafx.application.Platform;
@@ -9,6 +11,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
@@ -64,6 +67,10 @@ public class ViewBuilder implements Builder<Region> {
         MenuItem saveAsFile = new MenuItem("Save As");
         MenuItem exit = new MenuItem("Exit");
 
+        Menu editCategory = new Menu("Edit");
+        MenuItem formatDocument = new MenuItem("Format Document");
+
+
         newFile.disableProperty().set(true);
         saveFile.disableProperty().bindBidirectional(model.getSaveDisabledProperty());
         saveAsFile.disableProperty().bindBidirectional(model.getSaveAsDisabledProperty());
@@ -71,9 +78,12 @@ public class ViewBuilder implements Builder<Region> {
         openFile.setOnAction(evt -> interactor.createOpenFileTask().run());
         exit.setOnAction(evt -> System.exit(0));
 
-        fileCategory.getItems().addAll(newFile, openFile, saveFile, saveAsFile, new SeparatorMenuItem(), exit);
+        formatDocument.setOnAction(evt -> interactor.createFormatCodeTask().run());
 
-        bar.getMenus().addAll(fileCategory);
+        fileCategory.getItems().addAll(newFile, openFile, saveFile, saveAsFile, new SeparatorMenuItem(), exit);
+        editCategory.getItems().addAll(formatDocument);
+
+        bar.getMenus().addAll(fileCategory, editCategory);
 
         return bar;
     }
@@ -177,7 +187,7 @@ public class ViewBuilder implements Builder<Region> {
     }
 
     public Node createCodeEditor() {
-        CodeArea area = new CodeArea();
+        CodeArea area = new CodeArea(LocalStorage.getDefaultSource());
         area.getStyleClass().add("editor");
         area.setParagraphGraphicFactory(LineNumberFactory.get(area));
 
@@ -187,13 +197,53 @@ public class ViewBuilder implements Builder<Region> {
             }
         });
 
-        
+        area.setOnKeyPressed(event -> {
+            if (Filter.isSpecialOperation(event)) {
+                return;
+            };
 
+            KeyCode keyCode = event.getCode();
+            if (keyCode.equals(KeyCode.TAB)) {
+                AutoComplete.formatIndent(area, event);
+            }
+        });
+
+        area.setOnKeyReleased(event -> {
+            if (Filter.isSpecialOperation(event)) {
+                return;
+            };
+
+            KeyCode keyCode = event.getCode();
+            if (
+                !keyCode.equals(KeyCode.SHIFT) &&
+                !keyCode.equals(KeyCode.ALT) &&
+                !keyCode.equals(KeyCode.CONTROL) &&
+                !keyCode.equals(KeyCode.TAB) &&
+                !keyCode.equals(KeyCode.CAPS) &&
+                !keyCode.equals(KeyCode.BACK_SPACE) &&
+                !keyCode.isArrowKey()
+            ) {
+                AutoComplete.fullfillPunctation(area);
+            }
+        });
+
+        area.setOnKeyPressed(event -> {
+            if (Filter.isSpecialOperation(event)) {
+                return;
+            };
+            
+            KeyCode keyCode = event.getCode();
+
+            if (keyCode.equals(KeyCode.ENTER)) {
+                AutoComplete.autoIndent(area);
+                return;
+            }
+        });
 
         area.replaceText(model.getSourceCode());
         model.getSourceCodeProperty().addListener((evt, old, source) -> {
             if (!source.equals(area.getText())) {
-                area.replaceText(source);
+                Platform.runLater(() -> area.replaceText(source));
             }
         });
 

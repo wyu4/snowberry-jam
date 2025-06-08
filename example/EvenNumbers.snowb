@@ -1,81 +1,81 @@
 {
-    "id": "PROJECT",
-    "name": "Even Numbers",
-    "description": "This is a concept of what a project could look like.",
-    "body": {
-        "variables": [
+    "id" : "PROJECT",
+    "name" : "Even Numbers",
+    "description" : "This is a concept of what a project could look like.",
+    "body" : {
+        "variables" : [
             {
-                "name": "counter",
-                "value": 0
+                "name" : "counter",
+                "value" : 0
             },
             {
-                "name": "maxNum",
-                "value": 100
+                "name" : "maxNum",
+                "value" : 100
             }
         ],
-        "events": [
+        "events" : [
             {
-                "id": "ON_RUN",
-                "body": [
+                "id" : "ON_RUN",
+                "body" : [
                     {
-                        "id": "PRINT",
-                        "value": {
-                            "a": "Now printing even numbers from 0 to ",
-                            "id": "+",
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "maxNum"
+                        "id" : "PRINT",
+                        "value" : {
+                            "a" : "Now printing even numbers from 0 to ",
+                            "id" : "+",
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "maxNum"
                             }
                         }
                     },
                     {
-                        "id": "WHILE",
-                        "value": {
-                            "a": {
-                                "id": "VARIABLE",
-                                "name": "counter"
+                        "id" : "WHILE",
+                        "value" : {
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "counter"
                             },
-                            "id": "<=",
-                            "b": {
-                                "id": "VARIABLE",
-                                "name": "maxNum"
+                            "id" : "<=",
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "maxNum"
                             }
                         },
-                        "body": [
+                        "body" : [
                             {
-                                "id": "IF",
-                                "value": {
-                                    "a": {
-                                        "a": {
-                                            "id": "VARIABLE",
-                                            "name": "counter"
+                                "id" : "IF",
+                                "value" : {
+                                    "a" : {
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "counter"
                                         },
-                                        "id": "%",
-                                        "b": 2
+                                        "id" : "%",
+                                        "b" : 2
                                     },
-                                    "id": "==",
-                                    "b": 0
+                                    "id" : "==",
+                                    "b" : 0
                                 },
-                                "body": [
+                                "body" : [
                                     {
-                                        "id": "PRINT",
-                                        "value": {
-                                            "id": "VARIABLE",
-                                            "name": "counter"
+                                        "id" : "PRINT",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "counter"
                                         }
                                     }
                                 ]
                             },
                             {
-                                "id": "SET",
-                                "name": "counter",
-                                "value": {
-                                    "a": {
-                                        "id": "VARIABLE",
-                                        "name": "counter"
+                                "id" : "SET",
+                                "name" : "counter",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "counter"
                                     },
-                                    "id": "+",
-                                    "b": 1
+                                    "id" : "+",
+                                    "b" : 1
                                 }
                             }
                         ]
