@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -39,9 +40,28 @@ public abstract class ResourceUtils {
     }
 
     public static String readFile(ResourceFile file) {
-        try {
-            return readFile(new File(getFullPathAsUrl(file).toURI()));
-        } catch (URISyntaxException e) {
+        String fromResources = file.toString();
+        try (InputStream inputStream = ResourceUtils.class.getResourceAsStream(fromResources)) {
+            if (inputStream == null) {
+                throw new IOException("\"" + fromResources + "\" was not found.");
+            }
+
+            // Read the content
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+                StringBuilder source = new StringBuilder();
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    source.append(line).append("\n");
+                }
+                int lastIndex = source.lastIndexOf("\n");
+                if (lastIndex != -1) {
+                    source.delete(lastIndex, lastIndex + 1);
+                }
+                return source.toString();
+            } catch (Exception e) {
+                throw new RuntimeException("Could not read \"" + fromResources + "\": " + e.getMessage());
+            }
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }

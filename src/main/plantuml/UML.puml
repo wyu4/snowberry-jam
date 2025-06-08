@@ -171,6 +171,7 @@ class com.wyu4.snowberryjam.framework.Interactor {
 - Stage stage
 + <<Create>> Interactor(Model,Stage)
 + Runnable createOpenFileTask()
++ Runnable createSetFileTask(File)
 + Runnable createCompileTask()
 + Runnable createCompileTask(Runnable)
 + Runnable createRunTask()
@@ -433,8 +434,10 @@ class com.wyu4.snowberryjam.compiler.data.tasks.Repeat {
 
 class com.wyu4.snowberryjam.framework.Controller {
 - Builder<Region> builder
+- Model model
+- Interactor interactor
 + <<Create>> Controller(Stage)
-+ <<Create>> Controller(Stage,File)
++ void updateFile(File)
 + Region getView()
 }
 

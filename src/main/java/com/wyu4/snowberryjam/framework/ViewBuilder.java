@@ -52,10 +52,6 @@ public class ViewBuilder implements Builder<Region> {
         body.setOrientation(Orientation.VERTICAL);
         root.setCenter(body);
 
-        if (model.getSourceFile() != null) {
-            interactor.createCompileTask().run();
-        }
-
         return root;
     }
 
@@ -73,17 +69,6 @@ public class ViewBuilder implements Builder<Region> {
         newFile.disableProperty().set(true);
         saveFile.disableProperty().bindBidirectional(model.getSaveDisabledProperty());
         saveAsFile.disableProperty().bindBidirectional(model.getSaveAsDisabledProperty());
-
-        Consumer<File> updateItems = file -> {
-            Platform.runLater(() -> {
-                model.getSaveDisabledProperty().set(file == null);
-                model.getSaveAsDisabledProperty().set(file == null);
-            });
-        };
-        updateItems.accept(model.getSourceFile());
-        model.getSourceFileProperty().addListener((evt, old, file) -> {
-            updateItems.accept(file);
-        });
 
         openFile.setOnAction(evt -> interactor.createOpenFileTask().run());
         exit.setOnAction(evt -> System.exit(0));

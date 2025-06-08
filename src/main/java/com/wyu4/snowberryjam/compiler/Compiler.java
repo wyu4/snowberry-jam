@@ -258,7 +258,7 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void error(Object error, Exception e) {
         logger.error(error.toString(), e);
-        ERROR_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(error.toString())));
+        ERROR_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(error.toString()) + "\n" + e.getMessage()));
     }
 
     /**

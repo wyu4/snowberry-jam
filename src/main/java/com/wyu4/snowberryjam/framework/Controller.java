@@ -12,28 +12,24 @@ import java.io.File;
  */
 public class Controller {
     private final Builder<Region> builder;
+    private final Model model;
+    private final Interactor interactor;
 
     /**
      * Create a new Controller
      * @param stage The primary {@link Stage} of the window
      */
     public Controller(Stage stage) {
-        this(stage, null);
+        this.model = new Model();
+        this.interactor = new Interactor(model, stage);
+        this.builder = new ViewBuilder(model, interactor);
     }
 
-    /**
-     * Create a new Controller
-     * @param file Source file to open
-     * @param stage The primary {@link Stage} of the window
-     */
-    public Controller(Stage stage, File file) {
-        Model model = new Model();
-        Interactor interactor = new Interactor(model, stage);
-        this.builder = new ViewBuilder(model, interactor);
+    public void updateFile(File file) {
         if (file == null) {
             model.getSourceCodeProperty().set(LocalStorage.getDefaultSource());
         } else {
-            model.getSourceFileProperty().set(file);
+            interactor.createSetFileTask(file).run();
         }
     }
 

@@ -12,6 +12,7 @@ import com.wyu4.snowberryjam.compiler.LocalStorage;
 
 import java.io.File;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 /**
  * The interactor of the MVCI framework.
@@ -30,6 +31,17 @@ public class Interactor {
     public Interactor(Model model, Stage stage) {
         this.model = model;
         this.stage = stage;
+
+        Consumer<File> updateItems = file -> {
+            Platform.runLater(() -> {
+                model.getSaveDisabledProperty().set(file == null);
+                model.getSaveAsDisabledProperty().set(file == null);
+            });
+        };
+        updateItems.accept(model.getSourceFile());
+        model.getSourceFileProperty().addListener((evt, old, file) -> {
+            updateItems.accept(file);
+        });
     }
 
     public Runnable createOpenFileTask() {
@@ -42,22 +54,24 @@ public class Interactor {
                 File file = fileChooser.showOpenDialog(stage);
 
                 if (file != null) {
-                    model.getSourceFileProperty().set(file);
-
-                    try {
-                        LocalStorage.flush();
-
-                        String source = ResourceUtils.readFile(file);
-
-                        model.getSourceCodeProperty().set(source);
-                        Compiler.print("Opened {}", file.getName());
-                    } catch (Exception e) {
-                        Compiler.error("Could not open file.", e);
-                    }
+                    createSetFileTask(file).run();
                 } else {
                     LocalStorage.warn("Cancelled file selection.");
                 }
             });
+        };
+    }
+
+    public Runnable createSetFileTask(File file) {
+        return () -> {
+            model.getSourceFileProperty().set(file);
+
+            try {
+                model.getSourceCodeProperty().set(ResourceUtils.readFile(file));
+                Compiler.print("Opened {}", file.getName());
+            } catch (Exception e) {
+                Compiler.error("Could not open file.", e);
+            }
         };
     }
 
@@ -74,6 +88,7 @@ public class Interactor {
             new Thread(() -> {
                 model.getCompilingProperty().setValue(true);
                 try {
+                    LocalStorage.flush();
                     String sourceCode = model.getSourceCode();
                     Compiler.print("Compiling...");
                     Compiler.compile(sourceCode);

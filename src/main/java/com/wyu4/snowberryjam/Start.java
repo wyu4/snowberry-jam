@@ -39,15 +39,18 @@ public class Start extends Application {
             logger.error("Could not set app icon.", e);
         }
 
-        Controller controller;
-
-        List<String> args = getParameters().getRaw();
-        if (!args.isEmpty() && args.getFirst() != null) {
-            File sourceFile = new File(args.getFirst());
-            logger.info("Opened: {}", sourceFile.getAbsolutePath());
-            controller = new Controller(stage, sourceFile);
-        } else {
-            controller = new Controller(stage);
+        Controller controller = new Controller(stage);
+        try {
+            List<String> args = getParameters().getRaw();
+            if (!args.isEmpty() && args.getFirst() != null) {
+                File sourceFile = new File(args.getFirst());
+                logger.info("Opened: {}", sourceFile.getAbsolutePath());
+                controller.updateFile(sourceFile);
+            } else {
+                controller.updateFile(null);
+            }
+        } catch (Exception e) {
+            logger.error("Could not set default source code.", e);
         }
 
         Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
@@ -70,37 +73,5 @@ public class Start extends Application {
             logger.info("Window closing...");
             System.exit(0);
         });
-
-//        File sourceFile = null;
-//
-//        List<String> args = getParameters().getRaw();
-//        if (!args.isEmpty() && args.getFirst() != null) {
-//            sourceFile = new File(args.getFirst());
-//            logger.info("Opened: {}", sourceFile.getAbsolutePath());
-//        } else {
-//            logger.info("Please open a file: ");
-//            FileChooser fileChooser = new FileChooser();
-//            fileChooser.setTitle("Select a Snowberry Jam Source File to run");
-//            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Snowberry Jam Source File (*.snowb)", "*.snowb"));
-//            File file = fileChooser.showOpenDialog(stage);
-//
-//            if (file != null) {
-//                sourceFile = file;
-//                logger.info("File opened from chooser: {}", sourceFile.getAbsolutePath());
-//            } else {
-//                logger.info("No file selected.");
-//                new Thread(() -> {
-//                    try {
-//                        Thread.sleep(2000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                    System.exit(0);
-//                }).start();
-//            }
-//        }
-//        if (sourceFile != null) {
-//            CompilerTest.test(sourceFile);
-//        }
     }
 }
