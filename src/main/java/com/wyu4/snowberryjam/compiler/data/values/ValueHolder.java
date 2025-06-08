@@ -2,13 +2,13 @@ package com.wyu4.snowberryjam.compiler.data.values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
-import com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex;
-import com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.*;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf;
+import com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex;
+import com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement;
 import com.wyu4.snowberryjam.compiler.data.values.math.*;
 import com.wyu4.snowberryjam.compiler.enums.EnumHelper;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;

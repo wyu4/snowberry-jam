@@ -1,17 +1,15 @@
 package com.wyu4.snowberryjam.framework;
 
 import com.wyu4.snowberryjam.ResourceUtils;
+import com.wyu4.snowberryjam.compiler.Compiler;
+import com.wyu4.snowberryjam.compiler.LocalStorage;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.wyu4.snowberryjam.compiler.Compiler;
-import com.wyu4.snowberryjam.compiler.LocalStorage;
-
 import java.io.File;
-import java.util.Scanner;
 import java.util.function.Consumer;
 
 /**
@@ -89,14 +87,17 @@ public class Interactor {
                 model.getCompilingProperty().setValue(true);
                 try {
                     LocalStorage.flush();
-                    String sourceCode = model.getSourceCode();
                     Compiler.print("Compiling...");
+                    String sourceCode = model.getSourceCode();
                     Compiler.compile(sourceCode);
                     Compiler.print("Done.");
-                    model.getBuiltSourceCodeProperty().set(sourceCode);
+                    Platform.runLater(() -> {
+                        model.getSourceCodeProperty().set(sourceCode);
+                        model.getBuiltSourceCodeProperty().set(sourceCode);
+                    });
                     callback.run();
                 } catch (Exception e) {
-                    Compiler.error("Error compiling.", e);
+                    Compiler.error("Error compiling:", e);
                 } finally {
                     model.getCompilingProperty().setValue(false);
                 }

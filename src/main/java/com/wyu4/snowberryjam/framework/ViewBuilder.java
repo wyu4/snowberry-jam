@@ -12,7 +12,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
-
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
@@ -21,7 +20,6 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
@@ -144,7 +142,7 @@ public class ViewBuilder implements Builder<Region> {
 
         LocalStorage.addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
         LocalStorage.addWarnListener((name, message) -> addLog.accept(createLog(name, message, Color.LIGHTYELLOW)));
-        Compiler.addErrorListener((name, message) -> addLog.accept(createLog(name, message, Color.ORANGE)));
+        LocalStorage.addErrorListener((name, message) -> addLog.accept(createLog(name, message, Color.MEDIUMVIOLETRED)));
 
         Compiler.addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
         Compiler.addWarnListener((name, message) -> addLog.accept(createLog(name, message, Color.YELLOW)));
@@ -180,6 +178,7 @@ public class ViewBuilder implements Builder<Region> {
 
     public Node createCodeEditor() {
         CodeArea area = new CodeArea();
+        area.getStyleClass().add("editor");
         area.setParagraphGraphicFactory(LineNumberFactory.get(area));
 
         area.textProperty().addListener((evt, old, source) -> {
@@ -187,6 +186,8 @@ public class ViewBuilder implements Builder<Region> {
                 model.getSourceCodeProperty().set(source);
             }
         });
+
+        
 
 
         area.replaceText(model.getSourceCode());

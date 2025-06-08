@@ -1,10 +1,10 @@
 package com.wyu4.snowberryjam.compiler.data.tasks;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
-import com.wyu4.snowberryjam.compiler.LocalStorage;
 
 /**
  * A variable setter statement. The name of the variable is stored as {@link SourceKey#NAME}, and the new value is stored as {@link SourceKey#VALUE}.

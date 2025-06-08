@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 /**
  * The Snowberry Jam compiler class
@@ -85,11 +84,7 @@ public abstract class Compiler extends LocalStorage {
             Object rawValue = asPrimitiveObject(valueNode);
             printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
 
-            try {
-                createVariable(variableName, rawValue);
-            } catch (IllegalStateException e) {
-                error("Could not create variable.", e);
-            }
+            createVariable(variableName, rawValue);
         });
     }
 
