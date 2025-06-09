@@ -71,6 +71,8 @@ class VariableListener {
                 type.set("Boolean");
             } else if (current instanceof Object[]) {
                 type.set("Array");
+            } else {
+                type.set("Unknown");
             }
         });
         try {
