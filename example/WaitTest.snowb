@@ -1,0 +1,27 @@
+{
+    "id" : "PROJECT",
+    "name" : "Wait Test",
+    "description" : "Tests the waiting task.",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "PRINT",
+                        "value" : "Hi"
+                    },
+                    {
+                        "id" : "WAIT",
+                        "value" : 2
+                    },
+                    {
+                        "id" : "PRINT",
+                        "value" : "Hi, two seconds later."
+                    }
+                ]
+            }
+        ]
+    }
+}

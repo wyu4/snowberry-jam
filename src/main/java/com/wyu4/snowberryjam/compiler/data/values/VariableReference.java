@@ -41,7 +41,11 @@ public class VariableReference extends ValueHolder{
      */
     @Override
     public Object getValue() {
-        return LocalStorage.getRaw(getName());
+        Object raw = LocalStorage.getRaw(getName());
+        if (raw instanceof Object[] parsed) {
+            return parsed.clone();
+        }
+        return raw;
     }
 
     @Override

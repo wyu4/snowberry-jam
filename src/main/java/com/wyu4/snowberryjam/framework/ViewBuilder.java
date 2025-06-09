@@ -4,29 +4,31 @@ import com.wyu4.snowberryjam.codeutils.AutoComplete;
 import com.wyu4.snowberryjam.codeutils.Filter;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+import com.wyu4.snowberryjam.framework.Model.Page;
+import com.wyu4.snowberryjam.framework.viewer.StackViewer;
+import com.wyu4.snowberryjam.framework.viewer.VariableViewer;
+
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.wellbehaved.event.EventPattern;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /**
@@ -52,7 +54,7 @@ public class ViewBuilder implements Builder<Region> {
         BorderPane root = new BorderPane();
         root.setTop(createMenuBar());
 
-        SplitPane body = new SplitPane(createCodeEditor(), createConsole());
+        SplitPane body = new SplitPane(createProjectWidget(), createConsole());
         body.setOrientation(Orientation.VERTICAL);
         root.setCenter(body);
 
@@ -90,6 +92,44 @@ public class ViewBuilder implements Builder<Region> {
         bar.getMenus().addAll(fileCategory, editCategory);
 
         return bar;
+    }
+
+    public Node createProjectWidget() {
+        BorderPane root = new BorderPane();
+
+        Node codeArea = createCodeEditor();
+        Node codeViewer = createCodeViewer();
+
+        Consumer<Page> updatepage = page -> {
+            Platform.runLater(() -> {
+                codeArea.setVisible(Page.EDITOR.equals(page));
+                codeViewer.setVisible(Page.VIEWER.equals(page));
+            });
+        };
+        updatepage.accept(model.getPage());
+        model.getPageProperty().addListener((evt, old, page) -> updatepage.accept(page));
+
+        HBox modeBar = new HBox(10);
+        modeBar.setPadding(new Insets(2, 10, 2, 10));
+        modeBar.setAlignment(Pos.CENTER);
+
+        Button editorButton = new Button();
+        Button viewerButton = new Button();
+
+        editorButton.setGraphic(new FontIcon(Feather.FILE_TEXT));
+        viewerButton.setGraphic(new FontIcon(Feather.EYE));
+
+        editorButton.setOnAction(evt -> model.getPageProperty().set(Page.EDITOR));
+        viewerButton.setOnAction(evt -> model.getPageProperty().set(Page.VIEWER));
+
+        modeBar.getChildren().addAll(editorButton, viewerButton);
+
+        StackPane center = new StackPane();
+        center.getChildren().addAll(codeArea, codeViewer);
+
+        root.setCenter(center);
+        root.setBottom(modeBar);
+        return root;
     }
 
     /**
@@ -189,6 +229,26 @@ public class ViewBuilder implements Builder<Region> {
         HBox.setHgrow(messageArea, Priority.NEVER);
 
         root.getChildren().addAll(sourceLabel, messageArea);
+
+        return root;
+    }
+
+    public Node createCodeViewer() {
+        final SplitPane root = new SplitPane();
+        root.setOrientation(Orientation.HORIZONTAL);
+
+        StackViewer mainViewer = new StackViewer();
+        final VariableViewer variableViewer = new VariableViewer();
+
+        model.getCompilingProperty().addListener((evt, old, compiling) -> {
+            if (compiling) {
+                return;
+            }
+
+            variableViewer.refresh();
+        });
+
+        root.getItems().addAll(mainViewer, variableViewer);
 
         return root;
     }

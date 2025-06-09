@@ -8,7 +8,12 @@ import java.io.File;
  * The model of the MVCI framework.
  */
 public class Model {
+    public enum Page {
+        EDITOR, VIEWER
+    }
+
     private final ObjectProperty<File> sourceFileProperty = new SimpleObjectProperty<>();
+    private final ObjectProperty<Page> pageProperty = new SimpleObjectProperty<>(Page.EDITOR);
 
     private final BooleanProperty saveDisabledProperty = new SimpleBooleanProperty(false);
     private final BooleanProperty saveAsDisabledProperty = new SimpleBooleanProperty(false);
@@ -23,6 +28,10 @@ public class Model {
 
     public ObjectProperty<File> getSourceFileProperty() {
         return sourceFileProperty;
+    }
+
+    public ObjectProperty<Page> getPageProperty() {
+        return pageProperty;
     }
 
     public BooleanProperty getSaveDisabledProperty() {
@@ -59,6 +68,10 @@ public class Model {
 
     public File getSourceFile() {
         return getSourceFileProperty().get();
+    }
+
+    public Page getPage() {
+        return getPageProperty().get();
     }
 
     public boolean getSaveDisabled() {

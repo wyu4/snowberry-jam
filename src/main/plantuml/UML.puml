@@ -141,6 +141,27 @@ class com.wyu4.snowberryjam.compiler.data.tasks.SetTask {
 }
 
 
+class com.wyu4.snowberryjam.framework.viewer.VariableViewer {
+- TableColumn<VariableListener,String> nameColumn
+- TableColumn<VariableListener,String> typeColumn
+- TableColumn<VariableListener,String> valueColumn
+- ObservableList<VariableListener> variables
++ <<Create>> VariableViewer()
++ void refresh()
+}
+
+
+class com.wyu4.snowberryjam.framework.viewer.VariableListener {
+- StringProperty name
+- StringProperty type
+- ObjectProperty<Object> value
++ <<Create>> VariableListener(String)
++ ObjectProperty<Object> getValueProperty()
++ StringProperty getTypeProperty()
++ StringProperty getNameProperty()
+}
+
+
 class com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder {
 + <<Create>> ArithmeticHolder(JsonNode)
 + <<Create>> ArithmeticHolder(ValueHolder,ValueHolder)
@@ -165,8 +186,12 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 - {static} List<BiConsumer<String,String>> PRINT_LISTENERS
 - {static} List<BiConsumer<String,String>> WARN_LISTENERS
 - {static} List<BiConsumer<String,String>> ERROR_LISTENERS
+- {static} HashMap<String,Consumer<Object>> VARIABLE_LISTENERS
++ {static} AtomicInteger pointer
 + {static} String getDefaultSource()
 + {static} Object getRaw(String)
++ {static} Set<String> getVariableNames()
++ {static} ExecutableTask[] copyStack()
 + {static} void flush()
 + {static} Thread createThread(Runnable)
 + {static} void setVariable(String,Object)
@@ -183,6 +208,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 + {static} void addPrintListener(BiConsumer<String,String>)
 + {static} void addWarnListener(BiConsumer<String,String>)
 + {static} void addErrorListener(BiConsumer<String,String>)
++ {static} void addVariableListener(String,Consumer<Object>)
 }
 
 
@@ -207,6 +233,15 @@ class com.wyu4.snowberryjam.framework.Interactor {
 + Runnable createCompileTask(Runnable)
 + Runnable createRunTask()
 + Runnable createFormatCodeTask()
+}
+
+
+class com.wyu4.snowberryjam.framework.viewer.StackViewer {
+- AtomicReference<ExecutableTask[]> tasks
++ <<Create>> StackViewer()
++ <<Create>> StackViewer(BodyStack)
++ void setStack(BodyStack)
++ void setStack(ExecutableTask[])
 }
 
 
@@ -261,6 +296,18 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Divide {
 + String toString()
 }
 
+class com.wyu4.snowberryjam.compiler.data.tasks.WaitTask {
+- {static} Logger logger
+- ValueHolder time
++ <<Create>> WaitTask(JsonNode)
++ void execute()
++ SourceId getId()
++ Object feedback()
+- long getTime()
++ String toString()
+}
+
+
 class com.wyu4.snowberryjam.framework.ViewBuilder {
 - {static} Logger logger
 - Model model
@@ -268,8 +315,10 @@ class com.wyu4.snowberryjam.framework.ViewBuilder {
 + <<Create>> ViewBuilder(Model,Interactor)
 + Region build()
 + Node createMenuBar()
++ Node createProjectWidget()
 + Node createConsole()
 + Node createLog(String,String,Color)
++ Node createCodeViewer()
 + Node createCodeEditor()
 }
 
@@ -312,6 +361,7 @@ class com.wyu4.snowberryjam.compiler.data.values.ValueHolder {
 
 class com.wyu4.snowberryjam.framework.Model {
 - ObjectProperty<File> sourceFileProperty
+- ObjectProperty<Page> pageProperty
 - BooleanProperty saveDisabledProperty
 - BooleanProperty saveAsDisabledProperty
 - BooleanProperty runDisabledProperty
@@ -321,6 +371,7 @@ class com.wyu4.snowberryjam.framework.Model {
 - StringProperty builtSourceCodeProperty
 - IntegerProperty logNumberProperty
 + ObjectProperty<File> getSourceFileProperty()
++ ObjectProperty<Page> getPageProperty()
 + BooleanProperty getSaveDisabledProperty()
 + BooleanProperty getSaveAsDisabledProperty()
 + BooleanProperty getRunDisabledProperty()
@@ -330,6 +381,7 @@ class com.wyu4.snowberryjam.framework.Model {
 + StringProperty getBuiltSourceCodeProperty()
 + IntegerProperty getLogNumberProperty()
 + File getSourceFile()
++ Page getPage()
 + boolean getSaveDisabled()
 + boolean getSaveAsDisabled()
 + boolean getRunDisabled()
@@ -340,6 +392,11 @@ class com.wyu4.snowberryjam.framework.Model {
 + int getLogNumber()
 }
 
+
+enum com.wyu4.snowberryjam.framework.Page {
++  EDITOR
++  VIEWER
+}
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder {
 + Object getValue()
@@ -473,6 +530,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  SIZE_OF
 +  TIME
 +  VARIABLE
++  WAIT
 +  WARN
 +  WHILE
 +  WITH_UPDATED_ELEMENT
@@ -586,12 +644,15 @@ com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberry
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Not
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.SetTask
+javafx.scene.control.TableView <|-- com.wyu4.snowberryjam.framework.viewer.VariableViewer
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Multiply
+javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.framework.viewer.StackViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.BodyStack
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Divide
+com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitTask
 javafx.util.Builder <|.. com.wyu4.snowberryjam.framework.ViewBuilder
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.VariableReference
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Plus

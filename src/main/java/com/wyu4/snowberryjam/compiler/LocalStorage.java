@@ -11,8 +11,11 @@ import org.slf4j.helpers.MessageFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 /**
  * This class stores and handles anything related to compiling and running a source file.
@@ -35,6 +38,10 @@ public abstract class LocalStorage {
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
 
+    private static final HashMap<String, Consumer<Object>> VARIABLE_LISTENERS = new HashMap<>();
+
+    public static final AtomicInteger pointer = new AtomicInteger(0);
+
     public static String getDefaultSource() {
         return ResourceUtils.readFile(ResourceUtils.ResourceFile.DEFAULT_SOURCE);
     }
@@ -52,6 +59,14 @@ public abstract class LocalStorage {
             throw new NullPointerException("No variable with the name \"" + name + "\" was found.");
         }
         return currentValue;
+    }
+
+    public static Set<String> getVariableNames() {
+        return VARIABLES.keySet();
+    }
+
+    public static ExecutableTask[] copyStack() {
+        return STACK.copyStack();
     }
 
     /**
@@ -88,6 +103,11 @@ public abstract class LocalStorage {
         Object currentValue = getRaw(name);
         if (currentValue.getClass().equals(newValue.getClass())) {
             VARIABLES_COPY.put(name, newValue);
+            
+            Consumer<Object> listener = VARIABLE_LISTENERS.get(name);
+            if (listener != null) {
+                listener.accept(newValue);
+            }
         }
     }
 
@@ -236,5 +256,9 @@ public abstract class LocalStorage {
      */
     public static void addErrorListener(BiConsumer<String, String> consumer) {
         ERROR_LISTENERS.add(consumer);
+    }
+
+    public static void addVariableListener(String name, Consumer<Object> consumer) {
+        VARIABLE_LISTENERS.put(name, consumer);
     }
 }

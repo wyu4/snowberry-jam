@@ -34,6 +34,7 @@ public enum SourceId {
     SIZE_OF("SIZE_OF"),
     TIME("TIME"),
     VARIABLE("VARIABLE"),
+    WAIT("WAIT"),
     WARN("WARN"),
     WHILE("WHILE"),
     WITH_UPDATED_ELEMENT("WITH_UPDATED_ELEMENT");

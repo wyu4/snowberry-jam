@@ -322,16 +322,9 @@
                                         ]
                                     },
                                     {
-                                        "id" : "SET",
                                         "name" : "j",
-                                        "value" : {
-                                            "a" : {
-                                                "id" : "VARIABLE",
-                                                "name" : "j"
-                                            },
-                                            "id" : "+",
-                                            "b" : 1
-                                        }
+                                        "id" : "+=",
+                                        "value" : 1
                                     }
                                 ]
                             },
@@ -352,16 +345,9 @@
                                 ]
                             },
                             {
-                                "id" : "SET",
                                 "name" : "i",
-                                "value" : {
-                                    "a" : {
-                                        "id" : "VARIABLE",
-                                        "name" : "i"
-                                    },
-                                    "id" : "+",
-                                    "b" : 1
-                                }
+                                "id" : "+=",
+                                "value" : 1
                             }
                         ]
                     },

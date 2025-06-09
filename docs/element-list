@@ -13,3 +13,4 @@ com.wyu4.snowberryjam.compiler.data.values.iteration
 com.wyu4.snowberryjam.compiler.data.values.math
 com.wyu4.snowberryjam.compiler.enums
 com.wyu4.snowberryjam.framework
+com.wyu4.snowberryjam.framework.viewer

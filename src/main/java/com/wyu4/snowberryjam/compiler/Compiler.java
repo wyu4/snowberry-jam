@@ -163,6 +163,7 @@ public abstract class Compiler extends LocalStorage {
                 case REPEAT -> task = new Repeat(node);
                 case INCREASE_MACRO -> task = new IncreaseMacro(node);
                 case DECREASE_MACRO -> task = new DecreaseMacro(node);
+                case WAIT -> task = new WaitTask(node);
                 default -> {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
                     task = new WarnTask("Unknown task \"" + id.toString() + "\"");
