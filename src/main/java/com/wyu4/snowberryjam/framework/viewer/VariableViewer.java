@@ -74,10 +74,10 @@ class VariableListener {
             }
         });
         try {
-            value.set(LocalStorage.getRaw(name));
+            Platform.runLater(() -> value.set(LocalStorage.getRaw(name)));
         } catch (NullPointerException ignore) {
         }
-        LocalStorage.addVariableListener(name, raw -> value.set(raw));
+        LocalStorage.addVariableListener(name, raw -> Platform.runLater(() -> value.set(raw)));
     }
 
     public ObjectProperty<Object> getValueProperty() {
