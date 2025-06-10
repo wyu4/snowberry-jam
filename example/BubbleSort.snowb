@@ -6,11 +6,7 @@
         "variables" : [
             {
                 "name" : "len",
-                "value" : 50
-            },
-            {
-                "name" : "debug",
-                "value" : false
+                "value" : 10
             },
             {
                 "name" : "arr",
@@ -53,28 +49,21 @@
                         },
                         "body" : [
                             {
-                                "id" : "SET",
                                 "name" : "arr",
+                                "id" : "+=",
                                 "value" : {
                                     "a" : {
-                                        "id" : "VARIABLE",
-                                        "name" : "arr"
-                                    },
-                                    "id" : "+",
-                                    "b" : {
+                                        "id" : "ROUND",
                                         "a" : {
-                                            "id" : "ROUND",
                                             "a" : {
-                                                "a" : {
-                                                    "id" : "RANDOM"
-                                                },
-                                                "id" : "*",
-                                                "b" : 10000
-                                            }
-                                        },
-                                        "id" : "/",
-                                        "b" : 100
-                                    }
+                                                "id" : "RANDOM"
+                                            },
+                                            "id" : "*",
+                                            "b" : 10000
+                                        }
+                                    },
+                                    "id" : "/",
+                                    "b" : 100
                                 }
                             }
                         ]
@@ -106,28 +95,11 @@
                         }
                     },
                     {
-                        "id" : "WHILE",
+                        "id" : "REPEAT",
+                        "name" : "i",
                         "value" : {
-                            "a" : {
-                                "a" : {
-                                    "id" : "VARIABLE",
-                                    "name" : "i"
-                                },
-                                "id" : "<",
-                                "b" : {
-                                    "a" : {
-                                        "id" : "VARIABLE",
-                                        "name" : "len"
-                                    },
-                                    "id" : "-",
-                                    "b" : 1
-                                }
-                            },
-                            "id" : "AND",
-                            "b" : {
-                                "id" : "VARIABLE",
-                                "name" : "swapped"
-                            }
+                            "id" : "VARIABLE",
+                            "name" : "len"
                         },
                         "body" : [
                             {
@@ -136,33 +108,22 @@
                                 "value" : false
                             },
                             {
-                                "id" : "SET",
+                                "id" : "REPEAT",
                                 "name" : "j",
-                                "value" : 0
-                            },
-                            {
-                                "id" : "WHILE",
                                 "value" : {
                                     "a" : {
-                                        "id" : "VARIABLE",
-                                        "name" : "j"
-                                    },
-                                    "id" : "<",
-                                    "b" : {
                                         "a" : {
-                                            "a" : {
-                                                "id" : "VARIABLE",
-                                                "name" : "len"
-                                            },
-                                            "id" : "-",
-                                            "b" : {
-                                                "id" : "VARIABLE",
-                                                "name" : "i"
-                                            }
+                                            "id" : "VARIABLE",
+                                            "name" : "len"
                                         },
                                         "id" : "-",
-                                        "b" : 1
-                                    }
+                                        "b" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "i"
+                                        }
+                                    },
+                                    "id" : "-",
+                                    "b" : 1
                                 },
                                 "body" : [
                                     {
@@ -211,55 +172,6 @@
                                                         "name" : "j"
                                                     }
                                                 }
-                                            },
-                                            {
-                                                "id" : "IF",
-                                                "value" : {
-                                                    "id" : "VARIABLE",
-                                                    "name" : "debug"
-                                                },
-                                                "body" : [
-                                                    {
-                                                        "id" : "PRINT",
-                                                        "value" : {
-                                                            "a" : "Swapping ",
-                                                            "id" : "+",
-                                                            "b" : {
-                                                                "a" : {
-                                                                    "id" : "ELEMENT_AT",
-                                                                    "a" : {
-                                                                        "id" : "VARIABLE",
-                                                                        "name" : "sorted"
-                                                                    },
-                                                                    "i" : {
-                                                                        "id" : "VARIABLE",
-                                                                        "name" : "j"
-                                                                    }
-                                                                },
-                                                                "id" : "+",
-                                                                "b" : {
-                                                                    "a" : " and ",
-                                                                    "id" : "+",
-                                                                    "b" : {
-                                                                        "id" : "ELEMENT_AT",
-                                                                        "a" : {
-                                                                            "id" : "VARIABLE",
-                                                                            "name" : "sorted"
-                                                                        },
-                                                                        "i" : {
-                                                                            "a" : {
-                                                                                "id" : "VARIABLE",
-                                                                                "name" : "j"
-                                                                            },
-                                                                            "id" : "+",
-                                                                            "b" : 1
-                                                                        }
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                ]
                                             },
                                             {
                                                 "id" : "SET",
@@ -320,34 +232,8 @@
                                                 "value" : true
                                             }
                                         ]
-                                    },
-                                    {
-                                        "name" : "j",
-                                        "id" : "+=",
-                                        "value" : 1
                                     }
                                 ]
-                            },
-                            {
-                                "id" : "IF",
-                                "value" : {
-                                    "id" : "VARIABLE",
-                                    "name" : "debug"
-                                },
-                                "body" : [
-                                    {
-                                        "id" : "PRINT",
-                                        "value" : {
-                                            "id" : "VARIABLE",
-                                            "name" : "sorted"
-                                        }
-                                    }
-                                ]
-                            },
-                            {
-                                "name" : "i",
-                                "id" : "+=",
-                                "value" : 1
                             }
                         ]
                     },

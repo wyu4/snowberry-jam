@@ -1,0 +1,68 @@
+{
+    "id" : "PROJECT",
+    "name" : "If Statements",
+    "description" : "Showcasing if statments and if-else statments, as well as the '==' condition",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "condition",
+                "value" : true
+            },
+            {
+                "name" : "myNumber",
+                "value" : 15
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "PRINT",
+                        "value" : "Print 1 if \"condition\" is true:"
+                    },
+                    {
+                        "id" : "IF",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "condition"
+                        },
+                        "body" : [
+                            {
+                                "id" : "PRINT",
+                                "value" : 1
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "PRINT",
+                        "value" : "Print \"yes\" if \"myString\" is equal to 15, otherwise print \"no\":"
+                    },
+                    {
+                        "id" : "IF_ELSE",
+                        "value" : {
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "myNumber"
+                            },
+                            "id" : "==",
+                            "b" : 15
+                        },
+                        "body" : [
+                            {
+                                "id" : "PRINT",
+                                "value" : "yes"
+                            }
+                        ],
+                        "else" : [
+                            {
+                                "id" : "PRINT",
+                                "value" : "no"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

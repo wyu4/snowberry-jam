@@ -55,6 +55,7 @@ public class ViewBuilder implements Builder<Region> {
 
         SplitPane body = new SplitPane(createProjectWidget(), createConsole());
         body.setOrientation(Orientation.VERTICAL);
+        body.setDividerPositions(1);
         root.setCenter(body);
 
         return root;
@@ -324,7 +325,6 @@ public class ViewBuilder implements Builder<Region> {
 
         area.setOnKeyTyped(event -> {
             String character = event.getCharacter();
-            System.out.println(character);
             if ("\t".equals(character)) {
                 AutoComplete.formatIndent(area);
             }

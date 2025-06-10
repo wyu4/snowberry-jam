@@ -40,6 +40,11 @@ public class VariableViewer extends TableView<VariableListener> {
         });
 
         setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
+        setEditable(false);
+
+        nameColumn.setResizable(false);
+        typeColumn.setResizable(false);
+        valueColumn.setResizable(false);
 
         nameColumn.prefWidthProperty().bind(widthProperty().multiply(0.2));
         typeColumn.prefWidthProperty().bind(widthProperty().multiply(0.2));

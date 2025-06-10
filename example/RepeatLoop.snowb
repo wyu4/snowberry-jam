@@ -1,0 +1,98 @@
+{
+    "id" : "PROJECT",
+    "name" : "Repeat Loop",
+    "description" : "Showcase the repeat loop, and its optional variable setting feature.",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "iterations",
+                "value" : 10
+            },
+            {
+                "name" : "myArray",
+                "value" : [
+                    "This",
+                    "is",
+                    "a",
+                    "secret",
+                    "message...",
+                    "1",
+                    "2",
+                    "3"
+                ]
+            },
+            {
+                "name" : "i",
+                "value" : 0
+            },
+            {
+                "name" : "stitched",
+                "value" : ""
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "REPEAT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "iterations"
+                        },
+                        "name" : "i",
+                        "body" : [
+                            {
+                                "id" : "PRINT",
+                                "value" : {
+                                    "a" : "Print statement #",
+                                    "id" : "+",
+                                    "b" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "i"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "REPEAT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "myArray"
+                        },
+                        "name" : "i",
+                        "body" : [
+                            {
+                                "name" : "stitched",
+                                "id" : "+=",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "ELEMENT_AT",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "myArray"
+                                        },
+                                        "i" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "i"
+                                        }
+                                    },
+                                    "id" : "+",
+                                    "b" : " "
+                                }
+                            },
+                            {
+                                "id" : "PRINT",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "stitched"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

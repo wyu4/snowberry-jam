@@ -41,7 +41,7 @@ public class ArrayHolder extends InteractiveValueHolder {
     protected int getValidIndex() {
         Class<?> type = i.getType();
         if (!type.equals(Double.class)) {
-            throw new IllegalArgumentException("Argument \"b\" %s (%s) is not a number.".formatted(getB().getString(), type.getCanonicalName()));
+            throw new IllegalArgumentException("Argument \"i\" %s (%s) is not a number.".formatted(getI().getString(), type.getCanonicalName()));
         }
 
         return (int) Math.round((double) getI().getValue());
@@ -49,6 +49,6 @@ public class ArrayHolder extends InteractiveValueHolder {
 
     @Override
     public String toString() {
-        return "default unset array holder with parameters %s, %s and %s".formatted(getA(), getB(), getI());
+        return "default unset array holder with parameters A: %s, B: %s and I: %s".formatted(getA(), getB(), getI());
     }
 }

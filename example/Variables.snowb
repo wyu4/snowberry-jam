@@ -1,0 +1,59 @@
+{
+    "id" : "PROJECT",
+    "name" : "Variables",
+    "description" : "Sets and prints variables.",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "myVar",
+                "value" : "Hello"
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "PRINT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "myVar"
+                        }
+                    },
+                    {
+                        "id": "WAIT",
+                        "value": 1
+                    },
+                    {
+                        "id" : "SET",
+                        "name" : "myVar",
+                        "value" : "This is the new value."
+                    },
+                    {
+                        "id" : "PRINT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "myVar"
+                        }
+                    },
+                    {
+                        "id": "WAIT",
+                        "value": 1
+                    },
+                    {
+                        "id" : "SET",
+                        "name" : "myVar",
+                        "value" : 10
+                    },
+                    {
+                        "id" : "PRINT",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "myVar"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

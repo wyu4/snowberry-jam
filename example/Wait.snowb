@@ -1,7 +1,7 @@
 {
     "id" : "PROJECT",
-    "name" : "Wait Test",
-    "description" : "Tests the waiting task.",
+    "name" : "Wait",
+    "description" : "Showcases the wait task.",
     "body" : {
         "variables" : [ ],
         "events" : [
@@ -10,15 +10,15 @@
                 "body" : [
                     {
                         "id" : "PRINT",
-                        "value" : "Hi"
+                        "value" : "Something will print in one second."
                     },
                     {
                         "id" : "WAIT",
-                        "value" : 2
+                        "value" : 1
                     },
                     {
                         "id" : "PRINT",
-                        "value" : "Hi, two seconds later."
+                        "value" : "Hello, one second later!"
                     }
                 ]
             }

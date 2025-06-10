@@ -100,14 +100,18 @@ public abstract class LocalStorage {
      * @see #createVariable(String, Object)
      */
     public static void setVariable(String name, Object newValue) throws NullPointerException {
-        Object currentValue = getRaw(name);
-        if (currentValue.getClass().equals(newValue.getClass())) {
-            VARIABLES_COPY.put(name, newValue);
+        if (newValue instanceof Number parsed) {
+            newValue = parsed.doubleValue();
+        }
+
+        if (!VARIABLES_COPY.containsKey(name)) {
+            throw new NullPointerException("Variable \"%s\" was never created.".formatted(name));
+        }
+        VARIABLES_COPY.put(name, newValue);
             
-            Consumer<Object> listener = VARIABLE_LISTENERS.get(name);
-            if (listener != null) {
-                listener.accept(newValue);
-            }
+        Consumer<Object> listener = VARIABLE_LISTENERS.get(name);
+        if (listener != null) {
+            listener.accept(newValue);
         }
     }
 

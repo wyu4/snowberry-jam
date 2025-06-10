@@ -1,0 +1,19 @@
+{
+    "id" : "PROJECT",
+    "name" : "Hello World",
+    "description" : "Prints hello world.",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "PRINT",
+                        "value" : "Hello World!"
+                    }
+                ]
+            }
+        ]
+    }
+}

@@ -110,6 +110,9 @@ public class ValueHolder {
      * @param value The value to point towards. Type should be compatible with the compiler.
      */
     public ValueHolder(Object value) {
+        if (value instanceof Number parsed) {
+            value = parsed.doubleValue();
+        }
         this.value = value;
     }
 
