@@ -10,6 +10,7 @@ import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.*;
 import com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro;
 import com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro;
+import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.EnumHelper;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -27,16 +28,16 @@ import java.util.function.BiConsumer;
  */
 public abstract class Compiler extends LocalStorage {
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
-    private static final List<BiConsumer<String, String>> PRINT_LISTENERS =  new ArrayList<>();
-    private static final List<BiConsumer<String, String>> WARN_LISTENERS =  new ArrayList<>();
-    private static final List<BiConsumer<String, String>> ERROR_LISTENERS =  new ArrayList<>();
+    private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
+    private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
+    private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
 
     public static String formatString(String str) {
         try {
             ObjectMapper mapper = new ObjectMapper();
             DefaultPrettyPrinter printer = new DefaultPrettyPrinter();
             DefaultIndenter indenter = new DefaultIndenter("    ", System.lineSeparator());
-            
+
             printer.indentArraysWith(indenter);
             printer.indentObjectsWith(indenter);
 
@@ -52,9 +53,11 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Creates a {@link JsonNode} tree from a JSON {@link String}
+     * 
      * @param source JSON source code as a string
      * @return A JsonNode representation of the string
-     * @throws JsonProcessingException Any exceptions that arise while mapping the contents of the string
+     * @throws JsonProcessingException Any exceptions that arise while mapping the
+     *                                 contents of the string
      * @see #compile(String)
      */
     private static JsonNode getTree(String source) throws JsonProcessingException {
@@ -64,27 +67,38 @@ public abstract class Compiler extends LocalStorage {
     }
 
     /**
-     * Compile the JSON contents of a {@link String}. Starts by creating a tree, maps project data, maps variables, and then compiles events.
+     * Compile the JSON contents of a {@link String}. Starts by creating a tree,
+     * maps project data, maps variables, and then compiles events.
+     * 
      * @param source JSON source code as a string
-     * @throws JsonProcessingException Any exceptions that arise while mapping the contents of the string
+     * @throws JsonProcessingException Any exceptions that arise while mapping the
+     *                                 contents of the string
      * @see #getTree(String)
      * @see #mapProjectData(JsonNode)
-     * @see #mapProjectVariables(JsonNode) 
-     * @see #compileEvents(JsonNode) 
+     * @see #mapProjectVariables(JsonNode)
+     * @see #compileEvents(JsonNode)
      */
     public static void compile(String source) throws JsonMappingException, JsonProcessingException {
-        JsonNode tree = getTree(source);
-        mapProjectData(tree);
-        JsonNode projectBody = tree.get(SourceKey.BODY.toString());
-        if (projectBody == null) {
-            throw JsonMappingException.fromUnexpectedIOE(new IOException("Could not find the project body."));
+        try {
+            JsonNode tree = getTree(source);
+            mapProjectData(tree);
+            JsonNode projectBody = tree.get(SourceKey.BODY.toString());
+            if (projectBody == null) {
+                throw JsonMappingException.fromUnexpectedIOE(new IOException("Could not find the project body."));
+            }
+            print("Mapping variables...");
+            mapProjectVariables(projectBody);
+            print("Mapping tasks...");
+            compileEvents(projectBody);
+        } catch (Exception e) {
+            error("Could not compile.", e);
         }
-        mapProjectVariables(projectBody);
-        compileEvents(projectBody);
     }
 
     /**
-     * Map the project data. THis includes any metadata such as the project name and description.
+     * Map the project data. THis includes any metadata such as the project name and
+     * description.
+     * 
      * @param tree The full project tree
      */
     private static void mapProjectData(JsonNode tree) {
@@ -95,13 +109,15 @@ public abstract class Compiler extends LocalStorage {
     }
 
     /**
-     * Maps/stores all the variables found in the project's body. This only includes variable initialization in the {@code "variables":[]} section. This uses protected methods in {@link LocalStorage}
+     * Maps/stores all the variables found in the project's body. This only includes
+     * variable initialization in the {@code "variables":[]} section. This uses
+     * protected methods in {@link LocalStorage}
+     * 
      * @param projectBody The body of the project
      * @see #createVariable(String, Object)
      */
     private static void mapProjectVariables(JsonNode projectBody) {
         JsonNode projectVariables = projectBody.get(SourceKey.VARIABLES.toString());
-        print("Mapping variables...");
         projectVariables.elements().forEachRemaining((projectVariable) -> {
             String variableName = projectVariable.get(SourceKey.NAME.toString()).asText();
             JsonNode valueNode = projectVariable.get(SourceKey.VALUE.toString());
@@ -117,7 +133,10 @@ public abstract class Compiler extends LocalStorage {
     }
 
     /**
-     * Compiles and stores all the events found in the {@code "events":[]} section in the project body to stacks, and subsequently converts compiles bodies to stacks. This uses protected methods in {@link LocalStorage}
+     * Compiles and stores all the events found in the {@code "events":[]} section
+     * in the project body to stacks, and subsequently converts compiles bodies to
+     * stacks. This uses protected methods in {@link LocalStorage}
+     * 
      * @param projectBody The body of the project
      * @see #stackAdd(ExecutableTask)
      * @see #compileBody(JsonNode, BodyStack)
@@ -136,8 +155,10 @@ public abstract class Compiler extends LocalStorage {
     }
 
     /**
-     * Converts the contents of any {@code "body":[]} property into tasks, and stores them in a {@link BodyStack}.
-     * @param body The selected body to compile
+     * Converts the contents of any {@code "body":[]} property into tasks, and
+     * stores them in a {@link BodyStack}.
+     * 
+     * @param body  The selected body to compile
      * @param stack The stack to store compile tasks
      * @see BodyStack
      * @see ExecutableTask
@@ -149,26 +170,36 @@ public abstract class Compiler extends LocalStorage {
         body.elements().forEachRemaining((node) -> {
             ExecutableTask task;
 
-            SourceId id = EnumHelper.stringToId(getId(node));
-            if (id == null) {
-                return;
-            }
+            if (node.isValueNode()) {
+                task = new PrintTask(node.asText());
+            } else {
+                SourceId id = EnumHelper.stringToId(getId(node));
+                if (id == null) {
+                    return;
+                }
 
-            switch (id) {
-                case PRINT -> task = new PrintTask(node);
-                case SET -> task = new SetTask(node);
-                case IF -> task = new IfTask(node);
-                case IF_ELSE -> task = new IfElseTask(node);
-                case WHILE -> task = new WhileTask(node);
-                case REPEAT -> task = new Repeat(node);
-                case INCREASE_MACRO -> task = new IncreaseMacro(node);
-                case DECREASE_MACRO -> task = new DecreaseMacro(node);
-                case WAIT -> task = new WaitTask(node);
-                default -> {
-                    warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
-                    task = new WarnTask("Unknown task \"" + id.toString() + "\"");
+                switch (id) {
+                    case PRINT -> task = new PrintTask(node);
+                    case SET -> task = new SetTask(node);
+                    case IF -> task = new IfTask(node);
+                    case IF_ELSE -> task = new IfElseTask(node);
+                    case WHILE -> task = new WhileTask(node);
+                    case REPEAT -> task = new Repeat(node);
+                    case INCREASE_MACRO -> task = new IncreaseMacro(node);
+                    case DECREASE_MACRO -> task = new DecreaseMacro(node);
+                    case WAIT -> task = new WaitTask(node);
+                    default -> {
+                        try {
+                            task = new PrintTask(ValueHolder.fromNode(node));
+                        } catch (Exception ignore) {
+                            warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
+                            task = new WarnTask("Skipping unknown task \"" + id.toString() + "\"");
+                        }
+                    }
                 }
             }
+
+            printTab(task.getId());
 
             stack.addTask(task);
         });
@@ -176,9 +207,11 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Grabs the value of a property given the key. Used by more specific methods.
+     * 
      * @param node A node
-     * @param key The key
-     * @return The value of the property as a string. May be {@code null} if the property isn't found.
+     * @param key  The key
+     * @return The value of the property as a string. May be {@code null} if the
+     *         property isn't found.
      * @see #getId(JsonNode)
      * @see #getName(JsonNode)
      */
@@ -192,8 +225,10 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Grabs the ID of the node
+     * 
      * @param node A node
-     * @return The ID as a string. User helper methods to convert this into its respective {@link Enum}. May be {@code null} if the ID isn't found.
+     * @return The ID as a string. User helper methods to convert this into its
+     *         respective {@link Enum}. May be {@code null} if the ID isn't found.
      * @see EnumHelper#stringToId(String)
      */
     public static String getId(JsonNode node) {
@@ -202,6 +237,7 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Grabs the name of the node
+     * 
      * @param node A node
      * @return The name as a string. May be {@code null} if the name isn't found.
      */
@@ -211,8 +247,11 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Get a node as a primitive object
+     * 
      * @param node A node
-     * @return A {@link Double}, {@link String}, {@link Boolean}, or {@code Array} parsed as an {@link Object}. Might return {@code null} if the node isn't primitive.
+     * @return A {@link Double}, {@link String}, {@link Boolean}, or {@code Array}
+     *         parsed as an {@link Object}. Might return {@code null} if the node
+     *         isn't primitive.
      */
     public static Object asPrimitiveObject(JsonNode node) {
         if (node.isNumber()) {
@@ -234,8 +273,10 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Send a print statement to the development console.
-     * @param message Message to send (arguments can be inserted by adding "{}" in the message).
-     * @param args Arguments to append in the message
+     * 
+     * @param message Message to send (arguments can be inserted by adding "{}" in
+     *                the message).
+     * @param args    Arguments to append in the message
      * @see #printTab(Object, Object...)
      * @see #error(Object)
      * @see #error(Object, Exception)
@@ -247,9 +288,12 @@ public abstract class Compiler extends LocalStorage {
     }
 
     /**
-     * Send a print statement to the development console. Messages send using this are inlined.
-     * @param message Message to send (arguments can be inserted by adding "{}" in the message).
-     * @param args Arguments to append in the message
+     * Send a print statement to the development console. Messages send using this
+     * are inlined.
+     * 
+     * @param message Message to send (arguments can be inserted by adding "{}" in
+     *                the message).
+     * @param args    Arguments to append in the message
      * @see #print(Object, Object...)
      * @see #error(Object)
      * @see #error(Object, Exception)
@@ -262,7 +306,9 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Send an error statement to the development console.
-     * @param error Message to send (arguments can be inserted by adding "{}" in the message).
+     * 
+     * @param error Message to send (arguments can be inserted by adding "{}" in the
+     *              message).
      * @see #print(Object, Object...)
      * @see #printTab(Object, Object...)
      * @see #error(Object, Exception)
@@ -275,8 +321,9 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Send an error statement and stack trace to the development console.
+     * 
      * @param error Error to send
-     * @param e Exception to send (used to print stack trace)
+     * @param e     Exception to send (used to print stack trace)
      * @see #print(Object, Object...)
      * @see #printTab(Object, Object...)
      * @see #error(Object)
@@ -284,13 +331,16 @@ public abstract class Compiler extends LocalStorage {
      */
     public static void error(Object error, Exception e) {
         logger.error(error.toString(), e);
-        ERROR_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(error.toString()) + "\n" + e.getMessage()));
+        ERROR_LISTENERS.forEach(
+                consumer -> consumer.accept(logger.getName(), formatMessage(error.toString()) + "\n" + e.getMessage()));
     }
 
     /**
      * Send a warning statement to the development console.
-     * @param message Warning to send (arguments can be inserted by adding "{}" in the message).
-     * @param args Arguments to append in the message
+     * 
+     * @param message Warning to send (arguments can be inserted by adding "{}" in
+     *                the message).
+     * @param args    Arguments to append in the message
      * @see #print(Object, Object...)
      * @see #printTab(Object, Object...)
      * @see #error(Object)
@@ -303,6 +353,7 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Add a print listener
+     * 
      * @param consumer Consumer to run when something is printed
      * @see #print(Object, Object...)
      */
@@ -312,6 +363,7 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Add a warn listener
+     * 
      * @param consumer Consumer to run when something is warned
      * @see #warn(Object, Object...)
      */
@@ -321,6 +373,7 @@ public abstract class Compiler extends LocalStorage {
 
     /**
      * Add a error listener
+     * 
      * @param consumer Consumer to run when something is errored
      * @see #warn(Object, Object...)
      */

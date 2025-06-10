@@ -5,15 +5,252 @@
     "body" : {
         "variables" : [
             {
-                "name": "input",
-                "value": ""
+                "name" : "input",
+                "value" : ""
+            },
+            {
+                "name" : "lastInput",
+                "value" : ""
+            },
+            {
+                "name" : "computer",
+                "value" : 0
             }
         ],
         "events" : [
             {
                 "id" : "ON_RUN",
                 "body" : [
-                    
+                    "Welcome!",
+                    {
+                        "id" : "WAIT",
+                        "value" : 1
+                    },
+                    {
+                        "id" : "WHILE",
+                        "value" : {
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "input"
+                            },
+                            "id" : "!=",
+                            "b" : "e"
+                        },
+                        "body" : [
+                            "-------------------------------------\nChoose:\nRock: 'r'\nPaper: 'p'\nScissors: 's'\nExit: 'e'",
+                            {
+                                "id" : "SET",
+                                "name" : "input",
+                                "value" : {
+                                    "id" : "INPUT"
+                                }
+                            },
+                            {
+                                "id" : "IF_ELSE",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "input"
+                                    },
+                                    "id" : "==",
+                                    "b" : ""
+                                },
+                                "body" : [
+                                    {
+                                        "id" : "SET",
+                                        "name" : "input",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "lastInput"
+                                        }
+                                    }
+                                ],
+                                "else" : [
+                                    {
+                                        "id" : "SET",
+                                        "name" : "lastInput",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "input"
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "computer",
+                                "value" : {
+                                    "id" : "ROUND",
+                                    "a" : {
+                                        "a" : {
+                                            "id" : "RANDOM"
+                                        },
+                                        "id" : "*",
+                                        "b" : 2
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "IF_ELSE",
+                                "value" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "input"
+                                    },
+                                    "id" : "==",
+                                    "b" : "r"
+                                },
+                                "body" : [
+                                    {
+                                        "id" : "IF_ELSE",
+                                        "value" : {
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "computer"
+                                            },
+                                            "id" : "==",
+                                            "b" : 0
+                                        },
+                                        "body" : [
+                                            "You tied! (You and computer chose rock...)"
+                                        ],
+                                        "else" : [
+                                            {
+                                                "id" : "IF_ELSE",
+                                                "value" : {
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "computer"
+                                                    },
+                                                    "id" : "==",
+                                                    "b" : 1
+                                                },
+                                                "body" : [
+                                                    "You lost! (You chose rock and computer chose paper...)"
+                                                ],
+                                                "else" : [
+                                                    "You won! (You chose rock and computer chose scissors!)"
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    "Input anything to continue.",
+                                    {
+                                        "id" : "INPUT"
+                                    }
+                                ],
+                                "else" : [
+                                    {
+                                        "id" : "IF_ELSE",
+                                        "value" : {
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "input"
+                                            },
+                                            "id" : "==",
+                                            "b" : "p"
+                                        },
+                                        "body" : [
+                                            {
+                                                "id" : "IF_ELSE",
+                                                "value" : {
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "computer"
+                                                    },
+                                                    "id" : "==",
+                                                    "b" : 0
+                                                },
+                                                "body" : [
+                                                    "You won! (You chose paper and computer chose rock!)"
+                                                ],
+                                                "else" : [
+                                                    {
+                                                        "id" : "IF_ELSE",
+                                                        "value" : {
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "computer"
+                                                            },
+                                                            "id" : "==",
+                                                            "b" : 1
+                                                        },
+                                                        "body" : [
+                                                            "You tied! (You and computer chose paper...)"
+                                                        ],
+                                                        "else" : [
+                                                            "You lost! (You chose paper and computer chose scissors...)"
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            "Input anything to continue.",
+                                            {
+                                                "id" : "INPUT"
+                                            }
+                                        ],
+                                        "else" : [
+                                            {
+                                                "id" : "IF_ELSE",
+                                                "value" : {
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "input"
+                                                    },
+                                                    "id" : "==",
+                                                    "b" : "s"
+                                                },
+                                                "body" : [
+                                                    {
+                                                        "id" : "IF_ELSE",
+                                                        "value" : {
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "computer"
+                                                            },
+                                                            "id" : "==",
+                                                            "b" : 0
+                                                        },
+                                                        "body" : [
+                                                            "You lost! (You chose scissors and computer chose rock...)"
+                                                        ],
+                                                        "else" : [
+                                                            {
+                                                                "id" : "IF_ELSE",
+                                                                "value" : {
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "computer"
+                                                                    },
+                                                                    "id" : "==",
+                                                                    "b" : 1
+                                                                },
+                                                                "body" : [
+                                                                    "You won! (You chose scissors and computer chose paper!)"
+                                                                ],
+                                                                "else" : [
+                                                                    "You tied! (You and computer chose scissors...)"
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    "Input anything to continue.",
+                                                    {
+                                                        "id" : "INPUT"
+                                                    }
+                                                ],
+                                                "else" : [ ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "PRINT",
+                        "value" : "-------------------------------------\nBye bye!"
+                    }
                 ]
             }
         ]

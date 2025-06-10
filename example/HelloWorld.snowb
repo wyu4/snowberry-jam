@@ -8,10 +8,7 @@
             {
                 "id" : "ON_RUN",
                 "body" : [
-                    {
-                        "id" : "PRINT",
-                        "value" : "Hello World!"
-                    }
+                    "Hello World!"
                 ]
             }
         ]

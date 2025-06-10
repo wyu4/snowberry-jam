@@ -19,12 +19,9 @@ public class Input extends ValueHolder implements Releasable {
 
     @Override
     public Object getValue() {
-        if (input.get() == null) {
-            final CompletableFuture<String> await = new CompletableFuture<>();
-            LocalStorage.addInputSubscription(await::complete);
-            input.set(await.join());
-        }
-        return input.get();
+        final CompletableFuture<String> await = new CompletableFuture<>();
+        LocalStorage.addInputSubscription(await::complete);
+        return await.join();
     }
 
     public void release() {

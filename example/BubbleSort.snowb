@@ -77,14 +77,11 @@
                         }
                     },
                     {
-                        "id" : "PRINT",
-                        "value" : {
-                            "a" : "Sorting: ",
-                            "id" : "+",
-                            "b" : {
-                                "id" : "VARIABLE",
-                                "name" : "arr"
-                            }
+                        "a" : "Sorting: ",
+                        "id" : "+",
+                        "b" : {
+                            "id" : "VARIABLE",
+                            "name" : "arr"
                         }
                     },
                     {
@@ -238,35 +235,32 @@
                         ]
                     },
                     {
-                        "id" : "PRINT",
-                        "value" : {
-                            "a" : {
-                                "a" : "Sorted in ",
-                                "id" : "+",
-                                "b" : {
-                                    "a" : {
-                                        "a" : {
-                                            "a" : {
-                                                "id" : "TIME"
-                                            },
-                                            "id" : "-",
-                                            "b" : {
-                                                "id" : "VARIABLE",
-                                                "name" : "timeElapsed"
-                                            }
-                                        },
-                                        "id" : "/",
-                                        "b" : 1000
-                                    },
-                                    "id" : "+",
-                                    "b" : " seconds: "
-                                }
-                            },
+                        "a" : {
+                            "a" : "Sorted in ",
                             "id" : "+",
                             "b" : {
-                                "id" : "VARIABLE",
-                                "name" : "sorted"
+                                "a" : {
+                                    "a" : {
+                                        "a" : {
+                                            "id" : "TIME"
+                                        },
+                                        "id" : "-",
+                                        "b" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "timeElapsed"
+                                        }
+                                    },
+                                    "id" : "/",
+                                    "b" : 1000
+                                },
+                                "id" : "+",
+                                "b" : " seconds: "
                             }
+                        },
+                        "id" : "+",
+                        "b" : {
+                            "id" : "VARIABLE",
+                            "name" : "sorted"
                         }
                     }
                 ]
