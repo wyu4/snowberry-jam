@@ -3,6 +3,7 @@ package com.wyu4.snowberryjam.compiler;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
+import com.wyu4.snowberryjam.compiler.data.values.Releasable;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +23,12 @@ import java.util.function.Consumer;
  */
 public abstract class LocalStorage {
     private static Logger logger = null;
+    private static final Logger inputLogger = LoggerFactory.getLogger("Input");
 
     /** Stores variables */
     private static final HashMap<String, Object> VARIABLES = new HashMap<>();
     private static final HashMap<String, Object> VARIABLES_COPY = new HashMap<>();
+    private static final List<Releasable> RELEASABLES = new ArrayList<>();
 
     /** Stores threads */
     private static final List<Thread> THREADS = new ArrayList<>();
@@ -37,6 +40,8 @@ public abstract class LocalStorage {
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
+
+    private static final List<Consumer<String>> INPUT_LISTENERS = new ArrayList<>();
 
     private static final HashMap<String, Consumer<Object>> VARIABLE_LISTENERS = new HashMap<>();
 
@@ -79,6 +84,12 @@ public abstract class LocalStorage {
         VARIABLES.clear();
         VARIABLES_COPY.clear();
         THREADS.clear();
+
+        INPUT_LISTENERS.forEach(consumer -> consumer.accept(null));
+        INPUT_LISTENERS.clear();
+        
+        RELEASABLES.forEach(Releasable::release);
+        RELEASABLES.clear();
     }
 
     /**
@@ -121,6 +132,7 @@ public abstract class LocalStorage {
      */
     public static void runStack() {
         VARIABLES_COPY.putAll(VARIABLES);
+        RELEASABLES.forEach(Releasable::release);
         print("-----------------------------");
 
         STACK.execute();
@@ -175,6 +187,13 @@ public abstract class LocalStorage {
             logger = LoggerFactory.getLogger(NAME.get());
         }
         return logger;
+    }
+
+    public static void sendInput(String input) {
+        inputLogger.info(input);
+        PRINT_LISTENERS.forEach(consumer -> consumer.accept("INPUT", input));
+        INPUT_LISTENERS.forEach(consumer -> consumer.accept(input));
+        INPUT_LISTENERS.clear();
     }
 
     /**
@@ -264,5 +283,13 @@ public abstract class LocalStorage {
 
     public static void addVariableListener(String name, Consumer<Object> consumer) {
         VARIABLE_LISTENERS.put(name, consumer);
+    }
+
+    public static void addInputSubscription(Consumer<String> consumer) {
+        INPUT_LISTENERS.add(consumer);
+    }
+
+    public static void addReleasable(Releasable releaseable) {
+        RELEASABLES.add(releaseable);
     }
 }

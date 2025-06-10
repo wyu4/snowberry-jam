@@ -1,0 +1,33 @@
+{
+    "id" : "PROJECT",
+    "name" : "Unnamed",
+    "description" : "No description",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "PRINT",
+                        "value" : "Input something:"
+                    },
+                    {
+                        "id" : "PRINT",
+                        "value" : {
+                            "a" : "The user inputted \"",
+                            "id" : "+",
+                            "b" : {
+                                "a" : {
+                                    "id" : "INPUT"
+                                },
+                                "id" : "+",
+                                "b" : "\"."
+                            }
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

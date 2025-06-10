@@ -15,6 +15,7 @@ public enum SourceId {
     IF("IF"),
     IF_ELSE("IF_ELSE"),
     INCREASE_MACRO("+="),
+    INPUT("INPUT"),
     LESS_THAN("<"),
     LESS_OR_EQUAL_TO("<="),
     ON_RUN("ON_RUN"),

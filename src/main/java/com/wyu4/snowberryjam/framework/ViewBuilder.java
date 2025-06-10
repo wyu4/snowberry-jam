@@ -9,12 +9,15 @@ import com.wyu4.snowberryjam.framework.viewer.StackViewer;
 import com.wyu4.snowberryjam.framework.viewer.VariableViewer;
 
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -86,7 +89,7 @@ public class ViewBuilder implements Builder<Region> {
         openFile.setOnAction(evt -> interactor.createOpenFileTask().run());
         saveFile.setOnAction(evt -> interactor.createSaveFileTask().run());
         saveAsFile.setOnAction(evt -> interactor.createSaveAsFileTask().run());
-        exit.setOnAction(evt -> System.exit(0));
+        exit.setOnAction(evt -> Platform.exit());
 
         formatDocument.setOnAction(evt -> interactor.createFormatCodeTask().run());
 
@@ -159,10 +162,11 @@ public class ViewBuilder implements Builder<Region> {
 
         HBox topBar = new HBox();
         topBar.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0.1), null, null)));
+        topBar.setPadding(new Insets(2, 10, 2, 10));
+        topBar.setAlignment(Pos.CENTER_LEFT);
 
-        FontIcon playIcon = new FontIcon(Feather.PLAY);
         Button playButton = new Button();
-        playButton.setGraphic(playIcon);
+        playButton.setGraphic(new FontIcon(Feather.PLAY));
         playButton.setOnAction(evt -> interactor.createRunTask().run());
 
         topBar.getChildren().add(playButton);
@@ -171,8 +175,8 @@ public class ViewBuilder implements Builder<Region> {
         VBox logs = new VBox();
         logs.setAlignment(Pos.BOTTOM_CENTER);
         scrollPane.setContent(logs);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+        scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         scrollPane.viewportBoundsProperty().addListener((evt, old, bounds) -> {
             logs.setPrefWidth(bounds.getWidth());
         });
@@ -190,8 +194,8 @@ public class ViewBuilder implements Builder<Region> {
                 if (children.size() >= 1000) {
                     children.removeFirst();
                 }
+                children.add(log);
                 if (atBottom.get()) {
-                    children.add(log);
                     new Thread(() -> {
                         try {
                             Thread.sleep(100);
@@ -200,8 +204,6 @@ public class ViewBuilder implements Builder<Region> {
                         }
                         scrollPane.vvalueProperty().set(1.0);
                     }).start();
-                } else {
-                    logs.getChildren().add(log);
                 }
             });
         };
@@ -216,8 +218,51 @@ public class ViewBuilder implements Builder<Region> {
         Compiler.addWarnListener((name, message) -> addLog.accept(createLog(name, message, Color.YELLOW)));
         Compiler.addErrorListener((name, message) -> addLog.accept(createLog(name, message, Color.RED)));
 
+        HBox inputBox = new HBox(10);
+        inputBox.setBackground(new Background(new BackgroundFill(Color.rgb(0, 0, 0, 0), null, null)));
+        inputBox.setPadding(new Insets(10, 10, 10, 10));
+        inputBox.setAlignment(Pos.CENTER);
+
+        final StringProperty inputProperty = new SimpleStringProperty("");
+        final AtomicBoolean sendingInput = new AtomicBoolean(false);
+        final Runnable sendInput = () -> {
+            if (sendingInput.get()) {
+                return;
+            }
+
+            sendingInput.set(true);
+            try {
+                Platform.runLater(() -> {
+                    String input = inputProperty.get();
+                    inputProperty.set("");
+                    LocalStorage.sendInput(input);
+                });
+            } catch (Exception e) {
+                LocalStorage.error("Could not send input.", e);
+            } finally {
+                sendingInput.set(false);
+            }
+        };
+
+        TextField inputField = new TextField();
+        inputField.textProperty().bindBidirectional(inputProperty);
+        inputField.setOnKeyPressed(event -> {
+            if (KeyCode.ENTER.equals(event.getCode())) {
+                sendInput.run();
+            }
+        });
+
+        Button inputButton = new Button();
+        inputButton.setGraphic(new FontIcon(Feather.SEND));
+        inputButton.setOnAction(evt -> sendInput.run());
+
+        inputField.prefWidthProperty().bind(inputBox.widthProperty().subtract(inputButton.widthProperty()));
+
+        inputBox.getChildren().addAll(inputField, inputButton);
+
         root.setTop(topBar);
         root.setCenter(scrollPane);
+        root.setBottom(inputBox);
 
         return root;
     }

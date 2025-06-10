@@ -24,6 +24,16 @@ class com.wyu4.snowberryjam.Start {
 }
 
 
+class com.wyu4.snowberryjam.compiler.data.values.builtin.Input {
+- AtomicReference<String> input
++ <<Create>> Input()
++ Object getValue()
++ void release()
++ Class<?> getType()
++ String toString()
+}
+
+
 class com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement {
 + <<Create>> WithUpdatedElement(JsonNode)
 + Object getValue()
@@ -123,6 +133,11 @@ class com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex {
 + String toString()
 }
 
+interface com.wyu4.snowberryjam.compiler.data.values.Releasable {
+~ void init()
+~ void release()
+}
+
 class com.wyu4.snowberryjam.compiler.data.values.conditional.Not {
 + <<Create>> Not(JsonNode)
 + Object getValue()
@@ -178,14 +193,17 @@ interface com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask {
 
 abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 - {static} Logger logger
+- {static} Logger inputLogger
 - {static} HashMap<String,Object> VARIABLES
 - {static} HashMap<String,Object> VARIABLES_COPY
+- {static} List<Releasable> RELEASABLES
 - {static} List<Thread> THREADS
 - {static} BodyStack STACK
 - {static} AtomicReference<String> NAME
 - {static} List<BiConsumer<String,String>> PRINT_LISTENERS
 - {static} List<BiConsumer<String,String>> WARN_LISTENERS
 - {static} List<BiConsumer<String,String>> ERROR_LISTENERS
+- {static} List<Consumer<String>> INPUT_LISTENERS
 - {static} HashMap<String,Consumer<Object>> VARIABLE_LISTENERS
 + {static} AtomicInteger pointer
 + {static} String getDefaultSource()
@@ -200,6 +218,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 # {static} void createVariable(String,Object)
 # {static} void stackAdd(ExecutableTask)
 - {static} Logger getLogger()
++ {static} void sendInput(String)
 + {static} void print(Object,Object)
 + {static} void warn(Object,Object)
 + {static} void error(Object)
@@ -209,6 +228,8 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 + {static} void addWarnListener(BiConsumer<String,String>)
 + {static} void addErrorListener(BiConsumer<String,String>)
 + {static} void addVariableListener(String,Consumer<Object>)
++ {static} void addInputSubscription(Consumer<String>)
++ {static} void addReleasable(Releasable)
 }
 
 
@@ -355,6 +376,7 @@ class com.wyu4.snowberryjam.compiler.data.values.ValueHolder {
 + boolean notEmpty()
 + Double getSize()
 + boolean equals(Object)
++ boolean superEquals(Object)
 + String toString()
 }
 
@@ -511,6 +533,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  IF
 +  IF_ELSE
 +  INCREASE_MACRO
++  INPUT
 +  LESS_THAN
 +  LESS_OR_EQUAL_TO
 +  ON_RUN
@@ -559,6 +582,7 @@ class com.wyu4.snowberryjam.framework.Controller {
 
 class com.wyu4.snowberryjam.compiler.data.tasks.Repeat {
 - ValueHolder repeats
+- ValueHolder variableName
 - BodyStack body
 + <<Create>> Repeat(JsonNode)
 + void execute()
@@ -629,6 +653,8 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Round {
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.And
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WarnTask
 javafx.application.Application <|-- com.wyu4.snowberryjam.Start
+com.wyu4.snowberryjam.compiler.data.values.Releasable <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.Input
+com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.Input
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Minus
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder

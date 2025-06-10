@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
+import com.wyu4.snowberryjam.compiler.data.values.builtin.Input;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.*;
@@ -74,6 +75,7 @@ public class ValueHolder {
             case WITH_UPDATED_ELEMENT -> new WithUpdatedElement(node);
             case RANDOM -> new RandomHolder();
             case TIME -> new TimeHolder();
+            case INPUT -> new Input();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
     }
@@ -226,6 +228,10 @@ public class ValueHolder {
             return value.equals(parsed.getValue());
         }
         return value.equals(obj);
+    }
+
+    public boolean superEquals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
