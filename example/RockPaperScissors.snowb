@@ -37,7 +37,7 @@
                             "b" : "e"
                         },
                         "body" : [
-                            "-------------------------------------\nChoose:\nRock: 'r'\nPaper: 'p'\nScissors: 's'\nExit: 'e'",
+                            "----------------------------------------------------\nChoose:\nRock: 'r'\nPaper: 'p'\nScissors: 's'\nExit: 'e'",
                             {
                                 "id" : "SET",
                                 "name" : "input",
@@ -133,10 +133,6 @@
                                                 ]
                                             }
                                         ]
-                                    },
-                                    "Input anything to continue.",
-                                    {
-                                        "id" : "INPUT"
                                     }
                                 ],
                                 "else" : [
@@ -183,10 +179,6 @@
                                                         ]
                                                     }
                                                 ]
-                                            },
-                                            "Input anything to continue.",
-                                            {
-                                                "id" : "INPUT"
                                             }
                                         ],
                                         "else" : [
@@ -233,21 +225,50 @@
                                                                 ]
                                                             }
                                                         ]
-                                                    },
-                                                    "Input anything to continue.",
-                                                    {
-                                                        "id" : "INPUT"
                                                     }
                                                 ],
-                                                "else" : [ ]
+                                                "else" : [
+                                                    {
+                                                        "id" : "IF",
+                                                        "value" : {
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "input"
+                                                            },
+                                                            "id" : "!=",
+                                                            "b" : "e"
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "WARN",
+                                                                "value" : {
+                                                                    "a" : "\"",
+                                                                    "id" : "+",
+                                                                    "b" : {
+                                                                        "a" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "input"
+                                                                        },
+                                                                        "id" : "+",
+                                                                        "b" : "\" is not a valid input."
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
                                             }
                                         ]
                                     }
                                 ]
+                            },
+                            "Input anything to continue.",
+                            {
+                                "id" : "INPUT"
                             }
                         ]
                     },
-                    "-------------------------------------\nBye bye!"
+                    "Bye bye!\n----------------------------------------------------"
                 ]
             }
         ]
