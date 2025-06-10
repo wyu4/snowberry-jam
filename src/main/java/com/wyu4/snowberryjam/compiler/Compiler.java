@@ -173,28 +173,25 @@ public abstract class Compiler extends LocalStorage {
             if (node.isValueNode()) {
                 task = new PrintTask(node.asText());
             } else {
+                String rawId = getId(node);
                 SourceId id = EnumHelper.stringToId(getId(node));
                 if (id == null) {
-                    return;
-                }
-
-                switch (id) {
-                    case PRINT -> task = new PrintTask(node);
-                    case SET -> task = new SetTask(node);
-                    case IF -> task = new IfTask(node);
-                    case IF_ELSE -> task = new IfElseTask(node);
-                    case WHILE -> task = new WhileTask(node);
-                    case REPEAT -> task = new Repeat(node);
-                    case INCREASE_MACRO -> task = new IncreaseMacro(node);
-                    case DECREASE_MACRO -> task = new DecreaseMacro(node);
-                    case WAIT -> task = new WaitTask(node);
-                    default -> {
-                        try {
-                            task = new PrintTask(ValueHolder.fromNode(node));
-                        } catch (Exception ignore) {
-                            warn("Task with ID \"{}\" is unrecognized. Skipped.", id.toString());
-                            task = new WarnTask("Skipping unknown task \"" + id.toString() + "\"");
-                        }
+                    warn("Task with ID \"{}\" is unrecognized. Skipped.", rawId);
+                    task = new WarnTask("Skipping unknown task \"" + rawId + "\"");
+                } else {
+                    switch (id) {
+                        case PRINT -> task = new PrintTask(node);
+                        case WARN -> task = new WarnTask(node);
+                        case ERROR -> task = new ErrorTask(node);
+                        case SET -> task = new SetTask(node);
+                        case IF -> task = new IfTask(node);
+                        case IF_ELSE -> task = new IfElseTask(node);
+                        case WHILE -> task = new WhileTask(node);
+                        case REPEAT -> task = new Repeat(node);
+                        case INCREASE_MACRO -> task = new IncreaseMacro(node);
+                        case DECREASE_MACRO -> task = new DecreaseMacro(node);
+                        case WAIT -> task = new WaitTask(node);
+                        default -> task = new PrintTask(ValueHolder.fromNode(node));
                     }
                 }
             }

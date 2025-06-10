@@ -1,0 +1,28 @@
+{
+    "id" : "PROJECT",
+    "name" : "Logging",
+    "description" : "Showcasing different ways to send information to the console.",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "PRINT",
+                        "value" : "This is a print statement..."
+                    },
+                    "... this is also a print statement (just a shorthand) ...",
+                    {
+                        "id" : "WARN",
+                        "value" : "... and this is a warning ..."
+                    },
+                    {
+                        "id" : "ERROR",
+                        "value" : "... and this is an error."
+                    }
+                ]
+            }
+        ]
+    }
+}

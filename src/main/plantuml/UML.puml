@@ -47,6 +47,18 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Minus {
 + String toString()
 }
 
+class com.wyu4.snowberryjam.compiler.data.tasks.ErrorTask {
+- ValueHolder message
++ <<Create>> ErrorTask(JsonNode)
++ <<Create>> ErrorTask(String)
++ <<Create>> ErrorTask(ValueHolder)
++ void execute()
++ SourceId getId()
++ Object feedback()
++ String toString()
+}
+
+
 class com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder {
 + <<Create>> ConditionalHolder(JsonNode)
 + Boolean getState()
@@ -525,6 +537,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  AND
 +  ARRAY_OF
 +  ELEMENT_AT_INDEX
++  ERROR
 +  DECREASE_MACRO
 +  DIVIDE
 +  EQUALS
@@ -664,6 +677,7 @@ com.wyu4.snowberryjam.compiler.data.values.Releasable <|.. com.wyu4.snowberryjam
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.Input
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Minus
+com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ErrorTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.SameType

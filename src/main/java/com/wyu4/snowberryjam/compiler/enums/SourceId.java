@@ -7,6 +7,7 @@ public enum SourceId {
     AND("AND"),
     ARRAY_OF("ARRAY_OF"),
     ELEMENT_AT_INDEX("ELEMENT_AT"),
+    ERROR("ERROR"),
     DECREASE_MACRO("-="),
     DIVIDE("/"),
     EQUALS("=="),
