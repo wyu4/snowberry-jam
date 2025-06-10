@@ -55,6 +55,7 @@ public class ValueHolder {
         return switch (id) {
             case VARIABLE -> new VariableReference(Compiler.getName(node));
             case EQUALS -> new Equals(node);
+            case NOT_EQUALS -> new NotEquals(node);
             case GREATER_THAN -> new GreaterThan(node);
             case GREATER_OR_EQUAL_TO -> new GreaterOrEqualTo(node);
             case LESS_THAN -> new LessThan(node);

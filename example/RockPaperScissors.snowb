@@ -1,0 +1,21 @@
+{
+    "id" : "PROJECT",
+    "name" : "Rock Paper Scissors",
+    "description" : "A game of rock paper scissors.",
+    "body" : {
+        "variables" : [
+            {
+                "name": "input",
+                "value": ""
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    
+                ]
+            }
+        ]
+    }
+}

@@ -1,7 +1,7 @@
 {
     "id" : "PROJECT",
-    "name" : "Unnamed",
-    "description" : "No description",
+    "name" : "Input",
+    "description" : "Showcasing the console input system.",
     "body" : {
         "variables" : [ ],
         "events" : [

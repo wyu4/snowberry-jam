@@ -542,6 +542,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  MODULUS
 +  MULTIPLY
 +  NOT
++  NOT_EQUALS
 +  PLUS
 +  PRINT
 +  PROJECT
@@ -624,6 +625,12 @@ class com.wyu4.snowberryjam.compiler.CompilerTest {
 + {static} void main(String[])
 }
 
+class com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals {
++ <<Create>> NotEquals(JsonNode)
++ Boolean getState()
++ String toString()
+}
+
 class com.wyu4.snowberryjam.compiler.data.values.conditional.LessThan {
 + <<Create>> LessThan(JsonNode)
 + Boolean getState()
@@ -691,6 +698,7 @@ com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberry
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf
+com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.LessThan
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.PrintTask
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Round

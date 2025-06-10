@@ -24,6 +24,7 @@ public enum SourceId {
     MODULUS("%"),
     MULTIPLY("*"),
     NOT("NOT"),
+    NOT_EQUALS("!="),
     PLUS("+"),
     PRINT("PRINT"),
     PROJECT("PROJECT"),
