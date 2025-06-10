@@ -86,7 +86,7 @@
                                             "id" : "RANDOM"
                                         },
                                         "id" : "*",
-                                        "b" : 2
+                                        "b" : 3
                                     }
                                 }
                             },
@@ -108,8 +108,8 @@
                                                 "id" : "VARIABLE",
                                                 "name" : "computer"
                                             },
-                                            "id" : "==",
-                                            "b" : 0
+                                            "id" : "<",
+                                            "b" : 1
                                         },
                                         "body" : [
                                             "You tied! (You and computer chose rock...)"
@@ -122,8 +122,8 @@
                                                         "id" : "VARIABLE",
                                                         "name" : "computer"
                                                     },
-                                                    "id" : "==",
-                                                    "b" : 1
+                                                    "id" : "<",
+                                                    "b" : 2
                                                 },
                                                 "body" : [
                                                     "You lost! (You chose rock and computer chose paper...)"
@@ -154,8 +154,8 @@
                                                         "id" : "VARIABLE",
                                                         "name" : "computer"
                                                     },
-                                                    "id" : "==",
-                                                    "b" : 0
+                                                    "id" : "<",
+                                                    "b" : 1
                                                 },
                                                 "body" : [
                                                     "You won! (You chose paper and computer chose rock!)"
@@ -168,8 +168,8 @@
                                                                 "id" : "VARIABLE",
                                                                 "name" : "computer"
                                                             },
-                                                            "id" : "==",
-                                                            "b" : 1
+                                                            "id" : "<",
+                                                            "b" : 2
                                                         },
                                                         "body" : [
                                                             "You tied! (You and computer chose paper...)"
@@ -200,8 +200,8 @@
                                                                 "id" : "VARIABLE",
                                                                 "name" : "computer"
                                                             },
-                                                            "id" : "==",
-                                                            "b" : 0
+                                                            "id" : "<",
+                                                            "b" : 1
                                                         },
                                                         "body" : [
                                                             "You lost! (You chose scissors and computer chose rock...)"
@@ -214,8 +214,8 @@
                                                                         "id" : "VARIABLE",
                                                                         "name" : "computer"
                                                                     },
-                                                                    "id" : "==",
-                                                                    "b" : 1
+                                                                    "id" : "<",
+                                                                    "b" : 2
                                                                 },
                                                                 "body" : [
                                                                     "You won! (You chose scissors and computer chose paper!)"

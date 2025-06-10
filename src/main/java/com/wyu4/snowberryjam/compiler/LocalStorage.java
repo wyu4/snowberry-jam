@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  * This class stores and handles anything related to compiling and running a source file.
  */
 public abstract class LocalStorage {
-    private static Logger logger = null;
+    private static AtomicReference<Logger> logger = new AtomicReference<>();
     private static final Logger inputLogger = LoggerFactory.getLogger("Input");
 
     /** Stores variables */
@@ -132,6 +132,12 @@ public abstract class LocalStorage {
      */
     public static void runStack() {
         VARIABLES_COPY.putAll(VARIABLES);
+        VARIABLES_COPY.forEach((name, value) -> {
+            Consumer<Object> consumer = VARIABLE_LISTENERS.get(name);
+            if (consumer != null) {
+                consumer.accept(value);
+            }
+        });
         RELEASABLES.forEach(Releasable::release);
         print("-----------------------------");
 
@@ -148,7 +154,7 @@ public abstract class LocalStorage {
         }
         if (!name.equals(NAME.get())) {
             NAME.set(name);
-            logger = null;
+            logger.set(null);
         }
     }
 
@@ -183,10 +189,10 @@ public abstract class LocalStorage {
      * @see Logger
      */
     private static Logger getLogger() {
-        if (logger == null) {
-            logger = LoggerFactory.getLogger(NAME.get());
+        if (logger.get() == null) {
+            logger.set(LoggerFactory.getLogger(NAME.get()));
         }
-        return logger;
+        return logger.get();
     }
 
     public static void sendInput(String input) {
@@ -226,7 +232,7 @@ public abstract class LocalStorage {
      * @see #warn(Object, Object...)
      */
     public static void error(Object error) {
-        logger.error(error.toString());
+        getLogger().error(error.toString());
         ERROR_LISTENERS.forEach(consumer -> consumer.accept(getLogger().getName(), formatMessage(error.toString())));
     }
 
@@ -239,7 +245,7 @@ public abstract class LocalStorage {
      * @see #warn(Object, Object...)
      */
     public static void error(Object error, Exception e) {
-        logger.error(error.toString(), e);
+        getLogger().error(error.toString(), e);
         ERROR_LISTENERS.forEach(consumer -> consumer.accept(getLogger().getName(), formatMessage(error.toString()) + "\n" + e.getMessage()));
     }
 
