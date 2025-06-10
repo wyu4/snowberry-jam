@@ -28,7 +28,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 /**
@@ -61,6 +60,10 @@ public class ViewBuilder implements Builder<Region> {
         return root;
     }
 
+    /**
+     * Create a new {@link MenuBar} filled with project operations.
+     * @return {@link MenuBar}
+     */
     public Node createMenuBar() {
         MenuBar bar = new MenuBar();
 
@@ -94,6 +97,13 @@ public class ViewBuilder implements Builder<Region> {
         return bar;
     }
 
+    /**
+     * Create a project widget
+     * @return A widget with a code editor, viewer, and console.
+     * @see #createConsole()
+     * @see #createCodeEditor()
+     * @see #createCodeViewer()
+     */
     public Node createProjectWidget() {
         BorderPane root = new BorderPane();
 
@@ -211,6 +221,13 @@ public class ViewBuilder implements Builder<Region> {
         return root;
     }
 
+    /**
+     * Create a log widget to be inserted in the console
+     * @param source The source of the log
+     * @param message The message
+     * @param color The background color
+     * @return A new {@link HBox}
+     */
     public Node createLog(String source, String message, Color color) {
         HBox root = new HBox();
         root.setPadding(new Insets(0, 20, 0, 20));
@@ -233,6 +250,10 @@ public class ViewBuilder implements Builder<Region> {
         return root;
     }
 
+    /**
+     * Creates a debug viewer for the compiled code.
+     * @return A new {@link SplitPane}
+     */
     public Node createCodeViewer() {
         final SplitPane root = new SplitPane();
         root.setOrientation(Orientation.HORIZONTAL);
@@ -253,10 +274,16 @@ public class ViewBuilder implements Builder<Region> {
         return root;
     }
 
+    /**
+     * Create a new code editor
+     * @return {@link CodeArea}
+     * @apiNote The contents of this are directly bound to source code properties in {@link Model}
+     * @see Model#getSourceCodeProperty()
+     * @see Model#getSourceCode()
+     */
     public Node createCodeEditor() {
         CodeArea area = new CodeArea(LocalStorage.getDefaultSource());
         area.setParagraphGraphicFactory(LineNumberFactory.get(area));
-
         area.textProperty().addListener((evt, old, source) -> {
             if (!source.equals(model.getSourceCode())) {
                 model.getSourceCodeProperty().set(source);
