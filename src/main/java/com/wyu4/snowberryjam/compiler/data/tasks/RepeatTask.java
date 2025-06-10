@@ -14,7 +14,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
  * is stored as {@link SourceKey#BODY}. An optional variable to set each
  * iteration can be stored as {@link SourceKey#NAME}.
  */
-public class Repeat implements ExecutableTask {
+public class RepeatTask implements ExecutableTask {
     /**
      * The number of times to repeat the loop. Can be any type, so long as it has a
      * size.
@@ -40,7 +40,7 @@ public class Repeat implements ExecutableTask {
      * 
      * @param node The {@link JsonNode} to refer
      */
-    public Repeat(JsonNode node) {
+    public RepeatTask(JsonNode node) {
         this.repeats = ValueHolder.fromNode(node.get(SourceKey.VALUE.toString()));
         this.variableName = ValueHolder.fromNode(node.get(SourceKey.NAME.toString()));
         this.body = new BodyStack(SourceId.WHILE);

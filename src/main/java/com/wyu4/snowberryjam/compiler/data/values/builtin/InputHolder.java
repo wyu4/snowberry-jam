@@ -10,10 +10,10 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Value Holder that requests a user input.
  */
-public class Input extends ValueHolder implements Releasable {
+public class InputHolder extends ValueHolder implements Releasable {
     private final AtomicReference<String> input = new AtomicReference<>();
 
-    public Input() {
+    public InputHolder() {
         init();
     }
 

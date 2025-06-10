@@ -187,7 +187,7 @@ public abstract class Compiler extends LocalStorage {
                         case IF -> task = new IfTask(node);
                         case IF_ELSE -> task = new IfElseTask(node);
                         case WHILE -> task = new WhileTask(node);
-                        case REPEAT -> task = new Repeat(node);
+                        case REPEAT -> task = new RepeatTask(node);
                         case INCREASE_MACRO -> task = new IncreaseMacro(node);
                         case DECREASE_MACRO -> task = new DecreaseMacro(node);
                         case WAIT -> task = new WaitTask(node);

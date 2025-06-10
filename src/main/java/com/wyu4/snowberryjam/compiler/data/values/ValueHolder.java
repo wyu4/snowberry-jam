@@ -2,12 +2,14 @@ package com.wyu4.snowberryjam.compiler.data.values;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
-import com.wyu4.snowberryjam.compiler.data.values.builtin.Input;
+import com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder;
+import com.wyu4.snowberryjam.compiler.data.values.builtin.PublicFolderHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.*;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf;
+import com.wyu4.snowberryjam.compiler.data.values.io.ReadFile;
 import com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex;
 import com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement;
 import com.wyu4.snowberryjam.compiler.data.values.math.*;
@@ -74,9 +76,11 @@ public class ValueHolder {
             case ARRAY_OF -> new ArrayOf(node);
             case ELEMENT_AT_INDEX -> new ElementAtIndex(node);
             case WITH_UPDATED_ELEMENT -> new WithUpdatedElement(node);
+            case READ_FILE -> new ReadFile(node);
             case RANDOM -> new RandomHolder();
             case TIME -> new TimeHolder();
-            case INPUT -> new Input();
+            case INPUT -> new InputHolder();
+            case PUBLIC_FOLDER -> new PublicFolderHolder();
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
     }

@@ -6,12 +6,20 @@ import org.slf4j.LoggerFactory;
 import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
 import java.util.Scanner;
 
 public abstract class ResourceUtils {
     private static final Logger logger = LoggerFactory.getLogger("ResourceUtils");
     public static final String IMAGES = "images";
+    public static final String PUBLIC = System.getenv("APPDATA") + "/SnowberryJam/";
+
+    static {
+        createPublicFile();
+    }
 
     public enum ResourceFile {
         COMPILER_ICON(IMAGES + "/CompilerIcon.png"),
@@ -20,6 +28,7 @@ public abstract class ResourceUtils {
         STYLE("style.css");
 
         private final String path;
+
         ResourceFile(String path) {
             this.path = path;
         }
@@ -46,7 +55,8 @@ public abstract class ResourceUtils {
             }
 
             // Read the content
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inputStream, StandardCharsets.UTF_8))) {
                 StringBuilder source = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -80,6 +90,17 @@ public abstract class ResourceUtils {
             return source.toString();
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public static void createPublicFile() {
+        try {
+            Path publicFolder = Paths.get(PUBLIC);
+            if (!Files.exists(publicFolder)) {
+                Files.createDirectories(publicFolder);
+            }
+        } catch (Exception e) {
+            logger.error("Could not create public folder.", e);
         }
     }
 }

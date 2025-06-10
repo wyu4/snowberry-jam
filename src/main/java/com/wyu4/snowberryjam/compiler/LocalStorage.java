@@ -37,6 +37,8 @@ public abstract class LocalStorage {
     /** Atomically stores the project name */
     private static final AtomicReference<String> NAME = new AtomicReference<>("");
 
+    private static final AtomicReference<String> DESCRIPTION = new AtomicReference<>("");
+
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
@@ -90,6 +92,9 @@ public abstract class LocalStorage {
         
         RELEASABLES.forEach(Releasable::release);
         RELEASABLES.clear();
+
+        setName(null);
+        setDescription(null);
     }
 
     /**
@@ -156,6 +161,13 @@ public abstract class LocalStorage {
             NAME.set(name);
             logger.set(null);
         }
+    }
+
+    protected static void setDescription(String description) {
+        if (description == null) {
+            description = "";
+        }
+        DESCRIPTION.set(description);
     }
 
     /**
