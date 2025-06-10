@@ -7,7 +7,6 @@ import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.framework.Model.Page;
 import com.wyu4.snowberryjam.framework.viewer.StackViewer;
 import com.wyu4.snowberryjam.framework.viewer.VariableViewer;
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

@@ -1,9 +1,9 @@
 package com.wyu4.snowberryjam.compiler.data.values.conditional;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+
+import java.util.Arrays;
 
 /**
  * Conditional holder that handles an equality operation

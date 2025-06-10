@@ -1,8 +1,6 @@
 package com.wyu4.snowberryjam.framework;
 
-import com.fasterxml.jackson.databind.deser.impl.FieldProperty;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
-
 import javafx.beans.property.ObjectProperty;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;

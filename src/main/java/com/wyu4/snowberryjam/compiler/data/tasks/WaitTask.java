@@ -1,13 +1,12 @@
 package com.wyu4.snowberryjam.compiler.data.tasks;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A wait task. The time to wait is stored as {@link SourceKey#VALUE}.

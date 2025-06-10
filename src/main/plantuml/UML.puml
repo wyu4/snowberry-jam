@@ -204,7 +204,7 @@ interface com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask {
 }
 
 abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
-- {static} Logger logger
+- {static} AtomicReference<Logger> logger
 - {static} Logger inputLogger
 - {static} HashMap<String,Object> VARIABLES
 - {static} HashMap<String,Object> VARIABLES_COPY

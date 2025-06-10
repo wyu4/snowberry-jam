@@ -1,9 +1,7 @@
 package com.wyu4.snowberryjam.codeutils;
 
-import org.fxmisc.richtext.CodeArea;
-
 import javafx.application.Platform;
-import javafx.scene.input.KeyEvent;
+import org.fxmisc.richtext.CodeArea;
 
 public abstract class AutoComplete {
     public static void persistIndent(CodeArea area) {

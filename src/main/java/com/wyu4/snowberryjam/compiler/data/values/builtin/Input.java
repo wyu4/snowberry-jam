@@ -1,11 +1,11 @@
 package com.wyu4.snowberryjam.compiler.data.values.builtin;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.values.Releasable;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Value Holder that requests a user input.

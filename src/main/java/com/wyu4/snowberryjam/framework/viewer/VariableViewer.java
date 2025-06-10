@@ -1,9 +1,6 @@
 package com.wyu4.snowberryjam.framework.viewer;
 
-import java.util.Arrays;
-
 import com.wyu4.snowberryjam.compiler.LocalStorage;
-
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
@@ -14,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+
+import java.util.Arrays;
 
 public class VariableViewer extends TableView<VariableListener> {
     private final TableColumn<VariableListener, String> nameColumn = new TableColumn<>("Name");
