@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
@@ -13,7 +14,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
  * A while loop. The condition is stored as {@link SourceKey#VALUE}. Runs
  * {@link SourceKey#BODY} while true.
  */
-public class WhileTask implements ExecutableTask {
+public class WhileTask implements ExecutableTask, BodiedTask {
     /**
      * The condition. Must be of type {@link Boolean}.
      * 
@@ -75,5 +76,10 @@ public class WhileTask implements ExecutableTask {
     @Override
     public String toString() {
         return "while %s, run \"body\"".formatted(condition);
+    }
+
+    @Override
+    public BodyStack getBody() {
+        return body;
     }
 }

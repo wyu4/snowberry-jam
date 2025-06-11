@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -14,7 +15,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
  * is stored as {@link SourceKey#BODY}. An optional variable to set each
  * iteration can be stored as {@link SourceKey#NAME}.
  */
-public class RepeatTask implements ExecutableTask {
+public class RepeatTask implements ExecutableTask, BodiedTask {
     /**
      * The number of times to repeat the loop. Can be any type, so long as it has a
      * size.
@@ -82,5 +83,10 @@ public class RepeatTask implements ExecutableTask {
     @Override
     public String toString() {
         return "run \"body\" %s (or %s) times".formatted(repeats, repeats.getSize());
+    }
+
+    @Override
+    public BodyStack getBody() {
+        return body;
     }
 }

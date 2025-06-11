@@ -4,13 +4,14 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 
 /**
  * Run something in a new thread.
  */
-public class ThreadTask implements ExecutableTask {
+public class ThreadTask implements ExecutableTask, BodiedTask {
     /**
      * The body to run
      */
@@ -52,5 +53,10 @@ public class ThreadTask implements ExecutableTask {
     @Override
     public String toString() {
         return "run \"body\" in new thread";
+    }
+
+    @Override
+    public BodyStack getBody() {
+        return body;
     }
 }

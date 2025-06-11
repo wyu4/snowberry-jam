@@ -2,3 +2,7 @@
     -fx-font-family: "Montserrat";
     -fx-font-size: 15pt;
 }
+
+.code-viewer {
+    -fx-font-size: 30pt;
+}

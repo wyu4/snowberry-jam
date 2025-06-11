@@ -4,6 +4,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -11,7 +13,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 /**
  * An if-else statement. The condition is stored as {@link SourceKey#VALUE}. Runs {@link SourceKey#BODY} if true, else {@link SourceKey#ELSE}.
  */
-public class IfElseTask implements ExecutableTask {
+public class IfElseTask implements ExecutableTask, BodiedTask, ElseBodiedTask {
     /**
      * The condition. Must be of type {@link Boolean}.
      * @see ValueHolder#getType()
@@ -74,5 +76,15 @@ public class IfElseTask implements ExecutableTask {
     @Override
     public String toString() {
         return "run \"body\" if %s, otherwise run \"else\" ";
+    }
+
+    @Override
+    public BodyStack getBody() {
+        return body;
+    }
+
+    @Override
+    public BodyStack getSecondaryBody() {
+        return elseBody;
     }
 }

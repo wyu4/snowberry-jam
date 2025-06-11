@@ -14,7 +14,7 @@ import javafx.scene.control.TableView;
 
 import java.util.Arrays;
 
-public class VariableViewer extends TableView<VariableListener> {
+public class VariableViewer extends TableView<VariableListener> implements Viewer {
     private final TableColumn<VariableListener, String> nameColumn = new TableColumn<>("Name");
     private final TableColumn<VariableListener, String> typeColumn = new TableColumn<>("Type");
     private final TableColumn<VariableListener, String> valueColumn = new TableColumn<>("Value");
@@ -53,6 +53,7 @@ public class VariableViewer extends TableView<VariableListener> {
         setItems(variables);
     }
 
+    @Override
     public void refresh() {
         Platform.runLater(() -> {
             variables.clear();

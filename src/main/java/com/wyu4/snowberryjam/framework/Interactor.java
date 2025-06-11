@@ -143,6 +143,9 @@ public class Interactor {
             if (model.getCompiling()) {
                 return;
             }
+            if (model.getRunning()) {
+                createStopTask().run();
+            }
 
             new Thread(() -> {
                 model.getCompilingProperty().setValue(true);

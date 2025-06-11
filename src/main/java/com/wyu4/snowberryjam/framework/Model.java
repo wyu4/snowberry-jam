@@ -24,6 +24,10 @@ public class Model {
     private final StringProperty sourceCodeProperty = new SimpleStringProperty("");
     private final StringProperty builtSourceCodeProperty = new SimpleStringProperty("");
 
+    public Model() {
+        runDisabledProperty.bind(compilingProperty);
+    }
+
     public ObjectProperty<File> getSourceFileProperty() {
         return sourceFileProperty;
     }

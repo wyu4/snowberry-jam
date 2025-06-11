@@ -5,7 +5,7 @@ import com.wyu4.snowberryjam.codeutils.Filter;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.framework.Model.Page;
-import com.wyu4.snowberryjam.framework.viewer.StackViewer;
+import com.wyu4.snowberryjam.framework.viewer.CodeViewer;
 import com.wyu4.snowberryjam.framework.viewer.VariableViewer;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -96,8 +96,8 @@ public class ViewBuilder implements Builder<Region> {
         MenuItem runDocument = new MenuItem("Run");
         MenuItem stopDocument = new MenuItem("Stop");
 
-        compileDocument.disableProperty().bindBidirectional(model.getCompilingProperty());
-        runDocument.disableProperty().bindBidirectional(model.getRunningProperty());
+        compileDocument.disableProperty().bind(model.getCompilingProperty());
+        runDocument.disableProperty().bind(model.getRunningProperty().and(model.getRunDisabledProperty()));
         stopDocument.disableProperty().bind(model.getRunningProperty().not());
 
         formatDocument.setOnAction(evt -> interactor.createFormatCodeTask().run());
@@ -117,13 +117,13 @@ public class ViewBuilder implements Builder<Region> {
      * @return A widget with a code editor, viewer, and console.
      * @see #createConsole()
      * @see #createCodeEditor()
-     * @see #createCodeViewer()
+     * @see #createProjectViewer()
      */
     public Node createProjectWidget() {
         BorderPane root = new BorderPane();
 
         Node codeArea = createCodeEditor();
-        Node codeViewer = createCodeViewer();
+        Node codeViewer = createProjectViewer();
 
         Consumer<Page> updatepage = page -> {
             Platform.runLater(() -> {
@@ -187,6 +187,8 @@ public class ViewBuilder implements Builder<Region> {
                 interactor.createRunTask().run();
             }
         });
+        playButton.disableProperty().bind(model.getRunDisabledProperty());
+
         Button clearButton = new Button();
         clearButton.setGraphic(new FontIcon(Feather.TRASH));
 
@@ -319,11 +321,11 @@ public class ViewBuilder implements Builder<Region> {
      * Creates a debug viewer for the compiled code.
      * @return A new {@link SplitPane}
      */
-    public Node createCodeViewer() {
+    public Node createProjectViewer() {
         final SplitPane root = new SplitPane();
         root.setOrientation(Orientation.HORIZONTAL);
 
-        StackViewer mainViewer = new StackViewer();
+        final CodeViewer codeViewer = new CodeViewer();
         final VariableViewer variableViewer = new VariableViewer();
 
         model.getCompilingProperty().addListener((evt, old, compiling) -> {
@@ -331,10 +333,11 @@ public class ViewBuilder implements Builder<Region> {
                 return;
             }
 
+            codeViewer.refresh();
             variableViewer.refresh();
         });
 
-        root.getItems().addAll(mainViewer, variableViewer);
+        root.getItems().addAll(codeViewer, variableViewer);
 
         return root;
     }
