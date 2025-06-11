@@ -1,11 +1,11 @@
 package com.wyu4.snowberryjam.compiler.data.values.io;
 
-import java.io.File;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+
+import java.io.File;
 
 public class ReadFile extends InteractiveValueHolder {
 

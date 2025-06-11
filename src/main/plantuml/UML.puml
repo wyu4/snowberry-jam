@@ -40,6 +40,13 @@ class com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement {
 + Class<?> getType()
 }
 
+class com.wyu4.snowberryjam.compiler.data.tasks.macros.InputMacro {
++ <<Create>> InputMacro(JsonNode)
++ <<Create>> InputMacro(ValueHolder)
++ void execute()
++ SourceId getId()
+}
+
 class com.wyu4.snowberryjam.compiler.data.values.math.Minus {
 + <<Create>> Minus(JsonNode)
 + <<Create>> Minus(ValueHolder,ValueHolder)
@@ -161,6 +168,19 @@ class com.wyu4.snowberryjam.compiler.data.tasks.SetTask {
 - ValueHolder value
 + <<Create>> SetTask(JsonNode)
 + <<Create>> SetTask(ValueHolder,ValueHolder)
++ void execute()
++ SourceId getId()
+# ValueHolder getNameValue()
++ Object feedback()
++ String toString()
+}
+
+
+class com.wyu4.snowberryjam.compiler.data.tasks.WaitUntilTask {
+- {static} Logger logger
+- {static} int INTERVAL
+- ValueHolder condition
++ <<Create>> WaitUntilTask(JsonNode)
 + void execute()
 + SourceId getId()
 + Object feedback()
@@ -430,7 +450,6 @@ class com.wyu4.snowberryjam.framework.Model {
 - BooleanProperty runningProperty
 - StringProperty sourceCodeProperty
 - StringProperty builtSourceCodeProperty
-- IntegerProperty logNumberProperty
 + ObjectProperty<File> getSourceFileProperty()
 + ObjectProperty<Page> getPageProperty()
 + BooleanProperty getSaveDisabledProperty()
@@ -440,7 +459,6 @@ class com.wyu4.snowberryjam.framework.Model {
 + BooleanProperty getRunningProperty()
 + StringProperty getSourceCodeProperty()
 + StringProperty getBuiltSourceCodeProperty()
-+ IntegerProperty getLogNumberProperty()
 + File getSourceFile()
 + Page getPage()
 + boolean getSaveDisabled()
@@ -450,7 +468,6 @@ class com.wyu4.snowberryjam.framework.Model {
 + boolean getRunning()
 + String getSourceCode()
 + String getBuiltSourceCode()
-+ int getLogNumber()
 }
 
 
@@ -586,6 +603,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  IF_ELSE
 +  INCREASE_MACRO
 +  INPUT
++  INPUT_MACRO
 +  LESS_THAN
 +  LESS_OR_EQUAL_TO
 +  ON_RUN
@@ -610,6 +628,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  TIME
 +  VARIABLE
 +  WAIT
++  WAIT_UNTIL
 +  WARN
 +  WHILE
 +  WITH_UPDATED_ELEMENT
@@ -706,6 +725,7 @@ com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- co
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WarnTask
 javafx.application.Application <|-- com.wyu4.snowberryjam.Start
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement
+com.wyu4.snowberryjam.compiler.data.tasks.SetTask <|-- com.wyu4.snowberryjam.compiler.data.tasks.macros.InputMacro
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Minus
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ErrorTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder
@@ -721,6 +741,7 @@ com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberry
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Not
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.SetTask
+com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitUntilTask
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
 javafx.scene.control.TableView <|-- com.wyu4.snowberryjam.framework.viewer.VariableViewer
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder

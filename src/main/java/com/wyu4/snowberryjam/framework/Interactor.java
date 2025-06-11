@@ -3,7 +3,6 @@ package com.wyu4.snowberryjam.framework;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
-
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;

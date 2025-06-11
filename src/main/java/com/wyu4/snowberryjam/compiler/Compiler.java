@@ -10,6 +10,7 @@ import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.*;
 import com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro;
 import com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro;
+import com.wyu4.snowberryjam.compiler.data.tasks.macros.InputMacro;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.EnumHelper;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
@@ -179,6 +180,7 @@ public abstract class Compiler extends LocalStorage {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", rawId);
                     task = new WarnTask("Skipping unknown task \"" + rawId + "\"");
                 } else {
+                    System.out.println(id);
                     switch (id) {
                         case PRINT -> task = new PrintTask(node);
                         case WARN -> task = new WarnTask(node);
@@ -190,7 +192,9 @@ public abstract class Compiler extends LocalStorage {
                         case REPEAT -> task = new RepeatTask(node);
                         case INCREASE_MACRO -> task = new IncreaseMacro(node);
                         case DECREASE_MACRO -> task = new DecreaseMacro(node);
+                        case INPUT_MACRO, INPUT -> task = new InputMacro(node);
                         case WAIT -> task = new WaitTask(node);
+                        case WAIT_UNTIL -> task = new WaitUntilTask(body);
                         case THREAD -> task = new ThreadTask(node);
                         default -> task = new PrintTask(ValueHolder.fromNode(node));
                     }

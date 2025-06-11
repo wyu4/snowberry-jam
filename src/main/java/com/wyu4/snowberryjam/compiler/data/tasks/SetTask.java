@@ -66,6 +66,10 @@ public class SetTask implements ExecutableTask {
         return SourceId.SET;
     }
 
+    protected ValueHolder getNameValue() {
+        return name;
+    }
+
     /**
      * @return The new value
      */

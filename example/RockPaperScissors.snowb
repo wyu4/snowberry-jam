@@ -39,11 +39,8 @@
                         "body" : [
                             "----------------------------------------------------\nChoose:\nRock: 'r'\nPaper: 'p'\nScissors: 's'\nExit: 'e'",
                             {
-                                "id" : "SET",
-                                "name" : "input",
-                                "value" : {
-                                    "id" : "INPUT"
-                                }
+                                "id" : "INPUT",
+                                "name" : "input"
                             },
                             {
                                 "id" : "IF_ELSE",

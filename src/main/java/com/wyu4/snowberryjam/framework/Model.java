@@ -24,8 +24,6 @@ public class Model {
     private final StringProperty sourceCodeProperty = new SimpleStringProperty("");
     private final StringProperty builtSourceCodeProperty = new SimpleStringProperty("");
 
-    private final IntegerProperty logNumberProperty = new SimpleIntegerProperty(0);
-
     public ObjectProperty<File> getSourceFileProperty() {
         return sourceFileProperty;
     }
@@ -62,10 +60,6 @@ public class Model {
         return builtSourceCodeProperty;
     }
 
-    public IntegerProperty getLogNumberProperty() {
-        return logNumberProperty;
-    }
-
     public File getSourceFile() {
         return getSourceFileProperty().get();
     }
@@ -100,9 +94,5 @@ public class Model {
 
     public String getBuiltSourceCode() {
         return getBuiltSourceCodeProperty().get();
-    }
-
-    public int getLogNumber() {
-        return getLogNumberProperty().get();
     }
 }

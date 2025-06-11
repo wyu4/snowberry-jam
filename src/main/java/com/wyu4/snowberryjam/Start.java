@@ -1,7 +1,6 @@
 package com.wyu4.snowberryjam;
 
 import atlantafx.base.theme.NordLight;
-
 import com.wyu4.snowberryjam.framework.Controller;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;

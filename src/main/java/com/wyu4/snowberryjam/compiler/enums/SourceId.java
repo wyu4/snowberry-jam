@@ -17,6 +17,7 @@ public enum SourceId {
     IF_ELSE("IF_ELSE"),
     INCREASE_MACRO("+="),
     INPUT("INPUT"),
+    INPUT_MACRO("INPUT"),
     LESS_THAN("<"),
     LESS_OR_EQUAL_TO("<="),
     ON_RUN("ON_RUN"),
@@ -41,6 +42,7 @@ public enum SourceId {
     TIME("TIME"),
     VARIABLE("VARIABLE"),
     WAIT("WAIT"),
+    WAIT_UNTIL("WAIT_UNTIL"),
     WARN("WARN"),
     WHILE("WHILE"),
     WITH_UPDATED_ELEMENT("WITH_UPDATED_ELEMENT");

@@ -187,8 +187,10 @@ public class ViewBuilder implements Builder<Region> {
                 interactor.createRunTask().run();
             }
         });
+        Button clearButton = new Button();
+        clearButton.setGraphic(new FontIcon(Feather.TRASH));
 
-        topBar.getChildren().add(playButton);
+        topBar.getChildren().addAll(playButton, clearButton);
 
         ScrollPane scrollPane = new ScrollPane();
         VBox logs = new VBox();
@@ -206,26 +208,24 @@ public class ViewBuilder implements Builder<Region> {
 
         scrollPane.vvalueProperty().addListener((evt, old, height) -> setAtBottom.accept(height.doubleValue()));
 
-        Consumer<Node> addLog = log -> {
-            model.getLogNumberProperty().set(model.getLogNumber() + 1);
-            Platform.runLater(() -> {
-                ObservableList<Node> children = logs.getChildren();
-                if (children.size() >= 1000) {
-                    children.removeFirst();
-                }
-                children.add(log);
-                if (atBottom.get()) {
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(100);
-                        } catch (InterruptedException e) {
-                            LocalStorage.error(e);
-                        }
-                        scrollPane.vvalueProperty().set(1.0);
-                    }).start();
-                }
-            });
-        };
+        ObservableList<Node> logsChildren = logs.getChildren();
+        Consumer<Node> addLog = log -> Platform.runLater(() -> {
+            if (logsChildren.size() >= 1000) {
+                logsChildren.removeFirst();
+            }
+            logsChildren.add(log);
+            if (atBottom.get()) {
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        LocalStorage.error(e);
+                    }
+                    scrollPane.vvalueProperty().set(1.0);
+                }).start();
+            }
+        });
+        clearButton.setOnAction(evt -> Platform.runLater(logsChildren::clear));
 
         LocalStorage
                 .addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
