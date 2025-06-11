@@ -49,8 +49,16 @@ public class RepeatTask implements ExecutableTask {
 
     @Override
     public void execute() {
+        if (!LocalStorage.isRunning()) {
+            return;
+        }
+
         final boolean setVariable = variableName.notEmpty();
         for (int i = 0; i < repeats.getSize(); i++) {
+            if (!LocalStorage.isRunning()) {
+                return;
+            }
+
             if (setVariable) {
                 LocalStorage.setVariable(variableName.getString(), i);
             }

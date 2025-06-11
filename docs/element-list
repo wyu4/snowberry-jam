@@ -9,6 +9,7 @@ com.wyu4.snowberryjam.compiler.data.values
 com.wyu4.snowberryjam.compiler.data.values.builtin
 com.wyu4.snowberryjam.compiler.data.values.conditional
 com.wyu4.snowberryjam.compiler.data.values.conversion
+com.wyu4.snowberryjam.compiler.data.values.io
 com.wyu4.snowberryjam.compiler.data.values.iteration
 com.wyu4.snowberryjam.compiler.data.values.math
 com.wyu4.snowberryjam.compiler.enums

@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.tasks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
+import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder;
@@ -9,11 +10,13 @@ import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 
 /**
- * A while loop. The condition is stored as {@link SourceKey#VALUE}. Runs {@link SourceKey#BODY} while true.
+ * A while loop. The condition is stored as {@link SourceKey#VALUE}. Runs
+ * {@link SourceKey#BODY} while true.
  */
 public class WhileTask implements ExecutableTask {
     /**
      * The condition. Must be of type {@link Boolean}.
+     * 
      * @see ValueHolder#getType()
      * @see ValueHolder#checkValueIsConditional(ValueHolder)
      * @see com.wyu4.snowberryjam.compiler.data.values.conditional.SameType
@@ -26,6 +29,7 @@ public class WhileTask implements ExecutableTask {
 
     /**
      * Create a new while loop
+     * 
      * @param node The {@link JsonNode} to refer
      */
     public WhileTask(JsonNode node) {
@@ -36,8 +40,9 @@ public class WhileTask implements ExecutableTask {
 
     /**
      * Create a new while loop
+     * 
      * @param condition The condition to check before running {@code body}
-     * @param body The body to run while the condition is {@code true}
+     * @param body      The body to run while the condition is {@code true}
      */
     public WhileTask(ConditionalHolder condition, BodyStack body) {
         this.condition = condition;
@@ -46,7 +51,7 @@ public class WhileTask implements ExecutableTask {
 
     @Override
     public void execute() {
-        while(feedback().equals(true)) {
+        while (LocalStorage.isRunning() && feedback().equals(true)) {
             body.execute();
         }
     }

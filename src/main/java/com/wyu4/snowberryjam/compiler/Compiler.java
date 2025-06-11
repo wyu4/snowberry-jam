@@ -191,6 +191,7 @@ public abstract class Compiler extends LocalStorage {
                         case INCREASE_MACRO -> task = new IncreaseMacro(node);
                         case DECREASE_MACRO -> task = new DecreaseMacro(node);
                         case WAIT -> task = new WaitTask(node);
+                        case THREAD -> task = new ThreadTask(node);
                         default -> task = new PrintTask(ValueHolder.fromNode(node));
                     }
                 }

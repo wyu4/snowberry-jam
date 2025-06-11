@@ -1,0 +1,30 @@
+{
+    "id" : "PROJECT",
+    "name" : "Threading",
+    "description" : "Threading showcase",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "THREAD",
+                        "body" : [
+                            {
+                                "id" : "WAIT",
+                                "value" : 0.5
+                            },
+                            "Hello! (from a different thread)"
+                        ]
+                    },
+                    {
+                        "id" : "WAIT",
+                        "value" : 1
+                    },
+                    "Hello!"
+                ]
+            }
+        ]
+    }
+}

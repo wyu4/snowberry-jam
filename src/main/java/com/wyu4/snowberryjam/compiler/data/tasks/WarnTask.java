@@ -41,6 +41,10 @@ public class WarnTask implements ExecutableTask {
 
     @Override
     public void execute() {
+        if (!LocalStorage.isRunning()) {
+            return;
+        }
+        
         LocalStorage.warn(feedback());
     }
 

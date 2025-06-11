@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.tasks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.Compiler;
+import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
@@ -37,6 +38,10 @@ public class IfTask implements ExecutableTask {
 
     @Override
     public void execute() {
+        if (!LocalStorage.isRunning()) {
+            return;
+        }
+        
         if (feedback().equals(true)) {
             body.execute();
         }

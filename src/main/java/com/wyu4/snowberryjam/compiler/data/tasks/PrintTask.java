@@ -41,6 +41,10 @@ public class PrintTask implements ExecutableTask {
 
     @Override
     public void execute() {
+        if (!LocalStorage.isRunning()) {
+            return;
+        }
+        
         LocalStorage.print(feedback());
     }
 

@@ -5,6 +5,9 @@ import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
+
+import java.util.concurrent.locks.LockSupport;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class WaitTask implements ExecutableTask {
     private static final Logger logger = LoggerFactory.getLogger("WaitTask");
+    private static final int INTERVAL = 10;
 
     /**
      * The wait time in seconds.
@@ -21,6 +25,7 @@ public class WaitTask implements ExecutableTask {
 
     /**
      * Create a new wait statement
+     * 
      * @param node The {@link JsonNode} to refer
      */
     public WaitTask(JsonNode node) {
@@ -29,12 +34,15 @@ public class WaitTask implements ExecutableTask {
 
     @Override
     public void execute() {
-        long duration = getTime();
-        try {
-            Thread.sleep(duration);
-        } catch (Exception e) {
-            LocalStorage.warn("Something went wrong while running wait task.\n" + e.getMessage());
-            logger.error("Could not run wait task for " + duration + " seconds.", e);
+        double milliseconds = getTime();
+        long startTime = System.currentTimeMillis();
+        while (LocalStorage.isRunning() && ((System.currentTimeMillis() - startTime) < milliseconds)) {
+            try {
+                Thread.sleep(INTERVAL);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
     }
 

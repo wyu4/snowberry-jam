@@ -174,18 +174,24 @@ public class Interactor {
             if (!model.getSourceCode().equals(model.getBuiltSourceCode())) {
                 createCompileTask(createRunTask()).run();
             } else {
-                model.getRunningProperty().setValue(true);
-                new Thread(() -> {
-                    try {
-                        LocalStorage.runStack();
-                    } catch (Exception e) {
-                        LocalStorage.error("Error running.", e);
-                    } finally {
-                        model.getRunningProperty().setValue(false);
-                    }
-                }).start();
+                Platform.runLater(() -> {
+                    model.getRunningProperty().setValue(true);
+                    new Thread(() -> {
+                        try {
+                            LocalStorage.runStack();
+                        } catch (Exception e) {
+                            LocalStorage.error("Error running.", e);
+                        } finally {
+                            Platform.runLater(() -> model.getRunningProperty().setValue(false));
+                        }
+                    }).start();
+                });
             }
         };
+    }
+
+    public Runnable createStopTask() {
+        return () -> LocalStorage.stopRun();
     }
 
     public Runnable createFormatCodeTask() {

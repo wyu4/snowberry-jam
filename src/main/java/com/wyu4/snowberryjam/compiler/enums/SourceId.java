@@ -37,6 +37,7 @@ public enum SourceId {
     SAME_TYPE("SAME_TYPE"),
     SET("SET"),
     SIZE_OF("SIZE_OF"),
+    THREAD("THREAD"),
     TIME("TIME"),
     VARIABLE("VARIABLE"),
     WAIT("WAIT"),

@@ -8,6 +8,7 @@ import com.wyu4.snowberryjam.framework.Model.Page;
 import com.wyu4.snowberryjam.framework.viewer.StackViewer;
 import com.wyu4.snowberryjam.framework.viewer.VariableViewer;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
@@ -78,9 +79,6 @@ public class ViewBuilder implements Builder<Region> {
         MenuItem saveAsFile = new MenuItem("Save As");
         MenuItem exit = new MenuItem("Exit");
 
-        Menu editCategory = new Menu("Edit");
-        MenuItem formatDocument = new MenuItem("Format Document");
-
         saveFile.disableProperty().bindBidirectional(model.getSaveDisabledProperty());
         saveAsFile.disableProperty().bindBidirectional(model.getSaveAsDisabledProperty());
 
@@ -90,12 +88,26 @@ public class ViewBuilder implements Builder<Region> {
         saveAsFile.setOnAction(evt -> interactor.createSaveAsFileTask().run());
         exit.setOnAction(evt -> Platform.exit());
 
-        formatDocument.setOnAction(evt -> interactor.createFormatCodeTask().run());
-
         fileCategory.getItems().addAll(newFile, openFile, saveFile, saveAsFile, new SeparatorMenuItem(), exit);
-        editCategory.getItems().addAll(formatDocument);
 
-        bar.getMenus().addAll(fileCategory, editCategory);
+        Menu documentCategory = new Menu("Document");
+        MenuItem formatDocument = new MenuItem("Format");
+        MenuItem compileDocument = new MenuItem("Compile");
+        MenuItem runDocument = new MenuItem("Run");
+        MenuItem stopDocument = new MenuItem("Stop");
+
+        compileDocument.disableProperty().bindBidirectional(model.getCompilingProperty());
+        runDocument.disableProperty().bindBidirectional(model.getRunningProperty());
+        stopDocument.disableProperty().bind(model.getRunningProperty().not());
+
+        formatDocument.setOnAction(evt -> interactor.createFormatCodeTask().run());
+        compileDocument.setOnAction(evt -> interactor.createCompileTask().run());
+        runDocument.setOnAction(evt -> interactor.createRunTask().run());
+        stopDocument.setOnAction(evt -> interactor.createStopTask().run());
+        
+        documentCategory.getItems().addAll(formatDocument, compileDocument, runDocument, stopDocument);
+
+        bar.getMenus().addAll(fileCategory, documentCategory);
 
         return bar;
     }
@@ -164,9 +176,17 @@ public class ViewBuilder implements Builder<Region> {
         topBar.setPadding(new Insets(2, 10, 2, 10));
         topBar.setAlignment(Pos.CENTER_LEFT);
 
+        final FontIcon playIcon = new FontIcon(Feather.PLAY);
+        final FontIcon stopIcon = new FontIcon(Feather.SQUARE);
         Button playButton = new Button();
-        playButton.setGraphic(new FontIcon(Feather.PLAY));
-        playButton.setOnAction(evt -> interactor.createRunTask().run());
+        playButton.graphicProperty().bind(Bindings.when(model.getRunningProperty()).then(stopIcon).otherwise(playIcon));
+        playButton.setOnAction(evt -> {
+            if (model.getRunning()) {
+                interactor.createStopTask().run();
+            } else {
+                interactor.createRunTask().run();
+            }
+        });
 
         topBar.getChildren().add(playButton);
 

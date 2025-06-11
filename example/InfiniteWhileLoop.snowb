@@ -1,0 +1,26 @@
+{
+    "id" : "PROJECT",
+    "name" : "Infinite Loop",
+    "description" : "This program can only be ended manually.",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "WHILE",
+                        "value" : true,
+                        "body" : [
+                            "This runs forever.",
+                            {
+                                "id" : "WAIT",
+                                "value" : 1
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}

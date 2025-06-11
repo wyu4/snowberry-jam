@@ -41,6 +41,10 @@ public class ErrorTask implements ExecutableTask {
 
     @Override
     public void execute() {
+        if (!LocalStorage.isRunning()) {
+            return;
+        }
+        
         throw new RuntimeException(String.valueOf(feedback()));
     }
 
