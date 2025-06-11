@@ -110,6 +110,12 @@ class com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterOrEqualTo {
 + String toString()
 }
 
+class com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber {
++ <<Create>> ParseNumber(JsonNode)
++ Object getValue()
++ Class<?> getType()
+}
+
 class com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder {
 + Object getValue()
 + Class<?> getType()
@@ -354,6 +360,12 @@ abstract class com.wyu4.snowberryjam.codeutils.AutoComplete {
 + {static} void replace(CodeArea,Object,int,int)
 + {static} void insertBefore(CodeArea,Object,int)
 + {static} void insertAfter(CodeArea,Object,int)
+}
+
+class com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray {
++ <<Create>> SplitToArray(JsonNode)
++ Object getValue()
++ Class<?> getType()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf {
@@ -613,6 +625,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  MULTIPLY
 +  NOT
 +  NOT_EQUALS
++  PARSE_NUMBER
 +  PLUS
 +  PRINT
 +  PROJECT
@@ -624,6 +637,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  SAME_TYPE
 +  SET
 +  SIZE_OF
++  SPLIT
 +  THREAD
 +  TIME
 +  VARIABLE
@@ -733,6 +747,7 @@ com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberry
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.SameType
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterOrEqualTo
+com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Or
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Modulus
@@ -749,6 +764,7 @@ com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.s
 javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.framework.viewer.StackViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.BodyStack
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro
+com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Divide
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitTask

@@ -1,0 +1,79 @@
+{
+    "id" : "PROJECT",
+    "name" : "Number Array Inputter",
+    "description" : "Converting a user input into an array, using the split value.",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "arr",
+                "value" : [ ]
+            },
+            {
+                "name" : "i",
+                "value" : 0
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    "Input any numbers seperated by a comma:",
+                    {
+                        "id" : "SET",
+                        "name" : "arr",
+                        "value" : {
+                            "id" : "SPLIT",
+                            "a" : {
+                                "id" : "INPUT"
+                            },
+                            "b" : ","
+                        }
+                    },
+                    {
+                        "id" : "REPEAT",
+                        "name" : "i",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "arr"
+                        },
+                        "body" : [
+                            {
+                                "id" : "SET",
+                                "name" : "arr",
+                                "value" : {
+                                    "id" : "WITH_UPDATED_ELEMENT",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "arr"
+                                    },
+                                    "i" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "i"
+                                    },
+                                    "b" : {
+                                        "id" : "PARSE_NUMBER",
+                                        "a" : {
+                                            "id" : "ELEMENT_AT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "arr"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "i"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "VARIABLE",
+                        "name" : "arr"
+                    }
+                ]
+            }
+        ]
+    }
+}

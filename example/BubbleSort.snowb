@@ -21,6 +21,10 @@
                 "value" : 0
             },
             {
+                "name" : "a",
+                "value" : 0
+            },
+            {
                 "name" : "i",
                 "value" : 0
             },
@@ -35,36 +39,134 @@
             {
                 "name" : "swapped",
                 "value" : true
+            },
+            {
+                "name" : "input",
+                "value" : ""
             }
         ],
         "events" : [
             {
                 "id" : "ON_RUN",
                 "body" : [
+                    "Input numbers split by \",\" (or input nothing for an auto-generated array):",
                     {
-                        "id" : "REPEAT",
+                        "id" : "INPUT",
+                        "name" : "input"
+                    },
+                    {
+                        "id" : "IF_ELSE",
                         "value" : {
-                            "id" : "VARIABLE",
-                            "name" : "len"
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "input"
+                            },
+                            "id" : "!=",
+                            "b" : ""
                         },
                         "body" : [
                             {
+                                "id" : "SET",
                                 "name" : "arr",
-                                "id" : "+=",
                                 "value" : {
+                                    "id" : "SPLIT",
                                     "a" : {
-                                        "id" : "ROUND",
-                                        "a" : {
-                                            "a" : {
-                                                "id" : "RANDOM"
-                                            },
-                                            "id" : "*",
-                                            "b" : 10000
-                                        }
+                                        "id" : "VARIABLE",
+                                        "name" : "input"
                                     },
-                                    "id" : "/",
-                                    "b" : 100
+                                    "b" : ","
                                 }
+                            },
+                            {
+                                "id" : "REPEAT",
+                                "name" : "a",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "arr"
+                                },
+                                "body" : [
+                                    {
+                                        "id" : "SET",
+                                        "name" : "arr",
+                                        "value" : {
+                                            "id" : "WITH_UPDATED_ELEMENT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "arr"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "a"
+                                            },
+                                            "b" : {
+                                                "id" : "PARSE_NUMBER",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "arr"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "a"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "len",
+                                "value" : {
+                                    "id" : "SIZE_OF",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "arr"
+                                    }
+                                }
+                            }
+                        ],
+                        "else" : [
+                            {
+                                "a" : "Auto-generating an array of length ",
+                                "id" : "+",
+                                "b" : {
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "len"
+                                    },
+                                    "id" : "+",
+                                    "b" : "..."
+                                }
+                            },
+                            {
+                                "id" : "REPEAT",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "len"
+                                },
+                                "body" : [
+                                    {
+                                        "name" : "arr",
+                                        "id" : "+=",
+                                        "value" : {
+                                            "a" : {
+                                                "id" : "ROUND",
+                                                "a" : {
+                                                    "a" : {
+                                                        "id" : "RANDOM"
+                                                    },
+                                                    "id" : "*",
+                                                    "b" : 10000
+                                                }
+                                            },
+                                            "id" : "/",
+                                            "b" : 100
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     },

@@ -8,7 +8,9 @@ import com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.*;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf;
+import com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf;
+import com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray;
 import com.wyu4.snowberryjam.compiler.data.values.io.ReadFile;
 import com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex;
 import com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement;
@@ -74,6 +76,8 @@ public class ValueHolder {
             case ROUND -> new Round(node);
             case SIZE_OF -> new SizeOf(node);
             case ARRAY_OF -> new ArrayOf(node);
+            case SPLIT -> new SplitToArray(node);
+            case PARSE_NUMBER -> new ParseNumber(node);
             case ELEMENT_AT_INDEX -> new ElementAtIndex(node);
             case WITH_UPDATED_ELEMENT -> new WithUpdatedElement(node);
             case READ_FILE -> new ReadFile(node);

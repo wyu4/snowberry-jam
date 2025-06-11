@@ -5,7 +5,7 @@ import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 
 /**
- * Converts any value into a number/size.
+ * Converts any value into it size.
  */
 public class SizeOf extends InteractiveValueHolder {
     /**
