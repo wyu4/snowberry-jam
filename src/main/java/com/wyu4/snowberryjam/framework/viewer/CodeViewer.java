@@ -16,6 +16,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -116,12 +117,14 @@ class TaskViewer extends VBox {
         super();
         this.task = task;
 
-        innerContent.setPadding(new Insets(0, 0, 0, 10));
+        innerContent.setPadding(new Insets(5, 5, 5, 10));
 
         getChildren().addAll(new Label(task.getId().toString()), innerContent);
     }
 
     public void load() {
+        setBackground(new Background(new BackgroundFill(ColorDictionary.getColorFromId(task.getId()), new CornerRadii(5), Insets.EMPTY)));
+
         if (task instanceof BodyStack parsed) {
             getBodyViewer().loadStack(parsed);
             return;

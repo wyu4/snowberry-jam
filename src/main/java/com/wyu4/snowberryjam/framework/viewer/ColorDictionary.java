@@ -8,7 +8,7 @@ public abstract class ColorDictionary {
     private static final Color BUILT_IN = Color.rgb(254, 220, 189);
     private static final Color MATH = Color.rgb(171, 224, 253);
     private static final Color IF_STATEMENT = Color.rgb(247, 253, 171);
-    private static final Color MACRO = Color.rgb(253, 179, 171);
+    private static final Color MACRO = Color.rgb(171, 174, 253);
     private static final Color LOOP = Color.rgb(208, 199, 255);
     private static final Color DELAY = Color.rgb(123, 191, 255);
     private static final Color STORAGE = Color.rgb(212, 255, 222);
