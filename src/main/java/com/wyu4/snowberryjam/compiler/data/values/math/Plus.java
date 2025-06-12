@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.Arrays;
 
@@ -50,6 +51,14 @@ public class Plus extends ArithmeticHolder {
             return ((boolean) getA().getValue()) || ((boolean) getB().getValue());
         }
         return getA().getSize() + getB().getSize();
+    }
+
+    /**
+     * @return {@link SourceId#PLUS}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.PLUS;
     }
 
     @Override

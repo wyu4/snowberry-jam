@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.conversion;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Convert a string into a number
@@ -27,6 +28,14 @@ public class ParseNumber extends InteractiveValueHolder {
         } catch (NumberFormatException e) {
             throw new NumberFormatException("Cannot convert to number: \"%s\" is not numerical.".formatted(value));
         }
+    }
+
+    /**
+     * @return {@link SourceId#PARSE_NUMBER}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.PARSE_NUMBER;
     }
 
     /**

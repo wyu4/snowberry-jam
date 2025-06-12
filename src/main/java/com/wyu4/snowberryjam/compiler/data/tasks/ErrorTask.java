@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.tasks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -9,7 +10,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 /**
  * An error statement. The message is stored as {@link SourceKey#VALUE}. Unless there's something wrong with the {@link ValueHolder} or {@link LocalStorage} classes, this class is guaranteed throw an error.
  */
-public class ErrorTask implements ExecutableTask {
+public class ErrorTask implements ExecutableTask, ValuedTask {
     /**
      * The message. Can be any type.
      */
@@ -67,5 +68,10 @@ public class ErrorTask implements ExecutableTask {
     @Override
     public String toString() {
         return "warn %s".formatted(message);
+    }
+
+    @Override
+    public ValueHolder getValue() {
+        return message;
     }
 }

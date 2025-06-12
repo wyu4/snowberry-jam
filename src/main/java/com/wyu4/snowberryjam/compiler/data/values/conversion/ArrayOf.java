@@ -3,6 +3,7 @@ package com.wyu4.snowberryjam.compiler.data.values.conversion;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Converts any value into an array.
@@ -24,6 +25,14 @@ public class ArrayOf extends InteractiveValueHolder {
     @Override
     public Object getValue() {
         return getA().getArray();
+    }
+
+    /**
+     * @return {@link SourceId#ARRAY_OF}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.ARRAY_OF;
     }
 
     /**

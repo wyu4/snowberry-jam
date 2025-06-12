@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.conditional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Conditional Holder that checks if two values share the same type.
@@ -23,6 +24,14 @@ public class SameType extends ConditionalHolder {
     @Override
     public Boolean getState() {
         return getA().isType(getB().getType());
+    }
+
+    /**
+     * @return {@link SourceId#SAME_TYPE}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.SAME_TYPE;
     }
 
     @Override

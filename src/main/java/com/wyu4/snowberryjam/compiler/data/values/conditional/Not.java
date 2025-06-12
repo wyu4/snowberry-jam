@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.conditional;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Conditional Holder that inverts a value
@@ -29,6 +30,14 @@ public class Not extends ConditionalHolder {
         }
 
         throw new IllegalArgumentException("Cannot invert type [%s]".formatted(type.getCanonicalName()));
+    }
+
+    /**
+     * @return {@link SourceId#NOT}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.NOT;
     }
 
     @Override

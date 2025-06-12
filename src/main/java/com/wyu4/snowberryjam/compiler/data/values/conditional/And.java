@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.conditional;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Conditional Holder that handles {@code AND} operations.
@@ -29,6 +30,14 @@ public class And extends ConditionalHolder {
             return !((String) getA().getValue()).isEmpty() && !((String) getB().getValue()).isEmpty();
         }
         return getA().notEmpty() && getB().notEmpty();
+    }
+
+    /**
+     * @return {@link SourceId#AND}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.AND;
     }
 
     @Override

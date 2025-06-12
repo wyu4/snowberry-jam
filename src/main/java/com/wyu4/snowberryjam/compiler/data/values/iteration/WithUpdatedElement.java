@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.iteration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.Arrays;
 
@@ -30,6 +31,14 @@ public class WithUpdatedElement extends ArrayHolder {
         }
         array[index] = getB().getValue();
         return array;
+    }
+
+    /**
+     * @return {@link SourceId#WITH_UPDATED_ELEMENT}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.WITH_UPDATED_ELEMENT;
     }
 
     @Override

@@ -19,6 +19,8 @@ import com.wyu4.snowberryjam.compiler.enums.EnumHelper;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import javax.lang.model.type.NullType;
+
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -229,6 +231,14 @@ public class ValueHolder {
         } else if (type.equals(Object[].class)) {
             return (double) ((Object[]) getValue()).length;
         }
+        return null;
+    }
+
+    /**
+     * Get the ID of the value holder
+     * @return Corresponding {@link SourceId}
+     */
+    public SourceId getId() {
         return null;
     }
 

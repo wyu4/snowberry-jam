@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Arithmetic Holder that handles multiplication between value A and value B.
@@ -30,6 +31,14 @@ public class Multiply extends ArithmeticHolder {
             return ((boolean) getA().getValue()) && ((boolean) getB().getValue());
         }
         throw new IllegalArgumentException("Cannot perform multiplication on values type [%s] and [%s].".formatted(typeA.getCanonicalName(), typeB.getCanonicalName()));
+    }
+
+    /**
+     * @return {@link SourceId#MULTIPLY}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.MULTIPLY;
     }
 
     @Override

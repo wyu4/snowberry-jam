@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Arithmetic Holder that handles subtraction between value A and value B.
@@ -37,6 +38,14 @@ public class Minus extends ArithmeticHolder {
             return getA().getSize() - getB().getSize();
         }
         throw new IllegalArgumentException("Cannot perform subtraction on values type [%s] and [%s].".formatted(typeA.getCanonicalName(), typeB.getCanonicalName()));
+    }
+
+    /**
+     * @return {@link SourceId#MINUS}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.MINUS;
     }
 
     @Override

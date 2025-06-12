@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.builtin;
 
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Value Holder that handles randomization
@@ -14,6 +15,14 @@ public class RandomHolder extends ValueHolder {
     @Override
     public Object getValue() {
         return Math.random();
+    }
+
+    /**
+     * @return {@link SourceId#RANDOM}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.RANDOM;
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.builtin;
 
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Value Holder that provides time resources.
@@ -13,6 +14,14 @@ public class TimeHolder extends ValueHolder {
     @Override
     public Object getValue() {
         return (double) System.currentTimeMillis();
+    }
+
+    /**
+     * @return {@link SourceId#TIME}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.TIME;
     }
 
     /**

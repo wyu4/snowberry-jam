@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.conditional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.Arrays;
 
@@ -29,6 +30,14 @@ public class Equals extends ConditionalHolder {
             return Arrays.equals(a.getArray(), b.getArray());
         }
         return a.equals(b);
+    }
+
+    /**
+     * @return {@link SourceId#EQUALS}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.EQUALS;
     }
 
     @Override

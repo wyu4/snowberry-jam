@@ -323,11 +323,12 @@ public class ViewBuilder implements Builder<Region> {
      * @return A new {@link SplitPane}
      */
     public Node createProjectViewer() {
-        final SplitPane root = new SplitPane();
-        root.setOrientation(Orientation.HORIZONTAL);
-
         final CodeViewer codeViewer = new CodeViewer();
         final VariableViewer variableViewer = new VariableViewer();
+
+        final SplitPane root = new SplitPane(codeViewer, variableViewer);
+        root.setOrientation(Orientation.HORIZONTAL);
+        root.setDividerPositions(0);
 
         final AtomicBoolean refreshQueued = new AtomicBoolean(true);
 
@@ -348,9 +349,6 @@ public class ViewBuilder implements Builder<Region> {
         });
 
         root.visibleProperty().addListener((evt, old, v) -> refresh.run());
-
-        root.getItems().addAll(codeViewer, variableViewer);
-
         return root;
     }
 

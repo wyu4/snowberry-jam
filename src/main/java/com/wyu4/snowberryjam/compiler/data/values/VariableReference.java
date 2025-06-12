@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values;
 
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * A pointer to a variable stored in {@link LocalStorage}
@@ -46,6 +47,14 @@ public class VariableReference extends ValueHolder{
             return parsed.clone();
         }
         return raw;
+    }
+
+    /**
+     * @return {@link SourceId#VARIABLE}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.VARIABLE;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.tasks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -12,7 +13,7 @@ import org.slf4j.LoggerFactory;
 /**
  * A wait task. The time to wait is stored as {@link SourceKey#VALUE}.
  */
-public class WaitTask implements ExecutableTask {
+public class WaitTask implements ExecutableTask, ValuedTask {
     private static final Logger logger = LoggerFactory.getLogger("WaitTask");
     private static final int INTERVAL = 10;
 
@@ -75,5 +76,10 @@ public class WaitTask implements ExecutableTask {
     @Override
     public String toString() {
         return "wait %s seconds".formatted(feedback());
+    }
+
+    @Override
+    public ValueHolder getValue() {
+        return time;
     }
 }

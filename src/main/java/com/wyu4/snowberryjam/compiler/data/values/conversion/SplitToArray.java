@@ -3,6 +3,7 @@ package com.wyu4.snowberryjam.compiler.data.values.conversion;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.Arrays;
 
@@ -30,6 +31,14 @@ public class SplitToArray extends InteractiveValueHolder {
             return Arrays.copyOf(split, split.length, Object[].class);
         }
         return new Object[] {getA().getString()};
+    }
+
+    /**
+     * @return {@link SourceId#SPLIT}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.SPLIT;
     }
 
     /**

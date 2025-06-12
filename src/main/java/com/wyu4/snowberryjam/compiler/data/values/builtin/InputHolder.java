@@ -3,6 +3,7 @@ package com.wyu4.snowberryjam.compiler.data.values.builtin;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.values.Releasable;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +41,14 @@ public class InputHolder extends ValueHolder implements Releasable {
 
     public void release() {
         input.set(null);
+    }
+
+    /**
+     * @return {@link SourceId#INPUT}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.INPUT;
     }
 
     /**

@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.values.builtin;
 
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Value Holder that provides time resources.
@@ -14,6 +15,14 @@ public class PublicFolderHolder extends ValueHolder {
     @Override
     public Object getValue() {
         return ResourceUtils.PUBLIC;
+    }
+
+    /**
+     * @return {@link SourceId#PUBLIC_FOLDER}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.PUBLIC_FOLDER;
     }
 
     /**

@@ -3,6 +3,7 @@ package com.wyu4.snowberryjam.compiler.data.tasks.macros;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.VariableReference;
 import com.wyu4.snowberryjam.compiler.data.values.math.Minus;
@@ -14,7 +15,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
  * {@link SourceKey#NAME}, and the new value is stored as
  * {@link SourceKey#VALUE}.
  */
-public class DecreaseMacro implements ExecutableTask {
+public class DecreaseMacro implements ExecutableTask, ValuedTask {
     /**
      * The name of the variable to decreaser. Can be any type, but the string value
      * will be provided to {@link LocalStorage}.
@@ -88,5 +89,10 @@ public class DecreaseMacro implements ExecutableTask {
     @Override
     public String toString() {
         return "decrease variable %s by %s".formatted(name, value);
+    }
+
+    @Override
+    public ValueHolder getValue() {
+        return value;
     }
 }

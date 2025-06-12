@@ -5,6 +5,7 @@ import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
@@ -12,7 +13,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 /**
  * An if-else statement. The condition is stored as {@link SourceKey#VALUE}. Runs {@link SourceKey#BODY} if true.
  */
-public class IfTask implements ExecutableTask, BodiedTask {
+public class IfTask implements ExecutableTask, BodiedTask, ValuedTask {
     /**
      * The condition. Must be of type {@link Boolean}.
      * @see ValueHolder#getType()
@@ -72,5 +73,10 @@ public class IfTask implements ExecutableTask, BodiedTask {
     @Override
     public BodyStack getBody() {
         return body;
+    }
+
+    @Override
+    public ValueHolder getValue() {
+        return condition;
     }
 }

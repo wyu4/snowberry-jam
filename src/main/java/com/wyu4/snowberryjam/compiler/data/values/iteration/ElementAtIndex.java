@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.iteration;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.Arrays;
 
@@ -29,6 +30,14 @@ public class ElementAtIndex extends ArrayHolder {
             throw new ArrayIndexOutOfBoundsException("Array %s is too small for index %s".formatted(Arrays.toString(array), index));
         }
         return array[index];
+    }
+
+    /**
+     * @return {@link SourceId#ELEMENT_AT_INDEX}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.ELEMENT_AT_INDEX;
     }
 
     @Override

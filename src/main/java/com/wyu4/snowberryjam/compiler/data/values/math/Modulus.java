@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
  * Arithmetic Holder that handles modulus operations between value A and value B.
@@ -32,6 +33,14 @@ public class Modulus extends ArithmeticHolder {
             return ((double) getA().getValue()) % valueB;
         }
         throw new IllegalArgumentException("Cannot perform division on values type [%s] and [%s].".formatted(typeA.getCanonicalName(), typeB.getCanonicalName()));
+    }
+
+    /**
+     * @return {@link SourceId#MODULUS}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.MODULUS;
     }
 
     @Override

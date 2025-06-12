@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.io.File;
 
@@ -30,6 +31,14 @@ public class ReadFile extends InteractiveValueHolder {
         } else {
             throw new RuntimeException("Cannot read file. File \"%s\" does not exist.".formatted(name));
         }
+    }
+
+    /**
+     * @return {@link SourceId#READ_FILE}
+     */
+    @Override
+    public SourceId getId() {
+        return SourceId.READ_FILE;
     }
 
     @Override
