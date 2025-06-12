@@ -32,8 +32,8 @@ public class VariableReference extends ValueHolder{
      * Get the name of the variable being pointed to
      * @return Name
      */
-    public String getName() {
-        return name.getString();
+    public ValueHolder getName() {
+        return name;
     }
 
     /**
@@ -42,7 +42,7 @@ public class VariableReference extends ValueHolder{
      */
     @Override
     public Object getValue() {
-        Object raw = LocalStorage.getRaw(getName());
+        Object raw = LocalStorage.getRaw(getName().getString());
         if (raw instanceof Object[] parsed) {
             return parsed.clone();
         }

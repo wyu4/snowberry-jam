@@ -1,8 +1,10 @@
 package com.wyu4.snowberryjam.gui.viewer.codeviewer.values;
 
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+import com.wyu4.snowberryjam.compiler.data.values.VariableReference;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.BuiltInHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder;
+import com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder;
 import com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder;
 
 import javafx.geometry.Insets;
@@ -23,6 +25,12 @@ public class ValueViewer extends HBox {
     public static final CornerRadii CIRCULAR_RADII = new CornerRadii(999);
 
     public static Node buildValueViewer(ValueHolder holder) {
+        if (holder instanceof VariableReference parsed) {
+            return new VariableReferenceViewer(parsed);
+        }
+        if (holder instanceof ArrayHolder parsed) {
+            return new ArrayValueViewer(parsed);
+        }
         if (holder instanceof ArithmeticHolder parsed) {
             return new ArithmeticValueViewer(parsed);
         }
@@ -45,6 +53,8 @@ public class ValueViewer extends HBox {
         setPadding(new Insets(5, 5, 5, 5));
         setMinWidth(Region.USE_PREF_SIZE);
         setMaxWidth(Region.USE_PREF_SIZE);
+        setMinHeight(Region.USE_PREF_SIZE);
+        setMaxHeight(Region.USE_PREF_SIZE);
     }
 
     public ValueHolder getValue() {

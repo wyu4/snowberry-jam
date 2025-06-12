@@ -8,11 +8,17 @@ import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polygon;
 
 public class ArithmeticValueViewer extends StackPane {
     public ArithmeticValueViewer(ArithmeticHolder value) {
+        setMinWidth(Region.USE_PREF_SIZE);
+        setMaxWidth(Region.USE_PREF_SIZE);
+        setMinHeight(Region.USE_PREF_SIZE);
+        setMaxHeight(Region.USE_PREF_SIZE);
+
         ValueViewer content = new ValueViewer(value);
 
         SourceId id = value.getId();
@@ -24,6 +30,7 @@ public class ArithmeticValueViewer extends StackPane {
         chamferClip.setFill(ColorDictionary.getColorFromId(id));
         chamferClip.setStroke(ValueViewer.BORDER_COLOR);
         chamferClip.setStrokeWidth(1);
+        
 
         content.layoutBoundsProperty().addListener((evt, old, bounds) -> {
             double inset = 15;

@@ -28,7 +28,7 @@ public class ArrayHolder extends InteractiveValueHolder {
      * Get the pointer to parameter I
      * @return The pointer to parameter I
      */
-    protected ValueHolder getI() {
+    public ValueHolder getI() {
         return i;
     }
 

@@ -10,6 +10,7 @@ import javafx.beans.binding.Bindings;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
@@ -27,6 +28,7 @@ import javafx.scene.shape.Circle;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class CodeViewer extends StackPane implements Viewer {
+
     private final StackPane loadingOverlay = new LoadingOverlay();
     private final ScrollPane scrollPane = new ScrollPane();
     private final StackViewer primaryStackViewer = new StackViewer(true);

@@ -63,7 +63,7 @@ public abstract class ColorDictionary {
             case SPLIT -> CONVERSION;
             case THREAD -> THREADING;
             case TIME -> MATH;
-            case VARIABLE -> STORAGE.darker();
+            case VARIABLE -> BUILT_IN;
             case WAIT -> DELAY;
             case WAIT_UNTIL -> DELAY;
             case WARN -> Color.rgb(255, 204, 52);

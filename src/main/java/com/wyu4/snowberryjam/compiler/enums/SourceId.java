@@ -32,7 +32,7 @@ public enum SourceId {
     PRINT("PRINT", "print"),
     PROJECT("PROJECT"),
     PUBLIC_FOLDER("PUBLIC_FOLDER", "path to public folder"),
-    RANDOM("RANDOM"),
+    RANDOM("RANDOM", "random"),
     READ_FILE("READ", "read"),
     REPEAT("REPEAT", "repeat"),
     ROUND("ROUND", "round"),
