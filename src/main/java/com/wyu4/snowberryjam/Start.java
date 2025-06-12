@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam;
 
 import atlantafx.base.theme.NordLight;
+import com.wyu4.snowberryjam.gui.framework.Controller;
 import javafx.application.Application;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -9,8 +10,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.wyu4.snowberryjam.gui.framework.Controller;
 
 import java.io.File;
 import java.util.List;

@@ -19,7 +19,6 @@ import com.wyu4.snowberryjam.compiler.enums.EnumHelper;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import javax.lang.model.type.NullType;
-
 import java.util.Arrays;
 
 /**

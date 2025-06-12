@@ -1,20 +1,15 @@
 package com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks;
 
-import java.util.Arrays;
-import java.util.concurrent.atomic.AtomicReference;
-
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
-
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+
+import java.util.Arrays;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class StackViewer extends VBox {
     private AtomicReference<ExecutableTask[]> tasks = new AtomicReference<>();
