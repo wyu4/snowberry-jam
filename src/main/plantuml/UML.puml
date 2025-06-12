@@ -6,6 +6,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.ThreadTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ BodyStack getBody()
 }
 
 
@@ -95,6 +96,24 @@ class com.wyu4.snowberryjam.compiler.data.values.conditional.SameType {
 + String toString()
 }
 
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer {
+- StackPane loadingOverlay
+- ScrollPane scrollPane
+- StackViewer primaryStackViewer
++ <<Create>> CodeViewer()
+- void flush()
++ void refresh()
+}
+
+
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.DottedStackPane {
++ <<Create>> DottedStackPane(int)
+}
+
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.LoadingOverlay {
++ <<Create>> LoadingOverlay()
+}
+
 class com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder {
 - ValueHolder i
 + <<Create>> ArrayHolder(JsonNode)
@@ -109,6 +128,24 @@ class com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterOrEqualTo {
 + Boolean getState()
 + String toString()
 }
+
+abstract class com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary {
+- {static} Color BUILT_IN
+- {static} Color MATH
+- {static} Color IF_STATEMENT
+- {static} Color MACRO
+- {static} Color LOOP
+- {static} Color DELAY
+- {static} Color STORAGE
+- {static} Color CONDITIONAL
+- {static} Color THREADING
+- {static} Color CONVERSION
+- {static} Color IO
+- {static} Color ITERATION
+- {static} Color BLAND
++ {static} Color getColorFromId(SourceId)
+}
+
 
 class com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber {
 + <<Create>> ParseNumber(JsonNode)
@@ -140,6 +177,21 @@ class com.wyu4.snowberryjam.compiler.data.values.conditional.Equals {
 + String toString()
 }
 
+interface com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask {
+~ BodyStack getBody()
+}
+
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.StackViewer {
+- AtomicReference<ExecutableTask[]> tasks
+- ObservableList<Node> children
++ <<Create>> StackViewer()
++ <<Create>> StackViewer(boolean)
++ void loadStack(BodyStack)
++ void loadStack(ExecutableTask[])
++ void flush()
+}
+
+
 class com.wyu4.snowberryjam.compiler.data.tasks.WhileTask {
 - ValueHolder condition
 - BodyStack body
@@ -149,6 +201,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WhileTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ BodyStack getBody()
 }
 
 
@@ -161,6 +214,12 @@ class com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex {
 interface com.wyu4.snowberryjam.compiler.data.values.Releasable {
 ~ void init()
 ~ void release()
+}
+
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.Insets {
+}
+interface com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask {
+~ BodyStack getSecondaryBody()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.conditional.Not {
@@ -203,27 +262,26 @@ class com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ BodyStack getBody()
 }
 
 
-class com.wyu4.snowberryjam.framework.viewer.VariableViewer {
-- TableColumn<VariableListener,String> nameColumn
-- TableColumn<VariableListener,String> typeColumn
-- TableColumn<VariableListener,String> valueColumn
-- ObservableList<VariableListener> variables
-+ <<Create>> VariableViewer()
-+ void refresh()
-}
-
-
-class com.wyu4.snowberryjam.framework.viewer.VariableListener {
-- StringProperty name
-- StringProperty type
-- ObjectProperty<Object> value
-+ <<Create>> VariableListener(String)
-+ ObjectProperty<Object> getValueProperty()
-+ StringProperty getTypeProperty()
-+ StringProperty getNameProperty()
+class com.wyu4.snowberryjam.gui.framework.Interactor {
+- {static} Logger logger
+- Model model
+- Stage stage
++ <<Create>> Interactor(Model,Stage)
++ Runnable createOpenFileTask()
++ Runnable createSetFileTask(File)
++ Runnable createSaveFileTask()
++ Runnable createSaveFileTask(File)
++ Runnable createSaveAsFileTask()
++ Runnable createNewProjectTask()
++ Runnable createCompileTask()
++ Runnable createCompileTask(Runnable)
++ Runnable createRunTask()
++ Runnable createStopTask()
++ Runnable createFormatCodeTask()
 }
 
 
@@ -235,6 +293,8 @@ class com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder {
 + String toString()
 }
 
+abstract class com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer {
+}
 interface com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask {
 ~ void execute()
 ~ SourceId getId()
@@ -295,34 +355,6 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Multiply {
 + String toString()
 }
 
-class com.wyu4.snowberryjam.framework.Interactor {
-- {static} Logger logger
-- Model model
-- Stage stage
-+ <<Create>> Interactor(Model,Stage)
-+ Runnable createOpenFileTask()
-+ Runnable createSetFileTask(File)
-+ Runnable createSaveFileTask()
-+ Runnable createSaveFileTask(File)
-+ Runnable createSaveAsFileTask()
-+ Runnable createNewProjectTask()
-+ Runnable createCompileTask()
-+ Runnable createCompileTask(Runnable)
-+ Runnable createRunTask()
-+ Runnable createStopTask()
-+ Runnable createFormatCodeTask()
-}
-
-
-class com.wyu4.snowberryjam.framework.viewer.StackViewer {
-- AtomicReference<ExecutableTask[]> tasks
-+ <<Create>> StackViewer()
-+ <<Create>> StackViewer(BodyStack)
-+ void setStack(BodyStack)
-+ void setStack(ExecutableTask[])
-}
-
-
 class com.wyu4.snowberryjam.compiler.data.BodyStack {
 - {static} Logger logger
 - {static} AtomicBoolean DEBUGGING_ENABLED
@@ -351,16 +383,6 @@ class com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro {
 + String toString()
 }
 
-
-abstract class com.wyu4.snowberryjam.codeutils.AutoComplete {
-+ {static} void persistIndent(CodeArea)
-+ {static} void formatIndent(CodeArea)
-+ {static} void fullfillPunctation(CodeArea)
-+ {static} void replaceBefore(CodeArea,Object,int)
-+ {static} void replace(CodeArea,Object,int,int)
-+ {static} void insertBefore(CodeArea,Object,int)
-+ {static} void insertAfter(CodeArea,Object,int)
-}
 
 class com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray {
 + <<Create>> SplitToArray(JsonNode)
@@ -393,20 +415,9 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WaitTask {
 }
 
 
-class com.wyu4.snowberryjam.framework.ViewBuilder {
-- {static} Logger logger
-- Model model
-- Interactor interactor
-+ <<Create>> ViewBuilder(Model,Interactor)
-+ Region build()
-+ Node createMenuBar()
-+ Node createProjectWidget()
-+ Node createConsole()
-+ Node createLog(String,String,Color)
-+ Node createCodeViewer()
-+ Node createCodeEditor()
+interface com.wyu4.snowberryjam.gui.viewer.Viewer {
+~ void refresh()
 }
-
 
 class com.wyu4.snowberryjam.compiler.data.values.io.ReadFile {
 + <<Create>> ReadFile(JsonNode)
@@ -440,6 +451,7 @@ class com.wyu4.snowberryjam.compiler.data.values.ValueHolder {
 + {static} ValueHolder fromNode(JsonNode)
 + {static} ValueHolder checkValueIsConditional(ValueHolder)
 + Object getValue()
++ Object getPointer()
 + Object[] getArray()
 + String getString()
 + Class<?> getType()
@@ -452,47 +464,23 @@ class com.wyu4.snowberryjam.compiler.data.values.ValueHolder {
 }
 
 
-class com.wyu4.snowberryjam.framework.Model {
-- ObjectProperty<File> sourceFileProperty
-- ObjectProperty<Page> pageProperty
-- BooleanProperty saveDisabledProperty
-- BooleanProperty saveAsDisabledProperty
-- BooleanProperty runDisabledProperty
-- BooleanProperty compilingProperty
-- BooleanProperty runningProperty
-- StringProperty sourceCodeProperty
-- StringProperty builtSourceCodeProperty
-+ ObjectProperty<File> getSourceFileProperty()
-+ ObjectProperty<Page> getPageProperty()
-+ BooleanProperty getSaveDisabledProperty()
-+ BooleanProperty getSaveAsDisabledProperty()
-+ BooleanProperty getRunDisabledProperty()
-+ BooleanProperty getCompilingProperty()
-+ BooleanProperty getRunningProperty()
-+ StringProperty getSourceCodeProperty()
-+ StringProperty getBuiltSourceCodeProperty()
-+ File getSourceFile()
-+ Page getPage()
-+ boolean getSaveDisabled()
-+ boolean getSaveAsDisabled()
-+ boolean getRunDisabled()
-+ boolean getCompiling()
-+ boolean getRunning()
-+ String getSourceCode()
-+ String getBuiltSourceCode()
-}
-
-
-enum com.wyu4.snowberryjam.framework.Page {
-+  EDITOR
-+  VIEWER
-}
-
 class com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder {
 + Object getValue()
 + Class<?> getType()
 + String toString()
 }
+
+class com.wyu4.snowberryjam.gui.framework.Controller {
+- Builder<Region> builder
+- Model model
+- Interactor interactor
++ <<Create>> Controller(Stage)
++ void updateFile(File)
++ File getSourceFile()
++ ObjectProperty<File> getSourceFileProperty()
++ Region getView()
+}
+
 
 class com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask {
 - ValueHolder condition
@@ -503,6 +491,8 @@ class com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ BodyStack getBody()
++ BodyStack getSecondaryBody()
 }
 
 
@@ -532,6 +522,43 @@ abstract class com.wyu4.snowberryjam.compiler.Compiler {
 + {static} void addErrorListener(BiConsumer<String,String>)
 }
 
+
+class com.wyu4.snowberryjam.gui.framework.Model {
+- ObjectProperty<File> sourceFileProperty
+- ObjectProperty<Page> pageProperty
+- BooleanProperty saveDisabledProperty
+- BooleanProperty saveAsDisabledProperty
+- BooleanProperty runDisabledProperty
+- BooleanProperty compilingProperty
+- BooleanProperty runningProperty
+- StringProperty sourceCodeProperty
+- StringProperty builtSourceCodeProperty
++ <<Create>> Model()
++ ObjectProperty<File> getSourceFileProperty()
++ ObjectProperty<Page> getPageProperty()
++ BooleanProperty getSaveDisabledProperty()
++ BooleanProperty getSaveAsDisabledProperty()
++ BooleanProperty getRunDisabledProperty()
++ BooleanProperty getCompilingProperty()
++ BooleanProperty getRunningProperty()
++ StringProperty getSourceCodeProperty()
++ StringProperty getBuiltSourceCodeProperty()
++ File getSourceFile()
++ Page getPage()
++ boolean getSaveDisabled()
++ boolean getSaveAsDisabled()
++ boolean getRunDisabled()
++ boolean getCompiling()
++ boolean getRunning()
++ String getSourceCode()
++ String getBuiltSourceCode()
+}
+
+
+enum com.wyu4.snowberryjam.gui.framework.Page {
++  EDITOR
++  VIEWER
+}
 
 enum com.wyu4.snowberryjam.compiler.enums.SourceKey {
 +  ARRAY
@@ -580,10 +607,36 @@ enum com.wyu4.snowberryjam.ResourceFile {
 }
 
 
-abstract class com.wyu4.snowberryjam.codeutils.Filter {
-+ {static} boolean isSpecialOperation(KeyEvent)
-+ {static} boolean isWrappablePunctuation(KeyEvent)
+abstract class com.wyu4.snowberryjam.gui.editorutils.AutoComplete {
++ {static} void persistIndent(CodeArea)
++ {static} void formatIndent(CodeArea)
++ {static} void fullfillPunctation(CodeArea)
++ {static} void replaceBefore(CodeArea,Object,int)
++ {static} void replace(CodeArea,Object,int,int)
++ {static} void insertBefore(CodeArea,Object,int)
++ {static} void insertAfter(CodeArea,Object,int)
 }
+
+class com.wyu4.snowberryjam.gui.viewer.VariableViewer {
+- TableColumn<VariableListener,String> nameColumn
+- TableColumn<VariableListener,String> typeColumn
+- TableColumn<VariableListener,String> valueColumn
+- ObservableList<VariableListener> variables
++ <<Create>> VariableViewer()
++ void refresh()
+}
+
+
+class com.wyu4.snowberryjam.gui.viewer.VariableListener {
+- StringProperty name
+- StringProperty type
+- ObjectProperty<Object> value
++ <<Create>> VariableListener(String)
++ ObjectProperty<Object> getValueProperty()
++ StringProperty getTypeProperty()
++ StringProperty getNameProperty()
+}
+
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder {
 - AtomicReference<String> input
@@ -647,7 +700,10 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 +  WHILE
 +  WITH_UPDATED_ELEMENT
 - String id
+- String beautified
 ~ <<Create>> SourceId(String)
+~ <<Create>> SourceId(String,String)
++ String getBeautified()
 + String toString()
 }
 
@@ -663,25 +719,13 @@ abstract class com.wyu4.snowberryjam.compiler.enums.EnumHelper {
 + {static} SourceKey stringToKey(String)
 }
 
-class com.wyu4.snowberryjam.framework.Controller {
-- Builder<Region> builder
-- Model model
-- Interactor interactor
-+ <<Create>> Controller(Stage)
-+ void updateFile(File)
-+ File getSourceFile()
-+ ObjectProperty<File> getSourceFileProperty()
-+ Region getView()
-}
-
-
 class com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder {
 - ValueHolder a
 - ValueHolder b
 + <<Create>> InteractiveValueHolder(JsonNode)
 + <<Create>> InteractiveValueHolder(ValueHolder,ValueHolder)
-# ValueHolder getA()
-# ValueHolder getB()
++ ValueHolder getA()
++ ValueHolder getB()
 }
 
 
@@ -693,6 +737,23 @@ class com.wyu4.snowberryjam.compiler.data.tasks.IfTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ BodyStack getBody()
+}
+
+
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.TaskViewer {
+- {static} CornerRadii corner
+- ExecutableTask task
+- HBox titleHBox
+- VBox innerContent
+- StackViewer bodyViewer
+- StackViewer secondaryBodyViewer
++ <<Create>> TaskViewer(ExecutableTask)
++ void load()
+- VBox getInnerContent()
+- void addValueProperty()
+- StackViewer getBodyViewer()
+- StackViewer getSecondaryBodyViewer()
 }
 
 
@@ -701,6 +762,21 @@ class com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf {
 + Object getValue()
 + Class<?> getType()
 }
+
+class com.wyu4.snowberryjam.gui.framework.ViewBuilder {
+- {static} Logger logger
+- Model model
+- Interactor interactor
++ <<Create>> ViewBuilder(Model,Interactor)
++ Region build()
++ Node createMenuBar()
++ Node createProjectWidget()
++ Node createConsole()
++ Node createLog(String,String,Color)
++ Node createProjectViewer()
++ Node createCodeEditor()
+}
+
 
 class com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals {
 + <<Create>> NotEquals(JsonNode)
@@ -712,6 +788,11 @@ class com.wyu4.snowberryjam.compiler.data.values.conditional.LessThan {
 + <<Create>> LessThan(JsonNode)
 + Boolean getState()
 + String toString()
+}
+
+abstract class com.wyu4.snowberryjam.gui.editorutils.Filter {
++ {static} boolean isSpecialOperation(KeyEvent)
++ {static} boolean isWrappablePunctuation(KeyEvent)
 }
 
 class com.wyu4.snowberryjam.compiler.data.tasks.PrintTask {
@@ -735,6 +816,7 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Round {
 
 
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ThreadTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ThreadTask
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.And
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WarnTask
 javafx.application.Application <|-- com.wyu4.snowberryjam.Start
@@ -745,6 +827,10 @@ com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberry
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.SameType
+com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
+javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
+javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.DottedStackPane
+javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.LoadingOverlay
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterOrEqualTo
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber
@@ -752,37 +838,45 @@ com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryja
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Or
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Modulus
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Equals
+javafx.scene.layout.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.StackViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Not
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.SetTask
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitUntilTask
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
-javafx.scene.control.TableView <|-- com.wyu4.snowberryjam.framework.viewer.VariableViewer
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder
+javafx.scene.layout.HBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Multiply
-javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.framework.viewer.StackViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.BodyStack
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Divide
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitTask
-javafx.util.Builder <|.. com.wyu4.snowberryjam.framework.ViewBuilder
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.io.ReadFile
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.VariableReference
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Plus
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
 com.wyu4.snowberryjam.compiler.LocalStorage <|-- com.wyu4.snowberryjam.compiler.Compiler
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.LessOrEqualTo
+com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.VariableViewer
+javafx.scene.control.TableView <|-- com.wyu4.snowberryjam.gui.viewer.VariableViewer
 com.wyu4.snowberryjam.compiler.data.values.Releasable <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterThan
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.PublicFolderHolder
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
+javafx.scene.layout.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.TaskViewer
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf
+javafx.util.Builder <|.. com.wyu4.snowberryjam.gui.framework.ViewBuilder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.LessThan
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.PrintTask

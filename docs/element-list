@@ -1,9 +1,9 @@
 module:com.wyu4.snowberryjam
 com.wyu4.snowberryjam
-com.wyu4.snowberryjam.codeutils
 com.wyu4.snowberryjam.compiler
 com.wyu4.snowberryjam.compiler.data
 com.wyu4.snowberryjam.compiler.data.tasks
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces
 com.wyu4.snowberryjam.compiler.data.tasks.macros
 com.wyu4.snowberryjam.compiler.data.values
 com.wyu4.snowberryjam.compiler.data.values.builtin
@@ -13,5 +13,9 @@ com.wyu4.snowberryjam.compiler.data.values.io
 com.wyu4.snowberryjam.compiler.data.values.iteration
 com.wyu4.snowberryjam.compiler.data.values.math
 com.wyu4.snowberryjam.compiler.enums
-com.wyu4.snowberryjam.framework
-com.wyu4.snowberryjam.framework.viewer
+com.wyu4.snowberryjam.gui.editorutils
+com.wyu4.snowberryjam.gui.framework
+com.wyu4.snowberryjam.gui.viewer
+com.wyu4.snowberryjam.gui.viewer.codeviewer
+com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks
+com.wyu4.snowberryjam.gui.viewer.codeviewer.values

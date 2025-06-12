@@ -1,10 +1,10 @@
 package com.wyu4.snowberryjam.compiler.data.values.conversion;
 
-import java.util.Arrays;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
+
+import java.util.Arrays;
 
 /**
  * Converts any value into an array by splitting its string form.
