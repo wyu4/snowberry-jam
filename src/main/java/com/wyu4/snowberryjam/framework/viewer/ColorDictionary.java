@@ -17,7 +17,7 @@ public abstract class ColorDictionary {
     private static final Color CONVERSION = Color.rgb(255, 116, 255);
     private static final Color IO = Color.rgb(246, 255, 116);
     private static final Color ITERATION = Color.rgb(116, 255, 211);
-    private static final Color BLAND = Color.rgb(0, 0, 0, 0);
+    private static final Color BLAND = Color.rgb(236, 236, 236, 0.5);
 
     public static Color getColorFromId(SourceId id) {
         return switch(id) {

@@ -43,7 +43,7 @@ public class InteractiveValueHolder extends ValueHolder {
      * Get the pointer to parameter A
      * @return The pointer to parameter A
      */
-    protected ValueHolder getA() {
+    public ValueHolder getA() {
         return a;
     }
 
@@ -51,7 +51,7 @@ public class InteractiveValueHolder extends ValueHolder {
      * Get the pointer to parameter B
      * @return The pointer to parameter B
      */
-    protected ValueHolder getB() {
+    public ValueHolder getB() {
         return b;
     }
 }

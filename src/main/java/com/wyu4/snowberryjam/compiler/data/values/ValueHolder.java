@@ -139,6 +139,14 @@ public class ValueHolder {
     }
 
     /**
+     * Get the unparsed pointer. Could be a primitive or non-primitive value.
+     * @return The value or the pointer to a value.
+     */
+    public Object getPointer() {
+        return value;
+    }
+
+    /**
      * Get the stored value as an {@link Object} array. If the original value was already an {@link Object} array, it wil lremain untouched. Otherwise, it will take the string format of the value and return an array of all the characters (casted to {@link String})
      * @return {@link Object} array
      * @see #getValue()

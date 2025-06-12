@@ -328,14 +328,25 @@ public class ViewBuilder implements Builder<Region> {
         final CodeViewer codeViewer = new CodeViewer();
         final VariableViewer variableViewer = new VariableViewer();
 
+        final AtomicBoolean refreshQueued = new AtomicBoolean(true);
+
+        Runnable refresh = () -> {
+            if (refreshQueued.get() && root.isVisible()) {
+                codeViewer.refresh();
+                variableViewer.refresh();
+                refreshQueued.set(false);
+            }
+        };
+
         model.getCompilingProperty().addListener((evt, old, compiling) -> {
             if (compiling) {
                 return;
             }
-
-            codeViewer.refresh();
-            variableViewer.refresh();
+            refreshQueued.set(true);
+            refresh.run();
         });
+
+        root.visibleProperty().addListener((evt, old, v) -> refresh.run());
 
         root.getItems().addAll(codeViewer, variableViewer);
 
