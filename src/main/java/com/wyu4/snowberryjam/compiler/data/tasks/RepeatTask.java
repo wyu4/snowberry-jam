@@ -5,6 +5,7 @@ import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.NamedTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
@@ -16,7 +17,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
  * is stored as {@link SourceKey#BODY}. An optional variable to set each
  * iteration can be stored as {@link SourceKey#NAME}.
  */
-public class RepeatTask implements ExecutableTask, BodiedTask, ValuedTask {
+public class RepeatTask implements ExecutableTask, BodiedTask, ValuedTask, NamedTask {
     /**
      * The number of times to repeat the loop. Can be any type, so long as it has a
      * size.
@@ -94,5 +95,10 @@ public class RepeatTask implements ExecutableTask, BodiedTask, ValuedTask {
     @Override
     public ValueHolder getValue() {
         return repeats;
+    }
+
+    @Override
+    public ValueHolder getName() {
+        return variableName;
     }
 }

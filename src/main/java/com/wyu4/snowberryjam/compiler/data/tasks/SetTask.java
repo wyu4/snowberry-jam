@@ -2,6 +2,7 @@ package com.wyu4.snowberryjam.compiler.data.tasks;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.NamedTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
@@ -12,7 +13,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceKey;
  * {@link SourceKey#NAME}, and the new value is stored as
  * {@link SourceKey#VALUE}.
  */
-public class SetTask implements ExecutableTask, ValuedTask {
+public class SetTask implements ExecutableTask, ValuedTask, NamedTask {
     /**
      * The name of the variable to set. Can be any type, but the string value will
      * be provided to {@link LocalStorage}.
@@ -87,5 +88,10 @@ public class SetTask implements ExecutableTask, ValuedTask {
     @Override
     public ValueHolder getValue() {
         return value;
+    }
+
+    @Override
+    public ValueHolder getName() {
+        return name;
     }
 }
