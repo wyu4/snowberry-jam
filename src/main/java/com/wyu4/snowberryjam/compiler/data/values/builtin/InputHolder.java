@@ -1,46 +1,46 @@
 package com.wyu4.snowberryjam.compiler.data.values.builtin;
 
 import com.wyu4.snowberryjam.compiler.LocalStorage;
-import com.wyu4.snowberryjam.compiler.data.values.Releasable;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Value Holder that requests a user input.
  */
-public class InputHolder extends ValueHolder implements Releasable, BuiltInHolder {
+public class InputHolder extends ValueHolder implements BuiltInHolder {
+    private final AtomicInteger currentPointer = new AtomicInteger();
     private final AtomicReference<String> input = new AtomicReference<>();
-
-    public InputHolder() {
-        init();
-    }
 
     @Override
     public Object getValue() {
         if (!LocalStorage.isRunning()) {
             return "";
         }
+        String lastInput = input.get();
+        if (lastInput != null && LocalStorage.getPointer() == currentPointer.get()) {
+            return lastInput;
+        }
 
         final CompletableFuture<String> await = new CompletableFuture<>();
         LocalStorage.addInputSubscription(await::complete);
         while (LocalStorage.isRunning() && !Thread.currentThread().isInterrupted()) {
             try {
-                return await.get(100, TimeUnit.MILLISECONDS);
+                String newInput = await.get(100, TimeUnit.MILLISECONDS);
+                currentPointer.set(LocalStorage.getPointer());
+                input.set(newInput);
+                return newInput;
             } catch (TimeoutException | InterruptedException ignore) {} catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
         await.cancel(false);
         return "";
-    }
-
-    public void release() {
-        input.set(null);
     }
 
     /**

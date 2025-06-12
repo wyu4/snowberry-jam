@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.compiler.data;
 
+import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
@@ -67,6 +68,7 @@ public class BodyStack implements ExecutableTask {
                 logger.debug(element.toString());
             }
             element.execute();
+            LocalStorage.increasePointer();
         }
     }
 

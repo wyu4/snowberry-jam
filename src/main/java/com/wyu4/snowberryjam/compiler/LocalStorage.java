@@ -3,7 +3,6 @@ package com.wyu4.snowberryjam.compiler;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
-import com.wyu4.snowberryjam.compiler.data.values.Releasable;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import org.slf4j.Logger;
@@ -31,7 +30,6 @@ public abstract class LocalStorage {
     /** Stores variables */
     private static final HashMap<String, Object> VARIABLES = new HashMap<>();
     private static final HashMap<String, Object> VARIABLES_COPY = new HashMap<>();
-    private static final List<Releasable> RELEASABLES = new ArrayList<>();
 
     /** Stores threads */
     private static final List<Thread> THREADS = new ArrayList<>();
@@ -88,6 +86,8 @@ public abstract class LocalStorage {
      * interrupting them).
      */
     public static void flush() {
+        resetPointer();
+
         THREADS.forEach(Thread::interrupt);
 
         STACK.flush();
@@ -97,9 +97,6 @@ public abstract class LocalStorage {
 
         INPUT_LISTENERS.forEach(consumer -> consumer.accept(null));
         INPUT_LISTENERS.clear();
-
-        RELEASABLES.forEach(Releasable::release);
-        RELEASABLES.clear();
 
         setName(null);
         setDescription(null);
@@ -152,6 +149,7 @@ public abstract class LocalStorage {
         }
         running.set(true);
         manualStop.set(false);
+        resetPointer();
         try {
             VARIABLES_COPY.putAll(VARIABLES);
             VARIABLES_COPY.forEach((name, value) -> {
@@ -160,7 +158,6 @@ public abstract class LocalStorage {
                     consumer.accept(value);
                 }
             });
-            RELEASABLES.forEach(Releasable::release);
             print("-----------------------------");
 
             STACK.execute();
@@ -230,6 +227,18 @@ public abstract class LocalStorage {
      */
     protected static void stackAdd(ExecutableTask element) {
         STACK.addTask(element);
+    }
+
+    public static void increasePointer() {
+        pointer.set(pointer.get() + 1);
+    }
+
+    public static int getPointer() {
+        return pointer.get();
+    }
+
+    private static void resetPointer() {
+        pointer.set(0);
     }
 
     /**
@@ -359,9 +368,5 @@ public abstract class LocalStorage {
 
     public static void addInputSubscription(Consumer<String> consumer) {
         INPUT_LISTENERS.add(consumer);
-    }
-
-    public static void addReleasable(Releasable releaseable) {
-        RELEASABLES.add(releaseable);
     }
 }
