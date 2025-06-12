@@ -238,11 +238,6 @@ class com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex {
 + String toString()
 }
 
-interface com.wyu4.snowberryjam.compiler.data.values.Releasable {
-~ void init()
-~ void release()
-}
-
 class com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.Insets {
 }
 interface com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask {
@@ -349,7 +344,6 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 - {static} Logger inputLogger
 - {static} HashMap<String,Object> VARIABLES
 - {static} HashMap<String,Object> VARIABLES_COPY
-- {static} List<Releasable> RELEASABLES
 - {static} List<Thread> THREADS
 - {static} BodyStack STACK
 - {static} AtomicReference<String> NAME
@@ -376,6 +370,9 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 # {static} void setDescription(String)
 # {static} void createVariable(String,Object)
 # {static} void stackAdd(ExecutableTask)
++ {static} void increasePointer()
++ {static} int getPointer()
+- {static} void resetPointer()
 - {static} Logger getLogger()
 + {static} void sendInput(String)
 + {static} void print(Object,Object)
@@ -388,7 +385,6 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 + {static} void addErrorListener(BiConsumer<String,String>)
 + {static} void addVariableListener(String,Consumer<Object>)
 + {static} void addInputSubscription(Consumer<String>)
-+ {static} void addReleasable(Releasable)
 }
 
 
@@ -709,10 +705,9 @@ class com.wyu4.snowberryjam.gui.viewer.VariableListener {
 
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder {
+- AtomicInteger currentPointer
 - AtomicReference<String> input
-+ <<Create>> InputHolder()
 + Object getValue()
-+ void release()
 + SourceId getId()
 + Class<?> getType()
 + String toString()
@@ -976,7 +971,6 @@ com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer <|-- com.wyu4.sno
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.LessOrEqualTo
 com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.VariableViewer
 javafx.scene.control.TableView <|-- com.wyu4.snowberryjam.gui.viewer.VariableViewer
-com.wyu4.snowberryjam.compiler.data.values.Releasable <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.builtin.BuiltInHolder <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterThan
