@@ -13,6 +13,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.ThreadTask {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.And {
 + <<Create>> And(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -25,6 +26,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WarnTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
@@ -38,6 +40,7 @@ class com.wyu4.snowberryjam.Start {
 class com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement {
 + <<Create>> WithUpdatedElement(JsonNode)
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 }
 
@@ -52,6 +55,7 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Minus {
 + <<Create>> Minus(JsonNode)
 + <<Create>> Minus(ValueHolder,ValueHolder)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -64,6 +68,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.ErrorTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
@@ -77,6 +82,10 @@ class com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder {
 + String toString()
 }
 
+interface com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask {
+~ ValueHolder getValue()
+}
+
 class com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro {
 - ValueHolder name
 - ValueHolder value
@@ -87,12 +96,14 @@ class com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
 class com.wyu4.snowberryjam.compiler.data.values.conditional.SameType {
 + <<Create>> SameType(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -126,6 +137,7 @@ class com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterOrEqualTo {
 + <<Create>> GreaterOrEqualTo(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -150,11 +162,13 @@ abstract class com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary {
 class com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber {
 + <<Create>> ParseNumber(JsonNode)
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder {
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 + String toString()
 }
@@ -162,18 +176,21 @@ class com.wyu4.snowberryjam.compiler.data.values.builtin.RandomHolder {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.Or {
 + <<Create>> Or(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.math.Modulus {
 + <<Create>> Modulus(JsonNode)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.conditional.Equals {
 + <<Create>> Equals(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -202,12 +219,14 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WhileTask {
 + Object feedback()
 + String toString()
 + BodyStack getBody()
++ ValueHolder getValue()
 }
 
 
 class com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex {
 + <<Create>> ElementAtIndex(JsonNode)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -225,6 +244,7 @@ interface com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.Not {
 + <<Create>> Not(JsonNode)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -238,6 +258,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.SetTask {
 # ValueHolder getNameValue()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
@@ -250,6 +271,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WaitUntilTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
@@ -263,6 +285,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask {
 + Object feedback()
 + String toString()
 + BodyStack getBody()
++ ValueHolder getValue()
 }
 
 
@@ -352,6 +375,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 class com.wyu4.snowberryjam.compiler.data.values.math.Multiply {
 + <<Create>> Multiply(JsonNode)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -381,24 +405,28 @@ class com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
 class com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray {
 + <<Create>> SplitToArray(JsonNode)
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf {
 + <<Create>> SizeOf(JsonNode)
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.math.Divide {
 + <<Create>> Divide(JsonNode)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -412,6 +440,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WaitTask {
 + Object feedback()
 - long getTime()
 + String toString()
++ ValueHolder getValue()
 }
 
 
@@ -423,6 +452,7 @@ class com.wyu4.snowberryjam.compiler.data.values.io.ReadFile {
 + <<Create>> ReadFile(JsonNode)
 + <<Create>> ReadFile(ValueHolder)
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 }
 
@@ -432,6 +462,7 @@ class com.wyu4.snowberryjam.compiler.data.values.VariableReference {
 + <<Create>> VariableReference(ValueHolder)
 + String getName()
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -440,6 +471,7 @@ class com.wyu4.snowberryjam.compiler.data.values.math.Plus {
 + <<Create>> Plus(JsonNode)
 + <<Create>> Plus(ValueHolder,ValueHolder)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
@@ -458,6 +490,7 @@ class com.wyu4.snowberryjam.compiler.data.values.ValueHolder {
 + boolean isType(Class<?>)
 + boolean notEmpty()
 + Double getSize()
++ SourceId getId()
 + boolean equals(Object)
 + boolean superEquals(Object)
 + String toString()
@@ -466,6 +499,7 @@ class com.wyu4.snowberryjam.compiler.data.values.ValueHolder {
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.TimeHolder {
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 + String toString()
 }
@@ -493,6 +527,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask {
 + String toString()
 + BodyStack getBody()
 + BodyStack getSecondaryBody()
++ ValueHolder getValue()
 }
 
 
@@ -581,6 +616,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceKey {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.LessOrEqualTo {
 + <<Create>> LessOrEqualTo(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -643,6 +679,7 @@ class com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder {
 + <<Create>> InputHolder()
 + Object getValue()
 + void release()
++ SourceId getId()
 + Class<?> getType()
 + String toString()
 }
@@ -651,6 +688,7 @@ class com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterThan {
 + <<Create>> GreaterThan(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -710,6 +748,7 @@ enum com.wyu4.snowberryjam.compiler.enums.SourceId {
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.PublicFolderHolder {
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 + String toString()
 }
@@ -738,6 +777,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.IfTask {
 + Object feedback()
 + String toString()
 + BodyStack getBody()
++ ValueHolder getValue()
 }
 
 
@@ -760,6 +800,7 @@ class com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.TaskViewer {
 class com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf {
 + <<Create>> ArrayOf(JsonNode)
 + Object getValue()
++ SourceId getId()
 + Class<?> getType()
 }
 
@@ -781,12 +822,14 @@ class com.wyu4.snowberryjam.gui.framework.ViewBuilder {
 class com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals {
 + <<Create>> NotEquals(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
 class com.wyu4.snowberryjam.compiler.data.values.conditional.LessThan {
 + <<Create>> LessThan(JsonNode)
 + Boolean getState()
++ SourceId getId()
 + String toString()
 }
 
@@ -804,28 +847,35 @@ class com.wyu4.snowberryjam.compiler.data.tasks.PrintTask {
 + SourceId getId()
 + Object feedback()
 + String toString()
++ ValueHolder getValue()
 }
 
 
 class com.wyu4.snowberryjam.compiler.data.values.math.Round {
 + <<Create>> Round(JsonNode)
 + Object getValue()
++ SourceId getId()
 + String toString()
 }
 
+class com.wyu4.snowberryjam.gui.viewer.codeviewer.values.PrimitiveValueViewer {
+}
 
 
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ThreadTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ThreadTask
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.And
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WarnTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WarnTask
 javafx.application.Application <|-- com.wyu4.snowberryjam.Start
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement
 com.wyu4.snowberryjam.compiler.data.tasks.SetTask <|-- com.wyu4.snowberryjam.compiler.data.tasks.macros.InputMacro
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Minus
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ErrorTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.ErrorTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.SameType
 com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
 javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
@@ -841,21 +891,26 @@ com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- co
 javafx.scene.layout.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.StackViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
 com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Not
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.SetTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.SetTask
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitUntilTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitUntilTask
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder
-javafx.scene.layout.HBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Multiply
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.BodyStack
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.macros.DecreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SplitToArray
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.SizeOf
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Divide
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WaitTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.io.ReadFile
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.VariableReference
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Plus
@@ -863,6 +918,7 @@ com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryja
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfElseTask
 com.wyu4.snowberryjam.compiler.LocalStorage <|-- com.wyu4.snowberryjam.compiler.Compiler
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.LessOrEqualTo
 com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.VariableViewer
@@ -874,11 +930,14 @@ com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryja
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
 javafx.scene.layout.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.TaskViewer
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf
 javafx.util.Builder <|.. com.wyu4.snowberryjam.gui.framework.ViewBuilder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.LessThan
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.PrintTask
+com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.PrintTask
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Round
+javafx.scene.layout.HBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.values.PrimitiveValueViewer
 @enduml
