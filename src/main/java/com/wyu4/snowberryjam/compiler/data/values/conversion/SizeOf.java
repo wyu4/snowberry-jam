@@ -42,4 +42,9 @@ public class SizeOf extends InteractiveValueHolder {
     public Class<?> getType() {
         return Double.class;
     }
+
+    @Override
+    public String toString() {
+        return "size of ".formatted(getA());
+    }
 }

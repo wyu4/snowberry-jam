@@ -45,4 +45,9 @@ public class WithUpdatedElement extends ArrayHolder {
     public Class<?> getType() {
         return Object[].class;
     }
+
+    @Override
+    public String toString() {
+        return "index %s of %s swapped with %s".formatted(getI(), getA(), getB());
+    }
 }

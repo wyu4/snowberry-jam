@@ -42,4 +42,9 @@ public class ArrayOf extends InteractiveValueHolder {
     public Class<?> getType() {
         return Object[].class;
     }
+
+    @Override
+    public String toString() {
+        return "array of %s".formatted(getA());
+    }
 }

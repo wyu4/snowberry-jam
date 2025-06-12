@@ -45,4 +45,9 @@ public class ReadFile extends InteractiveValueHolder {
     public Class<?> getType() {
         return String.class;
     }
+
+    @Override
+    public String toString() {
+        return "contents of file %s".formatted(getA());
+    }
 }

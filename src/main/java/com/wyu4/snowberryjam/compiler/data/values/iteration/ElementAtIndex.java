@@ -26,7 +26,7 @@ public class ElementAtIndex extends ArrayHolder {
     public Object getValue() {
         Object[] array = getA().getArray();
         int index = getValidIndex();
-        if (array.length < index) {
+        if (array.length <= index) {
             throw new ArrayIndexOutOfBoundsException("Array %s is too small for index %s".formatted(Arrays.toString(array), index));
         }
         return array[index];

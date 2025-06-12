@@ -39,12 +39,16 @@ public class ArrayHolder extends InteractiveValueHolder {
      * @throws IllegalArgumentException if value I is not a number.
      */
     protected int getValidIndex() {
-        Class<?> type = i.getType();
-        if (!type.equals(Double.class)) {
-            throw new IllegalArgumentException("Argument \"i\" %s (%s) is not a number.".formatted(getI().getString(), type.getCanonicalName()));
-        }
+        return (int) Math.round((double) getI().getSize());
+    }
 
-        return (int) Math.round((double) getI().getValue());
+    @Override
+    public Class<?> getType() {
+        try {
+            return super.getType();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return ArrayIndexOutOfBoundsException.class;
+        }
     }
 
     @Override

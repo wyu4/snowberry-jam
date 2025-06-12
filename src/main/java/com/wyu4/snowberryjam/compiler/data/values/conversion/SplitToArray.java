@@ -48,4 +48,9 @@ public class SplitToArray extends InteractiveValueHolder {
     public Class<?> getType() {
         return Object[].class;
     }
+
+    @Override
+    public String toString() {
+        return "%s split to an array with pattern %s".formatted(getA(), getB());
+    }
 }

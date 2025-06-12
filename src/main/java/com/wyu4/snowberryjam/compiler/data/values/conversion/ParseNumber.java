@@ -46,4 +46,8 @@ public class ParseNumber extends InteractiveValueHolder {
         return Double.class;
     }
     
+    @Override
+    public String toString() {
+        return "%s parsed to a number".formatted(getA());
+    }
 }
