@@ -20,7 +20,6 @@ import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 import javax.lang.model.type.NullType;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -264,7 +263,7 @@ public class ValueHolder {
     @Override
     public String toString() {
         if (isType(String.class)) {
-            return "\"%s\"".formatted(((String) getValue()).replace("\"", "\\\""));
+            return "\"%s\"".formatted(((String) getValue()).replace("\"", "\\\"").replace("\n", "\\n"));
         }
         return getString();
     }

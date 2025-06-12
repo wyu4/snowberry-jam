@@ -6,7 +6,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceId;
 /**
  * Value Holder that provides time resources.
  */
-public class TimeHolder extends ValueHolder {
+public class TimeHolder extends ValueHolder implements BuiltInHolder {
     /**
      * @return The current time since the midnight of January 1, 1970 UTC, in milliseconds
      * @see System#currentTimeMillis()

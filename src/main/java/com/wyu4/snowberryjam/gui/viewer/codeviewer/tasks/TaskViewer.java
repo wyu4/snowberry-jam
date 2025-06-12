@@ -4,9 +4,14 @@ import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask;
+import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
+import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
+import com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -24,7 +29,8 @@ public class TaskViewer extends VBox {
     private static final CornerRadii corner = new CornerRadii(5);
     
     private final ExecutableTask task;
-    private final HBox titleHBox = new HBox(5);
+    private final HBox titleHBox = new HBox(20);
+    private Node valueProperty = null;
     private VBox innerContent = null;
     private StackViewer bodyViewer = null;
     private StackViewer secondaryBodyViewer = null;
@@ -37,6 +43,8 @@ public class TaskViewer extends VBox {
         setBorder(new Border(new BorderStroke(Color.rgb(54, 52, 53), BorderStrokeStyle.SOLID, corner, BorderWidths.DEFAULT)));
         setPadding(new Insets(5, 10, 5, 10));
         setSpacing(5);
+
+        titleHBox.setAlignment(Pos.CENTER_LEFT);
 
         Label title = new Label(task.getId().getBeautified());
         titleHBox.getChildren().add(title);
@@ -51,6 +59,10 @@ public class TaskViewer extends VBox {
         if (task instanceof BodyStack parsed) {
             getBodyViewer().loadStack(parsed);
             return;
+        }
+
+        if (task instanceof ValuedTask parsed) {
+            addValueProperty(parsed.getValue());
         }
 
         if (task instanceof BodiedTask parsed) {
@@ -70,8 +82,13 @@ public class TaskViewer extends VBox {
         return innerContent;
     }
 
-    private void addValueProperty() {
-        
+    private void addValueProperty(ValueHolder value) {
+        if (valueProperty != null) {
+            return;
+        }
+
+        valueProperty = ValueViewer.buildValueViewer(value);
+        titleHBox.getChildren().add(valueProperty);
     }
 
     private StackViewer getBodyViewer() {

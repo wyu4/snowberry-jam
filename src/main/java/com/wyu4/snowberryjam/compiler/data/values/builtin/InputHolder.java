@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Value Holder that requests a user input.
  */
-public class InputHolder extends ValueHolder implements Releasable {
+public class InputHolder extends ValueHolder implements Releasable, BuiltInHolder {
     private final AtomicReference<String> input = new AtomicReference<>();
 
     public InputHolder() {

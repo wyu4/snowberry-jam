@@ -1,44 +1,20 @@
 package com.wyu4.snowberryjam.compiler.data.tasks.macros;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.wyu4.snowberryjam.compiler.LocalStorage;
-import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
-import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask;
+import com.wyu4.snowberryjam.compiler.data.tasks.SetTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.VariableReference;
 import com.wyu4.snowberryjam.compiler.data.values.math.Plus;
-import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 
 /**
- * A variable setter statement. The name of the variable is stored as
- * {@link SourceKey#NAME}, and the new value is stored as
+ * A variable increaser statement. The name of the variable is stored as
+ * {@link SourceKey#NAME}, and the value to increase by is stored as
  * {@link SourceKey#VALUE}.
  */
-public class IncreaseMacro implements ExecutableTask, ValuedTask {
+public class IncreaseMacro extends SetTask {
     /**
-     * The name of the variable to set. Can be any type, but the string value will
-     * be provided to {@link LocalStorage}.
-     * 
-     * @see ValueHolder#getString()
-     * @see LocalStorage#setVariable(String, Object)
-     */
-    private final ValueHolder name;
-
-    /**
-     * The new value of the variable.
-     * 
-     * @see LocalStorage#setVariable(String, Object)
-     */
-    private final ValueHolder value;
-
-    /**
-     * Addition handler
-     */
-    private final Plus plusHandler;
-
-    /**
-     * Create a new set statement
+     * Create a new increase statement
      * 
      * @param node The {@link JsonNode} to refer
      */
@@ -49,51 +25,12 @@ public class IncreaseMacro implements ExecutableTask, ValuedTask {
     }
 
     /**
-     * Create a new set statement
+     * Create a new increase statement
      * 
      * @param name  The name of the variable
-     * @param value The value of the variable
+     * @param value The value to increase the variable by
      */
     public IncreaseMacro(ValueHolder name, ValueHolder value) {
-        this.name = name;
-        this.value = value;
-        this.plusHandler = new Plus(
-                new VariableReference(name),
-                value);
-    }
-
-    @Override
-    public void execute() {
-        if (!LocalStorage.isRunning()) {
-            return;
-        }
-        
-        LocalStorage.setVariable(name.getString(), feedback());
-    }
-
-    /**
-     * @return {@link SourceId#INCREASE_MACRO}
-     */
-    @Override
-    public SourceId getId() {
-        return SourceId.INCREASE_MACRO;
-    }
-
-    /**
-     * @return The new value
-     */
-    @Override
-    public Object feedback() {
-        return plusHandler.getValue();
-    }
-
-    @Override
-    public String toString() {
-        return "increase variable %s by %s".formatted(name, value);
-    }
-
-    @Override
-    public ValueHolder getValue() {
-        return value;
+        super(name, new Plus(new VariableReference(name), value));
     }
 }

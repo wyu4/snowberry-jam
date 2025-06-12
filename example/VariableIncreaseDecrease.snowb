@@ -1,0 +1,34 @@
+{
+    "id" : "PROJECT",
+    "name" : "Unnamed",
+    "description" : "No description",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "i",
+                "value" : 0
+            },
+            {
+                "name" : "j",
+                "value" : 0
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "name" : "i",
+                        "id" : "+=",
+                        "value" : 1
+                    },
+                    {
+                        "name" : "j",
+                        "id" : "-=",
+                        "value" : 1
+                    }
+                ]
+            }
+        ]
+    }
+}

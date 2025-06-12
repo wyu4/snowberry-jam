@@ -7,7 +7,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceId;
 /**
  * Value Holder that provides time resources.
  */
-public class PublicFolderHolder extends ValueHolder {
+public class PublicFolderHolder extends ValueHolder implements BuiltInHolder {
     /**
      * @return The full path to the public folder
      * @see ResourceUtils#PUBLIC

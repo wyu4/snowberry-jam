@@ -6,7 +6,7 @@ import com.wyu4.snowberryjam.compiler.enums.SourceId;
 /**
  * Value Holder that handles randomization
  */
-public class RandomHolder extends ValueHolder {
+public class RandomHolder extends ValueHolder implements BuiltInHolder {
 
     /**
      * @return A random {@link Double} between 0 and 1

@@ -5,7 +5,6 @@ import com.wyu4.snowberryjam.compiler.LocalStorage;
 import com.wyu4.snowberryjam.compiler.data.tasks.SetTask;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder;
-import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.compiler.enums.SourceKey;
 
 /**
@@ -43,13 +42,5 @@ public class InputMacro extends SetTask {
         } else {
             feedback();
         }
-    }
-
-    /**
-     * @return {@link SourceId#INPUT_MACRO}
-     */
-    @Override
-    public SourceId getId() {
-        return SourceId.INPUT_MACRO;
     }
 }
