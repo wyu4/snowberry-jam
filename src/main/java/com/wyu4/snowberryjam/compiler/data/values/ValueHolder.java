@@ -139,6 +139,10 @@ public class ValueHolder {
         return value;
     }
 
+    protected Object safeValue() {
+        return value;
+    }
+
     /**
      * Get the unparsed pointer. Could be a primitive or non-primitive value.
      * @return The value or the pointer to a value.
@@ -187,11 +191,13 @@ public class ValueHolder {
      * @see Object#getClass()
      */
     public Class<?> getType() {
-        Object value = getValue();
-        if (value == null) {
+        if (safeValue() == null) {
             return NullType.class;
         }
-        return value.getClass();
+        if (safeValue() instanceof ValueHolder parsed) {
+            return parsed.getType();
+        }
+        return safeValue().getClass();
     }
 
     /**
@@ -208,7 +214,13 @@ public class ValueHolder {
      * @return {@code true} if this points to a value, {@code false} if it points to {@code null}
      */
     public boolean notEmpty() {
-        return getValue() != null;
+        if (safeValue() == null) {
+            return false;
+        }
+        if (value instanceof ValueHolder parsed) {
+            return parsed.notEmpty();
+        }
+        return true;
     }
 
     /**
@@ -216,21 +228,45 @@ public class ValueHolder {
      * @return {@link Double} representation of the value
      */
     public Double getSize() {
-        if (getValue() instanceof ValueHolder holder) {
+        if (safeValue() == null) {
+            return null;
+        }
+        if (value instanceof ValueHolder holder) {
             return holder.getSize();
         }
-        Class<?> type = getType();
+        Object safeValue = safeValue();
+        Class<?> type = safeValue.getClass();
 
         if (type.equals(Double.class)) {
-            return (double) getValue();
+            return (double) safeValue;
         } else if (type.equals(String.class)) {
-            return (double) ((String) getValue()).length();
+            return (double) ((String) safeValue).length();
         } else if (type.equals(Boolean.class)) {
-            return ((boolean) getValue()) ? 1D : 0D;
+            return ((boolean) safeValue) ? 1D : 0D;
         } else if (type.equals(Object[].class)) {
-            return (double) ((Object[]) getValue()).length;
+            return (double) ((Object[]) safeValue).length;
         }
         return null;
+    }
+
+    public boolean pointsToSameValueAs(Object obj) {
+        Object safeValue = safeValue();
+        if (safeValue == null) {
+            if (obj instanceof ValueHolder parsed) {
+                return !parsed.notEmpty();
+            }
+            return false;
+        }
+        if (obj instanceof ValueHolder parsed) {
+            return safeValue.equals(parsed.safeValue());
+        }
+        if (safeValue instanceof ValueHolder parsed) {
+            return parsed.pointsToSameValueAs(obj);
+        }
+        if (safeValue instanceof Object[] parsed && obj instanceof Object[] objparsed) {
+            return Arrays.equals(parsed, objparsed);
+        }
+        return value.equals(obj);
     }
 
     /**
@@ -239,25 +275,6 @@ public class ValueHolder {
      */
     public SourceId getId() {
         return null;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        Object value = getValue();
-        if (value == null) {
-            if (obj instanceof ValueHolder parsed) {
-                return !parsed.notEmpty();
-            }
-            return false;
-        }
-        if (obj instanceof ValueHolder parsed) {
-            return value.equals(parsed.getValue());
-        }
-        return value.equals(obj);
-    }
-
-    public boolean superEquals(Object obj) {
-        return super.equals(obj);
     }
 
     @Override

@@ -77,14 +77,11 @@
                                 "id" : "SET",
                                 "name" : "computer",
                                 "value" : {
-                                    "id" : "ROUND",
                                     "a" : {
-                                        "a" : {
-                                            "id" : "RANDOM"
-                                        },
-                                        "id" : "*",
-                                        "b" : 3
-                                    }
+                                        "id" : "RANDOM"
+                                    },
+                                    "id" : "*",
+                                    "b" : 3
                                 }
                             },
                             {

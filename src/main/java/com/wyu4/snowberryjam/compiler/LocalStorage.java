@@ -152,6 +152,10 @@ public abstract class LocalStorage {
         }
         running.set(true);
         manualStop.set(false);
+
+        INPUT_LISTENERS.forEach(consumer -> consumer.accept(null));
+        INPUT_LISTENERS.clear();
+
         try {
             VARIABLES_COPY.putAll(VARIABLES);
             VARIABLES_COPY.forEach((name, value) -> {
@@ -179,6 +183,8 @@ public abstract class LocalStorage {
         manualStop.set(true);
         running.set(false);
         THREADS.forEach(Thread::interrupt);
+        INPUT_LISTENERS.forEach(consumer -> consumer.accept(null));
+        INPUT_LISTENERS.clear();
     }
 
     public static boolean isRunning() {

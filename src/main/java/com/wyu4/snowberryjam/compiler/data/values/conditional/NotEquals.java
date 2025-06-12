@@ -29,7 +29,7 @@ public class NotEquals extends ConditionalHolder {
         if (a.isType(Object[].class) && b.isType(Object[].class)) {
             return !Arrays.equals(a.getArray(), b.getArray());
         }
-        return !a.equals(b);
+        return !a.pointsToSameValueAs(b);
     }
 
     /**

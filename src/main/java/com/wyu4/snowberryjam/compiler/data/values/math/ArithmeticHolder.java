@@ -21,6 +21,15 @@ public class ArithmeticHolder extends InteractiveValueHolder {
      * @param a Value A
      * @param b Value B
      */
+    public ArithmeticHolder(Object a, Object b) {
+        this(new ValueHolder(a), new ValueHolder(b));
+    }
+
+    /**
+     * Create a new Arithmetic Holder
+     * @param a Value A
+     * @param b Value B
+     */
     public ArithmeticHolder(ValueHolder a, ValueHolder b) {
         super(a, b);
     }

@@ -27,4 +27,9 @@ module com.wyu4.snowberryjam {
     requires java.compiler;
 
     exports com.wyu4.snowberryjam;
+    exports com.wyu4.snowberryjam.compiler;
+    exports com.wyu4.snowberryjam.compiler.data;
+    exports com.wyu4.snowberryjam.compiler.data.values;
+    exports com.wyu4.snowberryjam.compiler.data.values.math;
+    exports com.wyu4.snowberryjam.compiler.enums;
 }

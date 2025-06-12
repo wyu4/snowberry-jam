@@ -49,6 +49,11 @@ public class VariableReference extends ValueHolder{
         return raw;
     }
 
+    @Override
+    protected Object safeValue() {
+        return getValue();
+    }
+
     /**
      * @return {@link SourceId#VARIABLE}
      */

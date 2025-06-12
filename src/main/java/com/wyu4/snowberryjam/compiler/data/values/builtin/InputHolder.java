@@ -60,6 +60,11 @@ public class InputHolder extends ValueHolder implements Releasable, BuiltInHolde
     }
 
     @Override
+    public boolean notEmpty() {
+        return true;
+    }
+
+    @Override
     public String toString() {
         return "an input from the user";
     }

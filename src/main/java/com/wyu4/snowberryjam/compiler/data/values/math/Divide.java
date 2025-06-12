@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.math;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
 /**
@@ -14,6 +15,15 @@ public class Divide extends ArithmeticHolder {
      */
     public Divide(JsonNode node) {
         super(node);
+    }
+
+    /**
+     * Create a new division operation
+     * @param a Value A
+     * @param b Value B
+     */
+    public Divide(Object a, Object b) {
+        super(a, b);
     }
 
     /**
