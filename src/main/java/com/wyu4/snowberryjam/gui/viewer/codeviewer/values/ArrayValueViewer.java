@@ -1,8 +1,6 @@
 package com.wyu4.snowberryjam.gui.viewer.codeviewer.values;
 
 import com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder;
-import com.wyu4.snowberryjam.compiler.data.values.iteration.ElementAtIndex;
-import com.wyu4.snowberryjam.compiler.data.values.iteration.WithUpdatedElement;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
 
@@ -27,7 +25,7 @@ public class ArrayValueViewer extends ValueViewer {
                 ValueViewer.buildValueViewer(value.getA())
             );
 
-        if (value instanceof WithUpdatedElement) {
+        if (id.equals(SourceId.WITH_UPDATED_ELEMENT)) {
             getChildren().addAll(
                 new Label("swapped with"),
                 ValueViewer.buildValueViewer(value.getB())

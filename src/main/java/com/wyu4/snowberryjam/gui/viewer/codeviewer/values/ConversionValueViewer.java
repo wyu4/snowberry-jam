@@ -1,6 +1,6 @@
 package com.wyu4.snowberryjam.gui.viewer.codeviewer.values;
 
-import com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder;
+import com.wyu4.snowberryjam.compiler.data.values.conversion.ConversionHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
 
@@ -10,8 +10,8 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Polygon;
 
-public class ArithmeticValueViewer extends StackPane {
-    public ArithmeticValueViewer(ArithmeticHolder value) {
+public class ConversionValueViewer extends StackPane {
+    public ConversionValueViewer(ConversionHolder value) {
         setMinWidth(Region.USE_PREF_SIZE);
         setMaxWidth(Region.USE_PREF_SIZE);
         setMinHeight(Region.USE_PREF_SIZE);
@@ -29,32 +29,34 @@ public class ArithmeticValueViewer extends StackPane {
         chamferClip.setStroke(ValueViewer.BORDER_COLOR);
         chamferClip.setStrokeWidth(1);
         
+
         final double inset = 15;
         content.layoutBoundsProperty().addListener((evt, old, bounds) -> {
-            
             double width = content.getWidth();
             double height = content.getHeight();
-            double halfHeight = height / 2;
 
             chamferClip.getPoints().setAll(
-                    0D, halfHeight,
-                    inset, 0D,
-                    width - inset, 0D,
-                    width, height / 2,
-                    width - inset, height,
-                    inset, height
+                0D, inset,
+                inset, 0D,
+                width - inset, 0D,
+                width, inset,
+                width, height - inset,
+                width - inset, height,
+                inset, height,
+                0D, height - inset
             );
         });
 
         getChildren().addAll(chamferClip, content);
 
-        if (id.equals(SourceId.ROUND)) {
-            content.getChildren().addAll(new Label(id.getBeautified()), ValueViewer.buildValueViewer(value.getA()));
+        if (id.equals(SourceId.PARSE_NUMBER)) {
+            content.getChildren().addAll(ValueViewer.buildValueViewer(value.getA()), new Label(id.getBeautified()));
             return;
         }
-        content.getChildren().addAll(
-                ValueViewer.buildValueViewer(value.getA()),
-                new Label(id.getBeautified()),
-                ValueViewer.buildValueViewer(value.getB()));
+        if (id.equals(SourceId.SPLIT)) {
+            content.getChildren().addAll(ValueViewer.buildValueViewer(value.getA()), new Label(id.getBeautified()), ValueViewer.buildValueViewer(value.getB()));
+            return;
+        }
+        content.getChildren().addAll(new Label(id.getBeautified()), ValueViewer.buildValueViewer(value.getA()));
     }
 }

@@ -4,9 +4,9 @@
 }
 
 .code-viewer {
-    -fx-font-size: 25pt;
+    -fx-font-size: 15pt;
 }
 
 .value-viewer {
-    -fx-font-size: 20pt;
+    -fx-font-size: 10pt;
 }

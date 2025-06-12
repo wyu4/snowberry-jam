@@ -1,7 +1,6 @@
 package com.wyu4.snowberryjam.compiler.data.values.conversion;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
@@ -10,7 +9,7 @@ import java.util.Arrays;
 /**
  * Converts any value into an array by splitting its string form.
  */
-public class SplitToArray extends InteractiveValueHolder {
+public class SplitToArray extends ConversionHolder {
     /**
      * Create a new SplitToArray operation
      * @param node The {@link JsonNode} to refer

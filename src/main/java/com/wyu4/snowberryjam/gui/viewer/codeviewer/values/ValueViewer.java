@@ -4,6 +4,7 @@ import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.data.values.VariableReference;
 import com.wyu4.snowberryjam.compiler.data.values.builtin.BuiltInHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder;
+import com.wyu4.snowberryjam.compiler.data.values.conversion.ConversionHolder;
 import com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder;
 import com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder;
 
@@ -39,6 +40,9 @@ public class ValueViewer extends HBox {
         }
         if (holder instanceof BuiltInHolder) {
             return new BuiltInViewer(holder);
+        }
+        if (holder instanceof ConversionHolder parsed) {
+            return new ConversionValueViewer(parsed);
         }
         return new PrimitiveValueViewer(holder);
     }
