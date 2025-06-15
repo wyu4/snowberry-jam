@@ -9,7 +9,7 @@ WIP mission
 ## Documentation
 Here's a list of different documentation resources directly related to this project.
 - Snowberry Jam Language Guide `[Work In Progress]`
-- [**Compiler Javadoc Documentation**](https://wyu4.github.io/snowberry-jam/)
+- [**Compiler Javadoc Documentation**](https://wyu4.github.io/snowberry-jam/javadoc/)
 - [**Compiler UML Diagram**](https://wyu4.github.io/snowberry-jam/UML.svg)
 
 ## Source Files
