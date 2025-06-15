@@ -1,12 +1,20 @@
+.root {
+    -fx-font-size: 10pt;
+}
+
 .console {
     -fx-font-family: "Montserrat";
-    -fx-font-size: 15pt;
+    -fx-font-size: 1.5em;
 }
 
 .code-viewer {
-    -fx-font-size: 15pt;
+    -fx-font-size: 1.5em;
 }
 
 .value-viewer {
-    -fx-font-size: 10pt;
+    -fx-font-size: 1em;
+}
+
+.font-icon {
+    -fx-font-size: 1.25em;
 }

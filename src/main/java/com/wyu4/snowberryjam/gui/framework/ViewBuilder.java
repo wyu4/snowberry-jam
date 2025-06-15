@@ -55,6 +55,7 @@ public class ViewBuilder implements Builder<Region> {
     @Override
     public Region build() {
         BorderPane root = new BorderPane();
+        root.getStyleClass().add("root");
         root.setTop(createMenuBar());
 
         SplitPane body = new SplitPane(createProjectWidget(), createConsole());
@@ -139,11 +140,8 @@ public class ViewBuilder implements Builder<Region> {
         modeBar.setPadding(new Insets(2, 10, 2, 10));
         modeBar.setAlignment(Pos.CENTER);
 
-        Button editorButton = new Button();
-        Button viewerButton = new Button();
-
-        editorButton.setGraphic(new FontIcon(Feather.FILE_TEXT));
-        viewerButton.setGraphic(new FontIcon(Feather.EYE));
+        Button editorButton = createFontButton(new FontIcon(Feather.FILE_TEXT));
+        Button viewerButton = createFontButton(new FontIcon(Feather.EYE));
 
         editorButton.setOnAction(evt -> model.getPageProperty().set(Page.EDITOR));
         viewerButton.setOnAction(evt -> model.getPageProperty().set(Page.VIEWER));
@@ -179,7 +177,7 @@ public class ViewBuilder implements Builder<Region> {
 
         final FontIcon playIcon = new FontIcon(Feather.PLAY);
         final FontIcon stopIcon = new FontIcon(Feather.SQUARE);
-        Button playButton = new Button();
+        Button playButton = createFontButton(null);
         playButton.graphicProperty().bind(Bindings.when(model.getRunningProperty()).then(stopIcon).otherwise(playIcon));
         playButton.setOnAction(evt -> {
             if (model.getRunning()) {
@@ -190,8 +188,7 @@ public class ViewBuilder implements Builder<Region> {
         });
         playButton.disableProperty().bind(model.getRunDisabledProperty());
 
-        Button clearButton = new Button();
-        clearButton.setGraphic(new FontIcon(Feather.TRASH));
+        Button clearButton = createFontButton(new FontIcon(Feather.TRASH));
 
         topBar.getChildren().addAll(playButton, clearButton);
 
@@ -274,8 +271,7 @@ public class ViewBuilder implements Builder<Region> {
             }
         });
 
-        Button inputButton = new Button();
-        inputButton.setGraphic(new FontIcon(Feather.SEND));
+        Button inputButton = createFontButton(new FontIcon(Feather.SEND));
         inputButton.setOnAction(evt -> sendInput.run());
 
         inputField.prefWidthProperty().bind(inputBox.widthProperty().subtract(inputButton.widthProperty()));
@@ -415,5 +411,14 @@ public class ViewBuilder implements Builder<Region> {
         });
 
         return new VirtualizedScrollPane<>(area);
+    }
+
+    public Button createFontButton(FontIcon icon) {
+        Button button = new Button();
+        button.getStyleClass().add("font-icon");
+        if (icon != null) {
+            button.setGraphic(icon);
+        }
+        return button;
     }
 }
