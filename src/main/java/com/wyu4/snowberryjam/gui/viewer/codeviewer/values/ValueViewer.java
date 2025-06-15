@@ -7,17 +7,10 @@ import com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder;
 import com.wyu4.snowberryjam.compiler.data.values.conversion.ConversionHolder;
 import com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder;
 import com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class ValueViewer extends HBox {

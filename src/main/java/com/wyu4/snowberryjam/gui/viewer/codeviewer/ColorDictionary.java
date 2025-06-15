@@ -1,7 +1,6 @@
 package com.wyu4.snowberryjam.gui.viewer.codeviewer;
 
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
-
 import javafx.scene.paint.Color;
 
 public abstract class ColorDictionary {

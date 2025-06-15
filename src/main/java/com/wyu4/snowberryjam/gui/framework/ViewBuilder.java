@@ -7,7 +7,6 @@ import com.wyu4.snowberryjam.gui.editorutils.Filter;
 import com.wyu4.snowberryjam.gui.framework.Model.Page;
 import com.wyu4.snowberryjam.gui.viewer.VariableViewer;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer;
-
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;

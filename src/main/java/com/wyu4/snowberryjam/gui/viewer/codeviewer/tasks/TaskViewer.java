@@ -2,7 +2,6 @@ package com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks;
 
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
-import com.wyu4.snowberryjam.compiler.data.tasks.SetTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ElseBodiedTask;
 import com.wyu4.snowberryjam.compiler.data.tasks.interfaces.NamedTask;
@@ -11,21 +10,11 @@ import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
 public class TaskViewer extends VBox {

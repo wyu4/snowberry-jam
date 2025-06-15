@@ -2,7 +2,6 @@ package com.wyu4.snowberryjam.gui.viewer.codeviewer.values;
 
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
-
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;

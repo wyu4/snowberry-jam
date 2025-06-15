@@ -4,7 +4,6 @@ import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.helpers.MessageFormatter;
@@ -29,6 +28,8 @@ public abstract class LocalStorage {
 
     /** Stores variables */
     private static final HashMap<String, Object> VARIABLES = new HashMap<>();
+
+    /** A new copy of the variables. This is used during the runtime. */
     private static final HashMap<String, Object> VARIABLES_COPY = new HashMap<>();
 
     /** Stores threads */
@@ -38,20 +39,37 @@ public abstract class LocalStorage {
     /** Atomically stores the project name */
     private static final AtomicReference<String> NAME = new AtomicReference<>("");
 
+    /** The description of the project */
     private static final AtomicReference<String> DESCRIPTION = new AtomicReference<>("");
 
+    /** The print listeners */
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
+
+    /** The warn listeners */
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
+
+    /** The error listeners */
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
 
+    /** The input listeners/subscribers */
     private static final List<Consumer<String>> INPUT_LISTENERS = new ArrayList<>();
 
+    /** THe variable listeners */
     private static final HashMap<String, Consumer<Object>> VARIABLE_LISTENERS = new HashMap<>();
 
+    /** The runtime pointer index */
     private static final AtomicInteger pointer = new AtomicInteger(0);
+
+    /** The running property */
     private static final AtomicBoolean running = new AtomicBoolean(false);
+
+    /** If the runtime was manually stopped prematurely by the user */
     private static final AtomicBoolean manualStop = new AtomicBoolean(false);
 
+    /**
+     * Get a default project template.
+     * @return {@link String} containing a valid default empty project.
+     */
     public static String getDefaultSource() {
         return ResourceUtils.readFile(ResourceUtils.ResourceFile.DEFAULT_SOURCE);
     }
@@ -72,10 +90,19 @@ public abstract class LocalStorage {
         return currentValue;
     }
 
+    /**
+     * Get all of variable names.
+     * @return {@link Set} with created variable names
+     */
     public static Set<String> getVariableNames() {
         return VARIABLES.keySet();
     }
 
+    /**
+     * Recieve a deep copy of the tasks inside a stack
+     * @return An array of the tasks in a stack
+     * @see BodyStack#copyStack()
+     */
     public static ExecutableTask[] copyStack() {
         return STACK.copyStack();
     }
@@ -172,12 +199,19 @@ public abstract class LocalStorage {
         }
     }
 
+    /**
+     * Stop the current run
+     */
     public static void stopRun() {
         manualStop.set(true);
         running.set(false);
         THREADS.forEach(Thread::interrupt);
     }
 
+    /**
+     * Check if the stack is running
+     * @return {@code true} if the LocalStorage is running the stack, otherwise {@code false}.
+     */
     public static boolean isRunning() {
         return running.get();
     }
@@ -197,6 +231,10 @@ public abstract class LocalStorage {
         }
     }
 
+    /**
+     * Set the description of the project.
+     * @param description Description of the project
+     */
     protected static void setDescription(String description) {
         if (description == null) {
             description = "";
@@ -233,10 +271,17 @@ public abstract class LocalStorage {
         pointer.set(pointer.get() + 1);
     }
 
+    /**
+     * Get the pointer index.
+     * @return The current pointer index.
+     */
     public static int getPointer() {
         return pointer.get();
     }
 
+    /**
+     * Reset the pointer index to 0
+     */
     private static void resetPointer() {
         pointer.set(0);
     }
@@ -257,6 +302,10 @@ public abstract class LocalStorage {
         return logger.get();
     }
 
+    /**
+     * Send a user input.
+     * @param input {@link String} input
+     */
     public static void sendInput(String input) {
         inputLogger.info(input);
         PRINT_LISTENERS.forEach(consumer -> consumer.accept("INPUT", input));
@@ -362,10 +411,20 @@ public abstract class LocalStorage {
         ERROR_LISTENERS.add(consumer);
     }
 
+    /**
+     * Add a variable listener. This listener is triggered when the variable with the corresponding name is changed.
+     * @param name Variable name
+     * @param consumer The consumer to run
+     * @see #setVariable(String, Object)
+     */
     public static void addVariableListener(String name, Consumer<Object> consumer) {
         VARIABLE_LISTENERS.put(name, consumer);
     }
 
+    /**
+     * Add an input subscription. Consumers are removed from the subscription list after they are run.
+     * @param consumer Consumer to run when user inputs something
+     */
     public static void addInputSubscription(Consumer<String> consumer) {
         INPUT_LISTENERS.add(consumer);
     }
