@@ -499,7 +499,7 @@
 
                     <!-- Application metadata -->
                     <vendor>wyu4</vendor>
-                    <appVersion>0.0.6</appVersion>
+                    <appVersion>0.0.7</appVersion>
                     <icon>${install.icon}</icon>
 
                     <!-- Input configuration -->
