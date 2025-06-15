@@ -36,6 +36,9 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WarnTask {
 
 class com.wyu4.snowberryjam.Start {
 - {static} Logger logger
+- {static} int MIN_FONT_SIZE
+- {static} int MAX_FONT_SIZE
+- {static} int DEFAULT_FONT_SIZE
 + {static} void main(String[])
 + void start(Stage)
 }
@@ -852,6 +855,7 @@ class com.wyu4.snowberryjam.gui.framework.ViewBuilder {
 + Node createLog(String,String,Color)
 + Node createProjectViewer()
 + Node createCodeEditor()
++ Button createFontButton(FontIcon)
 }
 
 
@@ -916,9 +920,9 @@ com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.
 com.wyu4.snowberryjam.compiler.data.tasks.SetTask <|-- com.wyu4.snowberryjam.compiler.data.tasks.macros.IncreaseMacro
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.SameType
 com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
-javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
-javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.DottedStackPane
-javafx.scene.layout.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.LoadingOverlay
+com.wyu4.snowberryjam.gui.viewer.codeviewer.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.CodeViewer
+com.wyu4.snowberryjam.gui.viewer.codeviewer.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.DottedStackPane
+com.wyu4.snowberryjam.gui.viewer.codeviewer.StackPane <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.LoadingOverlay
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.iteration.ArrayHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterOrEqualTo
 com.wyu4.snowberryjam.compiler.data.values.conversion.ConversionHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ParseNumber
@@ -928,7 +932,7 @@ com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- co
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ConversionHolder
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Modulus
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.Equals
-javafx.scene.layout.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.StackViewer
+com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.StackViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.WhileTask
@@ -944,7 +948,7 @@ com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.sn
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.NamedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask
 com.wyu4.snowberryjam.compiler.data.values.InteractiveValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder
-javafx.scene.layout.HBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer
+com.wyu4.snowberryjam.gui.viewer.codeviewer.values.HBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer
 com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder <|-- com.wyu4.snowberryjam.compiler.data.values.math.Multiply
 com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ValueViewer <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ConditionalValueViewer
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.BodyStack
@@ -980,7 +984,7 @@ com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryja
 com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.BodiedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
 com.wyu4.snowberryjam.compiler.data.tasks.interfaces.ValuedTask <|.. com.wyu4.snowberryjam.compiler.data.tasks.IfTask
-javafx.scene.layout.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.TaskViewer
+com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.VBox <|-- com.wyu4.snowberryjam.gui.viewer.codeviewer.tasks.TaskViewer
 com.wyu4.snowberryjam.compiler.data.values.conversion.ConversionHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conversion.ArrayOf
 javafx.util.Builder <|.. com.wyu4.snowberryjam.gui.framework.ViewBuilder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.NotEquals
