@@ -1,6 +1,7 @@
 package com.wyu4.snowberryjam.compiler.data.values.builtin;
 
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+import com.wyu4.snowberryjam.compiler.data.values.Cached;
 import com.wyu4.snowberryjam.compiler.data.values.ValueHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 
@@ -13,16 +14,20 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * Value Holder that requests a user input.
  */
-public class InputHolder extends ValueHolder implements BuiltInHolder {
+public class InputHolder extends ValueHolder implements BuiltInHolder, Cached {
     private final AtomicInteger currentPointer = new AtomicInteger();
-    private final AtomicReference<String> input = new AtomicReference<>();
+    private final AtomicReference<String> cache = new AtomicReference<>();
+
+    public InputHolder() {
+        init();
+    }
 
     @Override
     public Object getValue() {
         if (!LocalStorage.isRunning()) {
             return "";
         }
-        String lastInput = input.get();
+        String lastInput = cache.get();
         if (lastInput != null && LocalStorage.getPointer() == currentPointer.get()) {
             return lastInput;
         }
@@ -33,7 +38,7 @@ public class InputHolder extends ValueHolder implements BuiltInHolder {
             try {
                 String newInput = await.get(100, TimeUnit.MILLISECONDS);
                 currentPointer.set(LocalStorage.getPointer());
-                input.set(newInput);
+                cache.set(newInput);
                 return newInput;
             } catch (TimeoutException | InterruptedException ignore) {} catch (Exception e) {
                 throw new RuntimeException(e);
@@ -62,5 +67,10 @@ public class InputHolder extends ValueHolder implements BuiltInHolder {
     @Override
     public String toString() {
         return "an input from the user";
+    }
+
+    @Override
+    public void release() {
+        cache.set(null);
     }
 }

@@ -3,6 +3,7 @@ package com.wyu4.snowberryjam.compiler;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.data.BodyStack;
 import com.wyu4.snowberryjam.compiler.data.tasks.ExecutableTask;
+import com.wyu4.snowberryjam.compiler.data.values.Cached;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,6 +54,8 @@ public abstract class LocalStorage {
 
     /** The input listeners/subscribers */
     private static final List<Consumer<String>> INPUT_LISTENERS = new ArrayList<>();
+
+    private static final List<Cached> CACHED_VALUES = new ArrayList<>();
 
     /** THe variable listeners */
     private static final HashMap<String, Consumer<Object>> VARIABLE_LISTENERS = new HashMap<>();
@@ -280,10 +283,15 @@ public abstract class LocalStorage {
     }
 
     /**
-     * Reset the pointer index to 0
+     * Reset the pointer index to 0, and release all cached data.
      */
     private static void resetPointer() {
         pointer.set(0);
+        releaseCache();
+    }
+
+    private static void releaseCache() {
+        CACHED_VALUES.forEach(Cached::release);
     }
 
     /**
@@ -427,5 +435,9 @@ public abstract class LocalStorage {
      */
     public static void addInputSubscription(Consumer<String> consumer) {
         INPUT_LISTENERS.add(consumer);
+    }
+
+    public static void addCachedValue(Cached value) {
+        CACHED_VALUES.add(value);
     }
 }

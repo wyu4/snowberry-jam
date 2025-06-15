@@ -355,6 +355,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 - {static} List<BiConsumer<String,String>> WARN_LISTENERS
 - {static} List<BiConsumer<String,String>> ERROR_LISTENERS
 - {static} List<Consumer<String>> INPUT_LISTENERS
+- {static} List<Cached> CACHED_VALUES
 - {static} HashMap<String,Consumer<Object>> VARIABLE_LISTENERS
 - {static} AtomicInteger pointer
 - {static} AtomicBoolean running
@@ -376,6 +377,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 + {static} void increasePointer()
 + {static} int getPointer()
 - {static} void resetPointer()
+- {static} void releaseCache()
 - {static} Logger getLogger()
 + {static} void sendInput(String)
 + {static} void print(Object,Object)
@@ -388,6 +390,7 @@ abstract class com.wyu4.snowberryjam.compiler.LocalStorage {
 + {static} void addErrorListener(BiConsumer<String,String>)
 + {static} void addVariableListener(String,Consumer<Object>)
 + {static} void addInputSubscription(Consumer<String>)
++ {static} void addCachedValue(Cached)
 }
 
 
@@ -462,6 +465,11 @@ class com.wyu4.snowberryjam.compiler.data.tasks.WaitTask {
 
 class com.wyu4.snowberryjam.gui.viewer.codeviewer.values.ConversionValueViewer {
 + <<Create>> ConversionValueViewer(ConversionHolder)
+}
+
+interface com.wyu4.snowberryjam.compiler.data.values.Cached {
+~ void init()
+~ void release()
 }
 
 interface com.wyu4.snowberryjam.gui.viewer.Viewer {
@@ -709,11 +717,13 @@ class com.wyu4.snowberryjam.gui.viewer.VariableListener {
 
 class com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder {
 - AtomicInteger currentPointer
-- AtomicReference<String> input
+- AtomicReference<String> cache
++ <<Create>> InputHolder()
 + Object getValue()
 + SourceId getId()
 + Class<?> getType()
 + String toString()
++ void release()
 }
 
 
@@ -976,6 +986,7 @@ com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- co
 com.wyu4.snowberryjam.gui.viewer.Viewer <|.. com.wyu4.snowberryjam.gui.viewer.VariableViewer
 javafx.scene.control.TableView <|-- com.wyu4.snowberryjam.gui.viewer.VariableViewer
 com.wyu4.snowberryjam.compiler.data.values.builtin.BuiltInHolder <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
+com.wyu4.snowberryjam.compiler.data.values.Cached <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.ValueHolder <|-- com.wyu4.snowberryjam.compiler.data.values.builtin.InputHolder
 com.wyu4.snowberryjam.compiler.data.values.conditional.ConditionalHolder <|-- com.wyu4.snowberryjam.compiler.data.values.conditional.GreaterThan
 com.wyu4.snowberryjam.compiler.data.values.builtin.BuiltInHolder <|.. com.wyu4.snowberryjam.compiler.data.values.builtin.PublicFolderHolder
