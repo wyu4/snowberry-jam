@@ -1,1 +1,0 @@
-moduleSearchIndex = [{"l":"com.wyu4.snowberryjam"}];updateSearchResults();
