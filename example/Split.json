@@ -1,0 +1,20 @@
+{
+    "id" : "PROJECT",
+    "name" : "Split",
+    "description" : "Showcasing the split value.",
+    "body" : {
+        "variables" : [ ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id": "SPLIT",
+                        "a": "Hello! This is a test. This message is split into an array.",
+                        "b": " "
+                    }
+                ]
+            }
+        ]
+    }
+}

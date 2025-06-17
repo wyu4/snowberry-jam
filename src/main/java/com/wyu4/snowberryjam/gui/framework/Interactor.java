@@ -6,6 +6,8 @@ import com.wyu4.snowberryjam.compiler.LocalStorage;
 import javafx.application.Platform;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +21,7 @@ import java.util.function.Consumer;
  */
 public class Interactor {
     private static final Logger logger = LoggerFactory.getLogger(Interactor.class);
+    private static final ExtensionFilter fileFilter = new FileChooser.ExtensionFilter("Source File (*.snowb *.json)", "*.snowb", "*.json");
     private final Model model;
     private final Stage stage;
 
@@ -47,8 +50,7 @@ public class Interactor {
         return () -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open with Snowberry Jam");
-            fileChooser.getExtensionFilters()
-                    .add(new FileChooser.ExtensionFilter("Snowberry Jam Source File (*.snowb)", "*.snowb"));
+            fileChooser.getExtensionFilters().add(fileFilter);
             Platform.runLater(() -> {
                 File file = fileChooser.showOpenDialog(stage);
 
@@ -98,8 +100,7 @@ public class Interactor {
         return () -> {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Save as");
-            fileChooser.getExtensionFilters()
-                    .add(new FileChooser.ExtensionFilter("Snowberry Jam Source File (*.snowb)", "*.snowb"));
+            fileChooser.getExtensionFilters().add(fileFilter);
             Platform.runLater(() -> {
                 File file = fileChooser.showSaveDialog(stage);
 
