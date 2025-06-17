@@ -299,6 +299,7 @@ class com.wyu4.snowberryjam.compiler.data.tasks.RepeatTask {
 
 class com.wyu4.snowberryjam.gui.framework.Interactor {
 - {static} Logger logger
+- {static} ExtensionFilter fileFilter
 - Model model
 - Stage stage
 + <<Create>> Interactor(Model,Stage)
