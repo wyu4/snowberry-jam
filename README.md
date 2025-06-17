@@ -23,7 +23,7 @@ In order for VSCode to treat this filetype properly, hold down `ctrl + shift + p
 }
 ```
 
-## Manual Building A Copy
+## Manually Building a Copy
 Users have the option to manually build their own copy of Snowberry Jam. You can get a copy of the source code from this repository, or by using [Git](https://git-scm.com/downloads):
 ```bash
 git clone https://github.com/wyu4/snowberry-jam.git
