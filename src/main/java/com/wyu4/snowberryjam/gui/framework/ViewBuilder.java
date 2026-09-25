@@ -78,6 +78,7 @@ public class ViewBuilder implements Builder<Region> {
         MenuItem openFile = new MenuItem("Open");
         MenuItem saveFile = new MenuItem("Save");
         MenuItem saveAsFile = new MenuItem("Save As");
+        MenuItem openPublicFolder = new MenuItem("Open Public Folder");
         MenuItem exit = new MenuItem("Exit");
 
         saveFile.disableProperty().bindBidirectional(model.getSaveDisabledProperty());
@@ -87,9 +88,10 @@ public class ViewBuilder implements Builder<Region> {
         openFile.setOnAction(evt -> interactor.createOpenFileTask().run());
         saveFile.setOnAction(evt -> interactor.createSaveFileTask().run());
         saveAsFile.setOnAction(evt -> interactor.createSaveAsFileTask().run());
+        openPublicFolder.setOnAction(evt -> interactor.createOpenPublicFolderTask().run());
         exit.setOnAction(evt -> Platform.exit());
 
-        fileCategory.getItems().addAll(newFile, openFile, saveFile, saveAsFile, new SeparatorMenuItem(), exit);
+        fileCategory.getItems().addAll(newFile, openFile, saveFile, saveAsFile, new SeparatorMenuItem(), openPublicFolder, new SeparatorMenuItem(), exit);
 
         Menu documentCategory = new Menu("Document");
         MenuItem formatDocument = new MenuItem("Format");

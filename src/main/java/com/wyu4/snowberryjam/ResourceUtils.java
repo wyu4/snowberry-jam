@@ -15,10 +15,24 @@ import java.util.Scanner;
 public abstract class ResourceUtils {
     private static final Logger logger = LoggerFactory.getLogger("ResourceUtils");
     public static final String IMAGES = "images";
-    public static final String PUBLIC = System.getenv("APPDATA") + "/SnowberryJam/";
+    public static final String PUBLIC = resolveAppDataDir() + "/SnowberryJam/";
 
     static {
         createPublicFile();
+    }
+
+    private static String resolveAppDataDir() {
+        String os = System.getProperty("os.name").toLowerCase();
+        String home = System.getProperty("user.home");
+        if (os.contains("win")) {
+            String appData = System.getenv("APPDATA");
+            return appData != null ? appData : home + "/AppData/Roaming";
+        } else if (os.contains("mac")) {
+            return home + "/Library/Application Support";
+        } else {
+            String xdg = System.getenv("XDG_DATA_HOME");
+            return xdg != null ? xdg : home + "/.local/share";
+        }
     }
 
     public enum ResourceFile {

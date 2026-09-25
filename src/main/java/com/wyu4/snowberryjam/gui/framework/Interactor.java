@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -130,6 +131,26 @@ public class Interactor {
                 model.getSourceCodeProperty().set(LocalStorage.getDefaultSource());
                 Compiler.print("Created new project.");
             });
+        };
+    }
+
+    public Runnable createOpenPublicFolderTask() {
+        return () -> {
+            ResourceUtils.createPublicFile();
+            File folder = new File(ResourceUtils.PUBLIC);
+            // AWT calls can deadlock on the FX thread (notably on macOS), so run separately
+            Thread thread = new Thread(() -> {
+                try {
+                    if (!Desktop.isDesktopSupported() || !Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+                        throw new UnsupportedOperationException("Opening folders is not supported on this platform.");
+                    }
+                    Desktop.getDesktop().open(folder);
+                } catch (Exception e) {
+                    logger.error("Could not open public folder \"{}\".", folder.getAbsolutePath(), e);
+                }
+            }, "OpenPublicFolder");
+            thread.setDaemon(true);
+            thread.start();
         };
     }
 
