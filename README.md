@@ -1,5 +1,5 @@
 # Snowberry Jam
-A JSON-based programming language with a visual compiler made in Java.
+A JSON-based programming language with a visual interpreter made in Java.
 
 ![AppBanner](src/main/resources/com/wyu4/snowberryjam/images/AppBanner.png)
 
@@ -9,8 +9,8 @@ Snowberry Jam is a programming language designed to resemble the save file of a 
 ## Documentation
 Here's a list of different documentation resources directly related to this project.
 - [**Snowberry Jam Language Guide**](https://snowberry-jam.wyu.app/) `[Work In Progress]`
-- [**Compiler Javadoc Documentation**](https://snowberry-dev.wyu.app/javadoc/)
-- [**Compiler UML Diagram**](https://snowberry-dev.wyu.app/UML.svg)
+- [**Interpreter Javadoc Documentation**](https://snowberry-dev.wyu.app/javadoc/)
+- [**Interpreter UML Diagram**](https://snowberry-dev.wyu.app/UML.svg)
 
 ## Source Files
 Snowberry Jam source files end with the `.snowb` suffix. The contents of these follow the JSON syntax.
