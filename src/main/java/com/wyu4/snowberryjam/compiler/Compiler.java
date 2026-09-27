@@ -28,6 +28,7 @@ import java.util.function.BiConsumer;
  * The Snowberry Jam compiler class
  */
 public abstract class Compiler extends LocalStorage {
+    public static boolean VERBOSE = true;
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
@@ -62,7 +63,7 @@ public abstract class Compiler extends LocalStorage {
      * @see #compile(String)
      */
     private static JsonNode getTree(String source) throws JsonProcessingException {
-        print("Creating tree...");
+        if (VERBOSE) print("Creating tree...");
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readTree(source);
     }
@@ -87,9 +88,9 @@ public abstract class Compiler extends LocalStorage {
             if (projectBody == null) {
                 throw JsonMappingException.fromUnexpectedIOE(new IOException("Could not find the project body."));
             }
-            print("Mapping variables...");
+            if (VERBOSE) print("Mapping variables...");
             mapProjectVariables(projectBody);
-            print("Mapping tasks...");
+            if (VERBOSE) print("Mapping tasks...");
             compileEvents(projectBody);
         } catch (Exception e) {
             error("Could not compile.", e);
@@ -127,7 +128,7 @@ public abstract class Compiler extends LocalStorage {
             }
 
             Object rawValue = asPrimitiveObject(valueNode);
-            printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
+            if (VERBOSE) printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
 
             createVariable(variableName, rawValue);
         });
@@ -150,7 +151,7 @@ public abstract class Compiler extends LocalStorage {
                 compileBody(eventNode.get(SourceKey.BODY.toString()), onRunBody);
                 stackAdd(onRunBody);
 
-                System.out.print("\n\n------------------------------------\n------------------------------------\n\n");
+                if (VERBOSE) System.out.print("\n\n------------------------------------\n------------------------------------\n\n");
             }
         });
     }
@@ -180,7 +181,7 @@ public abstract class Compiler extends LocalStorage {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", rawId);
                     task = new WarnTask("Skipping unknown task \"" + rawId + "\"");
                 } else {
-                    System.out.println(id);
+                    if (VERBOSE) System.out.println(id);
                     switch (id) {
                         case PRINT -> task = new PrintTask(node);
                         case WARN -> task = new WarnTask(node);
@@ -201,7 +202,7 @@ public abstract class Compiler extends LocalStorage {
                 }
             }
 
-            printTab(task.getId());
+            if (VERBOSE) printTab(task.getId());
 
             stack.addTask(task);
         });
@@ -285,7 +286,7 @@ public abstract class Compiler extends LocalStorage {
      * @see #warn(Object, Object...)
      */
     public static void print(Object message, Object... args) {
-        logger.info(message.toString(), args);
+        logger.debug(message.toString(), args);
         PRINT_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(message, args)));
     }
 

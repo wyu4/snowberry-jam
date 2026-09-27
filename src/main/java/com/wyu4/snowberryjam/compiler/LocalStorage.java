@@ -188,11 +188,12 @@ public abstract class LocalStorage {
                     consumer.accept(value);
                 }
             });
-            print("-----------------------------");
+            if (Compiler.VERBOSE) print("-----------------------------");
 
             STACK.execute();
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            if (Compiler.VERBOSE) throw new RuntimeException(e);
+            error(e.getMessage());
         } finally {
             running.set(false);
         }
@@ -315,7 +316,7 @@ public abstract class LocalStorage {
      * @param input {@link String} input
      */
     public static void sendInput(String input) {
-        inputLogger.info(input);
+        if (Compiler.VERBOSE) inputLogger.debug(input);
         PRINT_LISTENERS.forEach(consumer -> consumer.accept("INPUT", input));
         INPUT_LISTENERS.forEach(consumer -> consumer.accept(input));
         INPUT_LISTENERS.clear();
