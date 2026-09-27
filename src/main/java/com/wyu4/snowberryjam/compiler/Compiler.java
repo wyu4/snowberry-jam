@@ -142,16 +142,14 @@ public abstract class Compiler extends LocalStorage {
         column -= selectedLine.length() - slice.length();
         if (column > maxHalf) {
             start = column - maxHalf;
-            int end = start + MAX_LINE_POINTER_LENGTH;
-            if (end > slice.length()) {
-                end = slice.length();
-            }
-            // System.out.println("%s to %s".formatted(start, end));
-            slice = slice.substring(start, end).stripTrailing();
-        } else {
-            start = 0;
-            slice = slice.substring(0, MAX_LINE_POINTER_LENGTH).stripTrailing();
+
         }
+        int end = start + MAX_LINE_POINTER_LENGTH;
+        if (end > slice.length()) {
+            end = slice.length();
+        }
+        // System.out.println("%s to %s".formatted(start, end));
+        slice = slice.substring(start, end).stripTrailing();
 
         builder.append(slice).append("\n");
         builder.append(" ".repeat(column - start)).append("^");
