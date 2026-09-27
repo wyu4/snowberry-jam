@@ -1,0 +1,1209 @@
+{
+    "id" : "PROJECT",
+    "name" : "Spinning Cube",
+    "description" : "Draws a rotating wireframe cube in the console. Change speed (radians per second) to make it spin faster or slower.",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "speed",
+                "value" : 1.5
+            },
+            {
+                "name" : "frameDelay",
+                "value" : 0.05
+            },
+            {
+                "name" : "width",
+                "value" : 44
+            },
+            {
+                "name" : "height",
+                "value" : 22
+            },
+            {
+                "name" : "scaleX",
+                "value" : 9
+            },
+            {
+                "name" : "scaleY",
+                "value" : 4.5
+            },
+            {
+                "name" : "distance",
+                "value" : 4
+            },
+            {
+                "name" : "vx",
+                "value" : [
+                    -1,
+                    1,
+                    1,
+                    -1,
+                    -1,
+                    1,
+                    1,
+                    -1
+                ]
+            },
+            {
+                "name" : "vy",
+                "value" : [
+                    -1,
+                    -1,
+                    1,
+                    1,
+                    -1,
+                    -1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name" : "vz",
+                "value" : [
+                    -1,
+                    -1,
+                    -1,
+                    -1,
+                    1,
+                    1,
+                    1,
+                    1
+                ]
+            },
+            {
+                "name" : "edgeA",
+                "value" : [
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    0,
+                    1,
+                    2,
+                    3
+                ]
+            },
+            {
+                "name" : "edgeB",
+                "value" : [
+                    1,
+                    2,
+                    3,
+                    0,
+                    5,
+                    6,
+                    7,
+                    4,
+                    4,
+                    5,
+                    6,
+                    7
+                ]
+            },
+            {
+                "name" : "sx",
+                "value" : [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            {
+                "name" : "sy",
+                "value" : [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            {
+                "name" : "sz",
+                "value" : [
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0,
+                    0
+                ]
+            },
+            {
+                "name" : "blank",
+                "value" : [ ]
+            },
+            {
+                "name" : "grid",
+                "value" : [ ]
+            },
+            {
+                "name" : "frame",
+                "value" : ""
+            },
+            {
+                "name" : "startTime",
+                "value" : 0
+            },
+            {
+                "name" : "angle",
+                "value" : 0
+            },
+            {
+                "name" : "cosA",
+                "value" : 0
+            },
+            {
+                "name" : "sinA",
+                "value" : 0
+            },
+            {
+                "name" : "cosB",
+                "value" : 0
+            },
+            {
+                "name" : "sinB",
+                "value" : 0
+            },
+            {
+                "name" : "x",
+                "value" : 0
+            },
+            {
+                "name" : "y",
+                "value" : 0
+            },
+            {
+                "name" : "z",
+                "value" : 0
+            },
+            {
+                "name" : "p",
+                "value" : 0
+            },
+            {
+                "name" : "v",
+                "value" : 0
+            },
+            {
+                "name" : "e",
+                "value" : 0
+            },
+            {
+                "name" : "s",
+                "value" : 0
+            },
+            {
+                "name" : "r",
+                "value" : 0
+            },
+            {
+                "name" : "c",
+                "value" : 0
+            },
+            {
+                "name" : "a",
+                "value" : 0
+            },
+            {
+                "name" : "b",
+                "value" : 0
+            },
+            {
+                "name" : "steps",
+                "value" : 0
+            },
+            {
+                "name" : "t",
+                "value" : 0
+            },
+            {
+                "name" : "px",
+                "value" : 0
+            },
+            {
+                "name" : "py",
+                "value" : 0
+            },
+            {
+                "name" : "pz",
+                "value" : 0
+            },
+            {
+                "name" : "col",
+                "value" : 0
+            },
+            {
+                "name" : "row",
+                "value" : 0
+            },
+            {
+                "name" : "index",
+                "value" : 0
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    {
+                        "id" : "SET",
+                        "name" : "startTime",
+                        "value" : {
+                            "id" : "TIME"
+                        }
+                    },
+                    {
+                        "id" : "REPEAT",
+                        "value" : {
+                            "id" : "*",
+                            "a" : {
+                                "id" : "VARIABLE",
+                                "name" : "width"
+                            },
+                            "b" : {
+                                "id" : "VARIABLE",
+                                "name" : "height"
+                            }
+                        },
+                        "body" : [
+                            {
+                                "id" : "+=",
+                                "name" : "blank",
+                                "value" : " "
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "WHILE",
+                        "value" : true,
+                        "body" : [
+                            {
+                                "id" : "SET",
+                                "name" : "angle",
+                                "value" : {
+                                    "id" : "*",
+                                    "a" : {
+                                        "id" : "/",
+                                        "a" : {
+                                            "id" : "-",
+                                            "a" : {
+                                                "id" : "TIME"
+                                            },
+                                            "b" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "startTime"
+                                            }
+                                        },
+                                        "b" : 1000
+                                    },
+                                    "b" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "speed"
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "cosA",
+                                "value" : {
+                                    "id" : "COS",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "angle"
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "sinA",
+                                "value" : {
+                                    "id" : "SIN",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "angle"
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "cosB",
+                                "value" : {
+                                    "id" : "COS",
+                                    "a" : {
+                                        "id" : "*",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "angle"
+                                        },
+                                        "b" : 0.7
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "sinB",
+                                "value" : {
+                                    "id" : "SIN",
+                                    "a" : {
+                                        "id" : "*",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "angle"
+                                        },
+                                        "b" : 0.7
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "grid",
+                                "value" : {
+                                    "id" : "+",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "blank"
+                                    },
+                                    "b" : [ ]
+                                }
+                            },
+                            {
+                                "id" : "REPEAT",
+                                "value" : 8,
+                                "name" : "v",
+                                "body" : [
+                                    {
+                                        "id" : "SET",
+                                        "name" : "x",
+                                        "value" : {
+                                            "id" : "+",
+                                            "a" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "vx"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "v"
+                                                    }
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "cosA"
+                                                }
+                                            },
+                                            "b" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "vz"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "v"
+                                                    }
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "sinA"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "z",
+                                        "value" : {
+                                            "id" : "-",
+                                            "a" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "vz"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "v"
+                                                    }
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "cosA"
+                                                }
+                                            },
+                                            "b" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "vx"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "v"
+                                                    }
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "sinA"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "y",
+                                        "value" : {
+                                            "id" : "-",
+                                            "a" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "vy"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "v"
+                                                    }
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "cosB"
+                                                }
+                                            },
+                                            "b" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "z"
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "sinB"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "z",
+                                        "value" : {
+                                            "id" : "+",
+                                            "a" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "vy"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "v"
+                                                    }
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "sinB"
+                                                }
+                                            },
+                                            "b" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "z"
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "cosB"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "p",
+                                        "value" : {
+                                            "id" : "/",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "distance"
+                                            },
+                                            "b" : {
+                                                "id" : "+",
+                                                "a" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "z"
+                                                },
+                                                "b" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "distance"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "sx",
+                                        "value" : {
+                                            "id" : "WITH_UPDATED_ELEMENT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "sx"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "v"
+                                            },
+                                            "b" : {
+                                                "id" : "+",
+                                                "a" : {
+                                                    "id" : "/",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "width"
+                                                    },
+                                                    "b" : 2
+                                                },
+                                                "b" : {
+                                                    "id" : "*",
+                                                    "a" : {
+                                                        "id" : "*",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "x"
+                                                        },
+                                                        "b" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "p"
+                                                        }
+                                                    },
+                                                    "b" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "scaleX"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "sy",
+                                        "value" : {
+                                            "id" : "WITH_UPDATED_ELEMENT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "sy"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "v"
+                                            },
+                                            "b" : {
+                                                "id" : "-",
+                                                "a" : {
+                                                    "id" : "/",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "height"
+                                                    },
+                                                    "b" : 2
+                                                },
+                                                "b" : {
+                                                    "id" : "*",
+                                                    "a" : {
+                                                        "id" : "*",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "y"
+                                                        },
+                                                        "b" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "p"
+                                                        }
+                                                    },
+                                                    "b" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "scaleY"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "sz",
+                                        "value" : {
+                                            "id" : "WITH_UPDATED_ELEMENT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "sz"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "v"
+                                            },
+                                            "b" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "z"
+                                            }
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : "REPEAT",
+                                "value" : 12,
+                                "name" : "e",
+                                "body" : [
+                                    {
+                                        "id" : "SET",
+                                        "name" : "a",
+                                        "value" : {
+                                            "id" : "ELEMENT_AT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "edgeA"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "e"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "b",
+                                        "value" : {
+                                            "id" : "ELEMENT_AT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "edgeB"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "e"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "steps",
+                                        "value" : {
+                                            "id" : "+",
+                                            "a" : {
+                                                "id" : "ROUND",
+                                                "a" : {
+                                                    "id" : "ROOT",
+                                                    "a" : {
+                                                        "id" : "+",
+                                                        "a" : {
+                                                            "id" : "^",
+                                                            "a" : {
+                                                                "id" : "-",
+                                                                "a" : {
+                                                                    "id" : "ELEMENT_AT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "sx"
+                                                                    },
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "b"
+                                                                    }
+                                                                },
+                                                                "b" : {
+                                                                    "id" : "ELEMENT_AT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "sx"
+                                                                    },
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "a"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "b" : 2
+                                                        },
+                                                        "b" : {
+                                                            "id" : "^",
+                                                            "a" : {
+                                                                "id" : "-",
+                                                                "a" : {
+                                                                    "id" : "ELEMENT_AT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "sy"
+                                                                    },
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "b"
+                                                                    }
+                                                                },
+                                                                "b" : {
+                                                                    "id" : "ELEMENT_AT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "sy"
+                                                                    },
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "a"
+                                                                    }
+                                                                }
+                                                            },
+                                                            "b" : 2
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "b" : 1
+                                        }
+                                    },
+                                    {
+                                        "id" : "REPEAT",
+                                        "value" : {
+                                            "id" : "+",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "steps"
+                                            },
+                                            "b" : 1
+                                        },
+                                        "name" : "s",
+                                        "body" : [
+                                            {
+                                                "id" : "SET",
+                                                "name" : "t",
+                                                "value" : {
+                                                    "id" : "/",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "s"
+                                                    },
+                                                    "b" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "steps"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "px",
+                                                "value" : {
+                                                    "id" : "+",
+                                                    "a" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "sx"
+                                                        },
+                                                        "i" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "a"
+                                                        }
+                                                    },
+                                                    "b" : {
+                                                        "id" : "*",
+                                                        "a" : {
+                                                            "id" : "-",
+                                                            "a" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "sx"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "b"
+                                                                }
+                                                            },
+                                                            "b" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "sx"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "a"
+                                                                }
+                                                            }
+                                                        },
+                                                        "b" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "t"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "py",
+                                                "value" : {
+                                                    "id" : "+",
+                                                    "a" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "sy"
+                                                        },
+                                                        "i" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "a"
+                                                        }
+                                                    },
+                                                    "b" : {
+                                                        "id" : "*",
+                                                        "a" : {
+                                                            "id" : "-",
+                                                            "a" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "sy"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "b"
+                                                                }
+                                                            },
+                                                            "b" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "sy"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "a"
+                                                                }
+                                                            }
+                                                        },
+                                                        "b" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "t"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "pz",
+                                                "value" : {
+                                                    "id" : "+",
+                                                    "a" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "sz"
+                                                        },
+                                                        "i" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "a"
+                                                        }
+                                                    },
+                                                    "b" : {
+                                                        "id" : "*",
+                                                        "a" : {
+                                                            "id" : "-",
+                                                            "a" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "sz"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "b"
+                                                                }
+                                                            },
+                                                            "b" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "sz"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "a"
+                                                                }
+                                                            }
+                                                        },
+                                                        "b" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "t"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "col",
+                                                "value" : {
+                                                    "id" : "ROUND",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "px"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "row",
+                                                "value" : {
+                                                    "id" : "ROUND",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "py"
+                                                    }
+                                                }
+                                            },
+                                            {
+                                                "id" : "IF",
+                                                "value" : {
+                                                    "id" : "AND",
+                                                    "a" : {
+                                                        "id" : "AND",
+                                                        "a" : {
+                                                            "id" : ">=",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "col"
+                                                            },
+                                                            "b" : 0
+                                                        },
+                                                        "b" : {
+                                                            "id" : "<",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "col"
+                                                            },
+                                                            "b" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "width"
+                                                            }
+                                                        }
+                                                    },
+                                                    "b" : {
+                                                        "id" : "AND",
+                                                        "a" : {
+                                                            "id" : ">=",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "row"
+                                                            },
+                                                            "b" : 0
+                                                        },
+                                                        "b" : {
+                                                            "id" : "<",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "row"
+                                                            },
+                                                            "b" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "height"
+                                                            }
+                                                        }
+                                                    }
+                                                },
+                                                "body" : [
+                                                    {
+                                                        "id" : "SET",
+                                                        "name" : "index",
+                                                        "value" : {
+                                                            "id" : "+",
+                                                            "a" : {
+                                                                "id" : "*",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "row"
+                                                                },
+                                                                "b" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "width"
+                                                                }
+                                                            },
+                                                            "b" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "col"
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "id" : "IF_ELSE",
+                                                        "value" : {
+                                                            "id" : "<",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "pz"
+                                                            },
+                                                            "b" : 0
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "SET",
+                                                                "name" : "grid",
+                                                                "value" : {
+                                                                    "id" : "WITH_UPDATED_ELEMENT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "grid"
+                                                                    },
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "index"
+                                                                    },
+                                                                    "b" : "#"
+                                                                }
+                                                            }
+                                                        ],
+                                                        "else" : [
+                                                            {
+                                                                "id" : "IF",
+                                                                "value" : {
+                                                                    "id" : "==",
+                                                                    "a" : {
+                                                                        "id" : "ELEMENT_AT",
+                                                                        "a" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "grid"
+                                                                        },
+                                                                        "i" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "index"
+                                                                        }
+                                                                    },
+                                                                    "b" : " "
+                                                                },
+                                                                "body" : [
+                                                                    {
+                                                                        "id" : "SET",
+                                                                        "name" : "grid",
+                                                                        "value" : {
+                                                                            "id" : "WITH_UPDATED_ELEMENT",
+                                                                            "a" : {
+                                                                                "id" : "VARIABLE",
+                                                                                "name" : "grid"
+                                                                            },
+                                                                            "i" : {
+                                                                                "id" : "VARIABLE",
+                                                                                "name" : "index"
+                                                                            },
+                                                                            "b" : "."
+                                                                        }
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "frame",
+                                "value" : "\n"
+                            },
+                            {
+                                "id" : "REPEAT",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "height"
+                                },
+                                "name" : "r",
+                                "body" : [
+                                    {
+                                        "id" : "REPEAT",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "width"
+                                        },
+                                        "name" : "c",
+                                        "body" : [
+                                            {
+                                                "id" : "+=",
+                                                "name" : "frame",
+                                                "value" : {
+                                                    "id" : "ELEMENT_AT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "grid"
+                                                    },
+                                                    "i" : {
+                                                        "id" : "+",
+                                                        "a" : {
+                                                            "id" : "*",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "r"
+                                                            },
+                                                            "b" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "width"
+                                                            }
+                                                        },
+                                                        "b" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "c"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id" : "+=",
+                                        "name" : "frame",
+                                        "value" : "\n"
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : "VARIABLE",
+                                "name" : "frame"
+                            },
+                            {
+                                "id" : "WAIT",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "frameDelay"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
