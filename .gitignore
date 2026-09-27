@@ -37,3 +37,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Pristine upstream JAR cache (see the antrun restore-pristine-jars step in pom.xml) ###
+.pristine-jars/

@@ -38,27 +38,27 @@
         <dependency>
             <groupId>org.fxmisc.richtext</groupId>
             <artifactId>richtextfx</artifactId>
-            <version>0.11.5</version>
+            <version>${richtextfx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fxmisc.flowless</groupId>
             <artifactId>flowless</artifactId>
-            <version>0.7.4</version>
+            <version>${flowless.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fxmisc.undo</groupId>
             <artifactId>undofx</artifactId>
-            <version>2.1.1</version>
+            <version>${undofx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.fxmisc.wellbehaved</groupId>
             <artifactId>wellbehavedfx</artifactId>
-            <version>0.3.3</version>
+            <version>${wellbehavedfx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.reactfx</groupId>
             <artifactId>reactfx</artifactId>
-            <version>2.0-M5</version>
+            <version>${reactfx.version}</version>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -123,29 +123,48 @@
                 </configuration>
             </plugin>
 
-            <!-- Clear necessary dependencies -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                    <includes>
-                        <include>org.fxmisc.richtext</include> <!-- RichText -->
-                        <include>org.fxmisc.flowless</include> <!-- Flowless -->
-                        <include>org.fxmisc.undo</include> <!-- Undo -->
-                        <include>org.fxmisc.wellbehaved</include> <!-- Wellbehaved -->
-                        <include>org.reactfx</include> <!-- ReactFX -->
-                    </includes>
-                </configuration>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
                 <executions>
                     <execution>
-                        <id>purge-local-repository</id>
+                        <?m2e ignore?>
+                        <id>restore-pristine-jars</id>
                         <phase>generate-resources</phase>
                         <goals>
-                            <goal>purge-local-repository</goal>
+                            <goal>run</goal>
                         </goals>
                         <configuration>
                             <skip>${skipModularization}</skip>
+                            <target>
+                                <mkdir dir="${pristineDir}"/>
+
+                                <!-- Cached on the first build; every later build restores offline. -->
+                                <get dest="${pristineDir}" skipexisting="true">
+                                    <url url="${centralUrl}/org/fxmisc/richtext/richtextfx/${richtextfx.version}/richtextfx-${richtextfx.version}.jar"/>
+                                    <url url="${centralUrl}/org/fxmisc/flowless/flowless/${flowless.version}/flowless-${flowless.version}.jar"/>
+                                    <url url="${centralUrl}/org/fxmisc/undo/undofx/${undofx.version}/undofx-${undofx.version}.jar"/>
+                                    <url url="${centralUrl}/org/fxmisc/wellbehaved/wellbehavedfx/${wellbehavedfx.version}/wellbehavedfx-${wellbehavedfx.version}.jar"/>
+                                    <url url="${centralUrl}/org/reactfx/reactfx/${reactfx.version}/reactfx-${reactfx.version}.jar"/>
+                                </get>
+
+                                <copy file="${pristineDir}/richtextfx-${richtextfx.version}.jar"
+                                      tofile="${localRepo}/org/fxmisc/richtext/richtextfx/${richtextfx.version}/richtextfx-${richtextfx.version}.jar"
+                                      overwrite="true"/>
+                                <copy file="${pristineDir}/flowless-${flowless.version}.jar"
+                                      tofile="${localRepo}/org/fxmisc/flowless/flowless/${flowless.version}/flowless-${flowless.version}.jar"
+                                      overwrite="true"/>
+                                <copy file="${pristineDir}/undofx-${undofx.version}.jar"
+                                      tofile="${localRepo}/org/fxmisc/undo/undofx/${undofx.version}/undofx-${undofx.version}.jar"
+                                      overwrite="true"/>
+                                <copy file="${pristineDir}/wellbehavedfx-${wellbehavedfx.version}.jar"
+                                      tofile="${localRepo}/org/fxmisc/wellbehaved/wellbehavedfx/${wellbehavedfx.version}/wellbehavedfx-${wellbehavedfx.version}.jar"
+                                      overwrite="true"/>
+                                <copy file="${pristineDir}/reactfx-${reactfx.version}.jar"
+                                      tofile="${localRepo}/org/reactfx/reactfx/${reactfx.version}/reactfx-${reactfx.version}.jar"
+                                      overwrite="true"/>
+                            </target>
                         </configuration>
                     </execution>
                 </executions>
@@ -163,7 +182,7 @@
                             <artifact>
                                 <groupId>org.fxmisc.richtext</groupId>
                                 <artifactId>richtextfx</artifactId>
-                                <version>0.11.5</version>
+                                <version>${richtextfx.version}</version>
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.richtext {
@@ -185,7 +204,7 @@
                             <artifact>
                                 <groupId>org.fxmisc.flowless</groupId>
                                 <artifactId>flowless</artifactId>
-                                <version>0.7.4</version>
+                                <version>${flowless.version}</version>
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.flowless {
@@ -201,7 +220,7 @@
                             <artifact>
                                 <groupId>org.fxmisc.undo</groupId>
                                 <artifactId>undofx</artifactId>
-                                <version>2.1.1</version>
+                                <version>${undofx.version}</version>
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.undo {
@@ -218,7 +237,7 @@
                             <artifact>
                                 <groupId>org.fxmisc.wellbehaved</groupId>
                                 <artifactId>wellbehavedfx</artifactId>
-                                <version>0.3.3</version>
+                                <version>${wellbehavedfx.version}</version>
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.wellbehaved {
@@ -235,7 +254,7 @@
                             <artifact>
                                 <groupId>org.reactfx</groupId>
                                 <artifactId>reactfx</artifactId>
-                                <version>2.0-M5</version>
+                                <version>${reactfx.version}</version>
                             </artifact>
                             <moduleInfoSource>
                                 module org.reactfx {
@@ -283,10 +302,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${modularizedDir}/richtextfx-0.11.5.jar</file>
+                            <file>${modularizedDir}/richtextfx-${richtextfx.version}.jar</file>
                             <groupId>org.fxmisc.richtext</groupId>
                             <artifactId>richtextfx</artifactId>
-                            <version>0.11.5</version>
+                            <version>${richtextfx.version}</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -297,10 +316,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${modularizedDir}/flowless-0.7.4.jar</file>
+                            <file>${modularizedDir}/flowless-${flowless.version}.jar</file>
                             <groupId>org.fxmisc.flowless</groupId>
                             <artifactId>flowless</artifactId>
-                            <version>0.7.4</version>
+                            <version>${flowless.version}</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -311,10 +330,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${modularizedDir}/undofx-2.1.1.jar</file>
+                            <file>${modularizedDir}/undofx-${undofx.version}.jar</file>
                             <groupId>org.fxmisc.undo</groupId>
                             <artifactId>undofx</artifactId>
-                            <version>2.1.1</version>
+                            <version>${undofx.version}</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -325,10 +344,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${modularizedDir}/wellbehavedfx-0.3.3.jar</file>
+                            <file>${modularizedDir}/wellbehavedfx-${wellbehavedfx.version}.jar</file>
                             <groupId>org.fxmisc.wellbehaved</groupId>
                             <artifactId>wellbehavedfx</artifactId>
-                            <version>0.3.3</version>
+                            <version>${wellbehavedfx.version}</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -339,10 +358,10 @@
                             <goal>install-file</goal>
                         </goals>
                         <configuration>
-                            <file>${modularizedDir}/reactfx-2.0-M5.jar</file>
+                            <file>${modularizedDir}/reactfx-${reactfx.version}.jar</file>
                             <groupId>org.reactfx</groupId>
                             <artifactId>reactfx</artifactId>
-                            <version>2.0-M5</version>
+                            <version>${reactfx.version}</version>
                             <packaging>jar</packaging>
                         </configuration>
                     </execution>
@@ -499,7 +518,7 @@
 
                     <!-- Application metadata -->
                     <vendor>wyu4</vendor>
-                    <appVersion>0.0.7</appVersion>
+                    <appVersion>0.0.8</appVersion>
                     <icon>${install.icon}</icon>
 
                     <!-- Input configuration -->
@@ -549,5 +568,18 @@
         <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
 
         <skipModularization>false</skipModularization>
+
+        <!-- Dependencies that ship as automatic modules and get modularized by moditect.
+             Referenced by the dependencies, antrun, moditect and install-file blocks, so a
+             version bump stays a single edit. -->
+        <richtextfx.version>0.11.5</richtextfx.version>
+        <flowless.version>0.7.4</flowless.version>
+        <undofx.version>2.1.1</undofx.version>
+        <wellbehavedfx.version>0.3.3</wellbehavedfx.version>
+        <reactfx.version>2.0-M5</reactfx.version>
+
+        <localRepo>${settings.localRepository}</localRepo>
+        <centralUrl>https://repo.maven.apache.org/maven2</centralUrl>
+        <pristineDir>${project.basedir}/.pristine-jars</pristineDir>
     </properties>
 </project>

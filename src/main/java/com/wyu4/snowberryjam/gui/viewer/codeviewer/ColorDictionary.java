@@ -26,6 +26,10 @@ public abstract class ColorDictionary {
         return switch(id) {
             case AND -> CONDITIONAL;
             case ARRAY_OF -> CONVERSION;
+            case ARCCOSINE -> MATH;
+            case ARCSINE -> MATH;
+            case ARCTANGENT -> MATH;
+            case COSINE -> MATH;
             case DECREASE_MACRO -> MACRO;
             case DIVIDE -> MATH;
             case ELEMENT_AT_INDEX -> ITERATION;
@@ -49,17 +53,21 @@ public abstract class ColorDictionary {
             case OR -> CONDITIONAL;
             case PARSE_NUMBER -> CONVERSION;
             case PLUS -> MATH;
+            case POWER -> MATH;
             case PRINT -> Color.rgb(255, 251, 221);
             case PROJECT -> BLAND;
             case PUBLIC_FOLDER -> BUILT_IN;
             case RANDOM -> MATH;
             case READ_FILE -> IO;
             case REPEAT -> LOOP;
+            case ROOT -> MATH;
             case ROUND -> MATH;
             case SAME_TYPE -> CONDITIONAL;
             case SET -> STORAGE;
+            case SINE -> MATH;
             case SIZE_OF -> CONVERSION;
             case SPLIT -> CONVERSION;
+            case TANGENT -> MATH;
             case THREAD -> THREADING;
             case TIME -> MATH;
             case VARIABLE -> BUILT_IN;
