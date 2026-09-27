@@ -38,10 +38,11 @@ public class Snowb {
           █ ██     ██ █    █ ▀█▄ █▀█▀▄    ▄▀▀ █ █
           █ ███▄█▄███ █    █ ▀▄█ █ █ █    ▀▄▄ █ █ %s
            ▀▄▀▀▀▀▀▀▀▄▀    ▄▀
-             ▀▀▀▀▀▀▀      
+             ▀▀▀▀▀▀▀
           """.formatted(Version.VERSION));
       System.out.println(
-          "Welcome to the Snowberry Jam terminal client!\n\nIf this is your first time using this, please visit https://snowberry-jam.wyu.app/ for the language guide.\nThis command can be used to run source files straight from your terminal.\nPlease use the following command to do so:\n\n> snowb [PATH_TO_SOURCE_FILE]\n\n");
+          "Welcome to the Snowberry Jam v%s terminal client!\n\nIf this is your first time using this, please visit https://snowberry-jam.wyu.app/ for the language guide.\nThis command can be used to run source files straight from your terminal.\nPlease use the following command to do so:\n\n> snowb [PATH_TO_SOURCE_FILE]\n\n"
+              .formatted(Version.VERSION));
       System.exit(0);
     }
 
