@@ -8,7 +8,7 @@ Snowberry Jam is a programming language designed to resemble the save file of a 
 
 ## Documentation
 Here's a list of different documentation resources directly related to this project.
-- [**Snowberry Jam Language Guide**](https://snowberry-jam.wyu.app/) `[Work In Progress]`
+- [**Snowberry Jam Language Guide**](https://snowberry-jam.wyu.app/)
 - [**Interpreter Javadoc Documentation**](https://snowberry-dev.wyu.app/javadoc/)
 - [**Interpreter UML Diagram**](https://snowberry-dev.wyu.app/UML.svg)
 
