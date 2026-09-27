@@ -43,3 +43,6 @@ build/
 
 # Drafts
 **/drafts/
+
+### JavaFX jmods downloaded by the mac-arm64 profile (see pom.xml) ###
+.javafx-jmods/

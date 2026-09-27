@@ -163,43 +163,27 @@
 
                     <!-- REQUIRED parameters -->
                     <destination>${packaging.dest}</destination>
-                    <name>${sjInstallerName}</name>
+                    <name>${package.appName}</name>
                     <mainClass>${project.groupId}.Start</mainClass>
 
-                    <!-- OS -->
-                    <type>MSI</type>
-                    <winConsole>false</winConsole>
-
-                    <winShortcut>true</winShortcut>
-                    <winMenu>true</winMenu>
-                    <installDir>${install.winDir}</installDir>
-                    <winPerUserInstall>false</winPerUserInstall>
-                    <winUpgradeUuid>${uuid}</winUpgradeUuid>
-                    <additionalOptions>
-                        <option>--win-dir-chooser</option>
-                        <option>--win-shortcut-prompt</option>
-                    </additionalOptions>
+                    <!-- OS-specific options (installer type, icon, resource dir, ...) live
+                         in the `windows` and `mac-arm64` profiles below -->
                     <javaOptions>
                         <javaOption>-Dhttps.protocols=TLSv1.2</javaOption>
                     </javaOptions>
-                    <fileAssociations>
-                        <fileAssociation>${snowbProperties}</fileAssociation>
-                    </fileAssociations>
 
-                    <!-- `snowb` terminal client: installs <install dir>\snowb.exe, and the
-                         patched main.wxs adds that folder to PATH -->
+                    <!-- `snowb` terminal client: an extra launcher next to the main one. The
+                         OS profiles put it on PATH (patched main.wxs / PKG postinstall). -->
                     <launchers>
                         <launcher>
                             <name>snowb</name>
                             <file>${installerDir}/snowb.properties</file>
                         </launcher>
                     </launchers>
-                    <resourceDir>${installerDir}/wix</resourceDir>
 
                     <!-- Application metadata -->
                     <vendor>Wilson Yu</vendor>
-                    <appVersion>${sjVersion}</appVersion>
-                    <icon>${install.icon}</icon>
+                    <appVersion>${package.version}</appVersion>
 
                     <!-- Input configuration -->
                     <input>${packaging.input}</input>
@@ -234,8 +218,8 @@
                         <configuration>
                             <target>
                                 <move
-                                    file="${project.build.directory}/packaging/installations/${sjInstallerName}-${sjVersion}.msi"
-                                    tofile="${project.build.directory}/packaging/installations/${sjInstallerName}.msi" />
+                                    file="${packaging.dest}/${package.appName}-${package.version}.${package.ext}"
+                                    tofile="${packaging.dest}/${sjInstallerName}.${package.ext}" />
                             </target>
                         </configuration>
                     </execution>
@@ -623,6 +607,19 @@
         <sjInstallerName>Snowberry Jam v${sjVersion}</sjInstallerName>
         <sjVersion>0.0.9</sjVersion>
 
+        <!-- Name and version jpackage gives the installed app, and the installer's extension.
+             Windows values; overridden by the mac-arm64 profile. -->
+        <package.appName>${sjInstallerName}</package.appName>
+        <package.version>${sjVersion}</package.version>
+        <package.ext>msi</package.ext>
+
+        <!-- macOS: JavaFX jmods are platform-specific, so the mac-arm64 profile downloads
+             them into this (git-ignored) cache instead of using the Windows ones above. -->
+        <javafx.jmods.version>21.0.7</javafx.jmods.version>
+        <macJmodsCache>${project.basedir}/.javafx-jmods/osx-aarch64</macJmodsCache>
+        <install.macIcon>${installerDir}/mac/CompilerIcon.icns</install.macIcon>
+        <macResourceDir>${project.build.directory}/mac-resources</macResourceDir>
+
         <skipModularization>false</skipModularization>
 
         <!-- Dependencies that ship as automatic modules and get modularized by moditect.
@@ -638,4 +635,128 @@
         <centralUrl>https://repo.maven.apache.org/maven2</centralUrl>
         <pristineDir>${project.basedir}/.pristine-jars</pristineDir>
     </properties>
+
+    <profiles>
+        <!-- Windows: MSI installer. Active automatically on Windows. -->
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <configuration>
+                            <type>MSI</type>
+                            <winConsole>false</winConsole>
+
+                            <winShortcut>true</winShortcut>
+                            <winMenu>true</winMenu>
+                            <installDir>${install.winDir}</installDir>
+                            <winPerUserInstall>false</winPerUserInstall>
+                            <winUpgradeUuid>${uuid}</winUpgradeUuid>
+                            <additionalOptions>
+                                <option>--win-dir-chooser</option>
+                                <option>--win-shortcut-prompt</option>
+                            </additionalOptions>
+                            <fileAssociations>
+                                <fileAssociation>${snowbProperties}</fileAssociation>
+                            </fileAssociations>
+                            <!-- Patched main.wxs adds the install dir (snowb.exe) to PATH -->
+                            <resourceDir>${installerDir}/wix</resourceDir>
+                            <icon>${install.icon}</icon>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- macOS on Apple Silicon: PKG installer into /Applications. Active automatically on
+             an ARM64 Mac, or force it with `-P mac-arm64`. -->
+        <profile>
+            <id>mac-arm64</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <properties>
+                <javafxJmods>${macJmodsCache}/javafx-jmods-${javafx.jmods.version}</javafxJmods>
+                <package.appName>Snowberry Jam</package.appName>
+                <!-- macOS rejects bundle versions starting with 0, so jpackage gets a build
+                     number (0.0.9 -> 10.0.9, still increasing). Info.plist shows sjVersion. -->
+                <package.version>1${sjVersion}</package.version>
+                <package.ext>pkg</package.ext>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <!-- Cached after the first build, like the pristine JARs -->
+                                <id>fetch-mac-javafx-jmods</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <mkdir dir="${macJmodsCache}" />
+                                        <get
+                                            src="https://download2.gluonhq.com/openjfx/${javafx.jmods.version}/openjfx-${javafx.jmods.version}_osx-aarch64_bin-jmods.zip"
+                                            dest="${macJmodsCache}/jmods.zip" skipexisting="true" />
+                                        <unzip src="${macJmodsCache}/jmods.zip"
+                                            dest="${macJmodsCache}" overwrite="false" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- jpackage resource dir, with ${...} expanded in Info.plist -->
+                                <id>prepare-mac-resources</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <copy todir="${macResourceDir}" overwrite="true">
+                                            <fileset dir="${installerDir}/mac"
+                                                includes="Info.plist, postinstall" />
+                                            <filterchain>
+                                                <expandproperties />
+                                            </filterchain>
+                                        </copy>
+                                        <chmod file="${macResourceDir}/postinstall" perm="755" />
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.panteleyev</groupId>
+                        <artifactId>jpackage-maven-plugin</artifactId>
+                        <configuration>
+                            <type>PKG</type>
+                            <macPackageIdentifier>${project.groupId}</macPackageIdentifier>
+                            <macPackageName>Snowberry Jam</macPackageName>
+                            <fileAssociations>
+                                <fileAssociation>${installerDir}/mac/snowb-file.properties</fileAssociation>
+                            </fileAssociations>
+                            <!-- Info.plist override + postinstall that links `snowb` into
+                                 /usr/local/bin -->
+                            <resourceDir>${macResourceDir}</resourceDir>
+                            <icon>${install.macIcon}</icon>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

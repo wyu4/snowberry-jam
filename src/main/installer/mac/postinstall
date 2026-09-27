@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+# Overrides jpackage's default PKG postinstall script. jpackage fills in the install
+# location (/Applications) and the bundle's Contents/app folder below.
+
+chown root:wheel "INSTALL_LOCATION"
+chmod a+rX "INSTALL_LOCATION"
+chmod +r "APP_LOCATION/"*.jar
+
+# `snowb` terminal client: link the bundle's launcher onto the PATH, mirroring the
+# Windows installer adding the install dir to PATH.
+# The link must point at a canonical path: the launcher mis-resolves a target containing "..".
+mkdir -p /usr/local/bin
+ln -sf "$(cd "APP_LOCATION/../MacOS" && pwd -P)/snowb" /usr/local/bin/snowb
+
+exit 0
