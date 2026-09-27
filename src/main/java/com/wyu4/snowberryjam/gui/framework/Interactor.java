@@ -180,7 +180,7 @@ public class Interactor {
                     model.getBuiltSourceCodeProperty().set(sourceCode);
                     callback.run();
                 } catch (Exception e) {
-                    Compiler.error("Error compiling:", e);
+                    Compiler.error("Error compiling: %s".formatted(e.getMessage()));
                 } finally {
                     model.getCompilingProperty().setValue(false);
                 }

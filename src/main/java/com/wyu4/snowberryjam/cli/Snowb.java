@@ -85,8 +85,8 @@ public class Snowb {
     final String source = ResourceUtils.readFile(file);
     try {
       Compiler.compile(source);
-    } catch (JsonProcessingException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
       System.exit(1);
     }
 
