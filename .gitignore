@@ -42,4 +42,4 @@ build/
 .pristine-jars/
 
 # Drafts
-/drafts/
+**/drafts/

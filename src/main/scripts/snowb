@@ -1,0 +1,3 @@
+#!/bin/sh
+# Snowberry Jam terminal client. Runs a .snowb file with the bundled runtime.
+exec "$(dirname "$(realpath "$0")")/java" -m com.wyu4.snowberryjam/com.wyu4.snowberryjam.cli.Snowb "$@"

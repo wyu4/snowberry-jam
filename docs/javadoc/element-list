@@ -1,5 +1,6 @@
 module:com.wyu4.snowberryjam
 com.wyu4.snowberryjam
+com.wyu4.snowberryjam.cli
 com.wyu4.snowberryjam.compiler
 com.wyu4.snowberryjam.compiler.data
 com.wyu4.snowberryjam.compiler.data.tasks

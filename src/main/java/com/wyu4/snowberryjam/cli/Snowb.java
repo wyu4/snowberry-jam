@@ -4,24 +4,31 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.slf4j.LoggerFactory;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.Logger;
-
+/**
+ * The entry class for the terminal client of Snowberry Jam.
+ * 
+ * @see LocalStorage
+ * @see Compiler
+ */
 public class Snowb {
+  /**
+   * The entry point of the terminal client
+   * 
+   * @param args Command arguments in the following order: [SOURCE_FILE] [VERBOSE
+   *             (-v)]
+   * @see Compiler#VERBOSE
+   */
   public static void main(String[] args) {
     Compiler.VERBOSE = false;
 
     if (args.length <= 0) {
-      System.out.println("\n\n\n=====================================================");
+      System.out.println("\n\n\n=====================================================\n");
       System.out.println("""
-
             █▀▀▀▀▀▀▀█                       █
             ▀▄▀███▀▄▀     ▄▀▀ █▀▄ ▄▀▄ █ ▄ █ █▀▄ ▄█▄ ▄▀▀ ▄▀▀ █ █
            ▄▀▄█████▄▀▄    ▄▄▀ █ █ ▀▄▀ ▀▄▀▄▀ █▄▀ ▀▄▄ █   █   ▀▄█
@@ -30,8 +37,7 @@ public class Snowb {
           █ ██     ██ █    █ ▀█▄ █▀█▀▄    ▄▀▀ █ █
           █ ███▄█▄███ █    █ ▀▄█ █ █ █    ▀▄▄ █ █
            ▀▄▀▀▀▀▀▀▀▄▀    ▄▀
-             ▀▀▀▀▀▀▀
-
+             ▀▀▀▀▀▀▀      
           """);
       System.out.println(
           "Welcome to the Snowberry Jam terminal client!\n\nIf this is your first time using this, please visit https://snowberry-jam.wyu.app/ for the language guide.\nThis command can be used to run source files straight from your terminal.\nPlease use the following command to do so:\n\n> snowb [PATH_TO_SOURCE_FILE]\n\n");
@@ -41,8 +47,13 @@ public class Snowb {
     final AtomicBoolean running = new AtomicBoolean(false);
     Thread inputDaemon = new Thread(() -> {
       try (Scanner scanner = new Scanner(System.in)) {
-        while (running.get()) {
-          LocalStorage.sendInput(scanner.nextLine());
+        while (System.console() != null && running.get() && scanner.hasNextLine()) {
+          final String input = scanner.nextLine();
+          if (input.equalsIgnoreCase("exit")) {
+            System.out.println("User force-terminated.");
+            break;
+          }
+          LocalStorage.sendInput(input);
         }
       }
     });
@@ -68,7 +79,8 @@ public class Snowb {
     // Compiling & running
     if (Compiler.VERBOSE) {
       System.out.println("Reading [%s]...".formatted(path));
-    };
+    }
+    ;
 
     final String source = ResourceUtils.readFile(file);
     try {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wyu4.snowberryjam</groupId>
@@ -124,10 +124,121 @@
             </plugin>
 
             <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>${startClass}</mainClass>
+                    <jmodsPath>${javafxJmods}</jmodsPath>
+                    <!--                    <options>-->
+                    <!--                        <option>&#45;&#45;add-reads</option>-->
+                    <!--                        <option>com.sun.jna=java.logging</option>-->
+                    <!--                    </options>-->
+                    <launcher>${project.artifactId}</launcher>
+                    <mainClass>${startClass}</mainClass>
+                    <jlinkImageName>${imageName}</jlinkImageName>
+                    <noManPages>true</noManPages>
+                    <stripDebug>true</stripDebug>
+                    <compress>2</compress>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-custom-runtime</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jlink</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Declared before maven-antrun-plugin so jpackage runs before rename-package in the install phase. -->
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.6</version>
+                <configuration>
+                    <!-- Custom runtime image -->
+                    <runtimeImage>${project.build.directory}/${imageName}</runtimeImage>
+
+                    <!-- REQUIRED parameters -->
+                    <destination>${packaging.dest}</destination>
+                    <name>${sjInstallerName}</name>
+                    <mainClass>${project.groupId}.Start</mainClass>
+
+                    <!-- OS -->
+                    <type>MSI</type>
+                    <winConsole>false</winConsole>
+
+                    <winShortcut>true</winShortcut>
+                    <winMenu>true</winMenu>
+                    <installDir>${install.winDir}</installDir>
+                    <winPerUserInstall>false</winPerUserInstall>
+                    <winUpgradeUuid>${uuid}</winUpgradeUuid>
+                    <additionalOptions>
+                        <option>--win-dir-chooser</option>
+                        <option>--win-shortcut-prompt</option>
+                    </additionalOptions>
+                    <javaOptions>
+                        <javaOption>-Dhttps.protocols=TLSv1.2</javaOption>
+                    </javaOptions>
+                    <fileAssociations>
+                        <fileAssociation>${snowbProperties}</fileAssociation>
+                    </fileAssociations>
+
+                    <!-- `snowb` terminal client: installs <install dir>\snowb.exe, and the
+                         patched main.wxs adds that folder to PATH -->
+                    <launchers>
+                        <launcher>
+                            <name>snowb</name>
+                            <file>${installerDir}/snowb.properties</file>
+                        </launcher>
+                    </launchers>
+                    <resourceDir>${installerDir}/wix</resourceDir>
+
+                    <!-- Application metadata -->
+                    <vendor>Wilson Yu</vendor>
+                    <appVersion>${sjVersion}</appVersion>
+                    <icon>${install.icon}</icon>
+
+                    <!-- Input configuration -->
+                    <input>${packaging.input}</input>
+                    <mainJar>${shadedJarName}.jar</mainJar>
+
+                    <!-- Development -->
+                    <verbose>true</verbose>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>create-package</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jpackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
+                    <!-- Runs after create-package: jpackage is declared above this plugin. -->
+                    <execution>
+                        <id>rename-package</id>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <move
+                                    file="${project.build.directory}/packaging/installations/${sjInstallerName}-${sjVersion}.msi"
+                                    tofile="${project.build.directory}/packaging/installations/${sjInstallerName}.msi" />
+                            </target>
+                        </configuration>
+                    </execution>
                     <execution>
                         <?m2e ignore?>
                         <id>restore-pristine-jars</id>
@@ -138,32 +249,56 @@
                         <configuration>
                             <skip>${skipModularization}</skip>
                             <target>
-                                <mkdir dir="${pristineDir}"/>
+                                <mkdir dir="${pristineDir}" />
 
                                 <!-- Cached on the first build; every later build restores offline. -->
                                 <get dest="${pristineDir}" skipexisting="true">
-                                    <url url="${centralUrl}/org/fxmisc/richtext/richtextfx/${richtextfx.version}/richtextfx-${richtextfx.version}.jar"/>
-                                    <url url="${centralUrl}/org/fxmisc/flowless/flowless/${flowless.version}/flowless-${flowless.version}.jar"/>
-                                    <url url="${centralUrl}/org/fxmisc/undo/undofx/${undofx.version}/undofx-${undofx.version}.jar"/>
-                                    <url url="${centralUrl}/org/fxmisc/wellbehaved/wellbehavedfx/${wellbehavedfx.version}/wellbehavedfx-${wellbehavedfx.version}.jar"/>
-                                    <url url="${centralUrl}/org/reactfx/reactfx/${reactfx.version}/reactfx-${reactfx.version}.jar"/>
+                                    <url
+                                        url="${centralUrl}/org/fxmisc/richtext/richtextfx/${richtextfx.version}/richtextfx-${richtextfx.version}.jar" />
+                                    <url
+                                        url="${centralUrl}/org/fxmisc/flowless/flowless/${flowless.version}/flowless-${flowless.version}.jar" />
+                                    <url
+                                        url="${centralUrl}/org/fxmisc/undo/undofx/${undofx.version}/undofx-${undofx.version}.jar" />
+                                    <url
+                                        url="${centralUrl}/org/fxmisc/wellbehaved/wellbehavedfx/${wellbehavedfx.version}/wellbehavedfx-${wellbehavedfx.version}.jar" />
+                                    <url
+                                        url="${centralUrl}/org/reactfx/reactfx/${reactfx.version}/reactfx-${reactfx.version}.jar" />
                                 </get>
 
                                 <copy file="${pristineDir}/richtextfx-${richtextfx.version}.jar"
-                                      tofile="${localRepo}/org/fxmisc/richtext/richtextfx/${richtextfx.version}/richtextfx-${richtextfx.version}.jar"
-                                      overwrite="true"/>
+                                    tofile="${localRepo}/org/fxmisc/richtext/richtextfx/${richtextfx.version}/richtextfx-${richtextfx.version}.jar"
+                                    overwrite="true" />
                                 <copy file="${pristineDir}/flowless-${flowless.version}.jar"
-                                      tofile="${localRepo}/org/fxmisc/flowless/flowless/${flowless.version}/flowless-${flowless.version}.jar"
-                                      overwrite="true"/>
+                                    tofile="${localRepo}/org/fxmisc/flowless/flowless/${flowless.version}/flowless-${flowless.version}.jar"
+                                    overwrite="true" />
                                 <copy file="${pristineDir}/undofx-${undofx.version}.jar"
-                                      tofile="${localRepo}/org/fxmisc/undo/undofx/${undofx.version}/undofx-${undofx.version}.jar"
-                                      overwrite="true"/>
-                                <copy file="${pristineDir}/wellbehavedfx-${wellbehavedfx.version}.jar"
-                                      tofile="${localRepo}/org/fxmisc/wellbehaved/wellbehavedfx/${wellbehavedfx.version}/wellbehavedfx-${wellbehavedfx.version}.jar"
-                                      overwrite="true"/>
+                                    tofile="${localRepo}/org/fxmisc/undo/undofx/${undofx.version}/undofx-${undofx.version}.jar"
+                                    overwrite="true" />
+                                <copy
+                                    file="${pristineDir}/wellbehavedfx-${wellbehavedfx.version}.jar"
+                                    tofile="${localRepo}/org/fxmisc/wellbehaved/wellbehavedfx/${wellbehavedfx.version}/wellbehavedfx-${wellbehavedfx.version}.jar"
+                                    overwrite="true" />
                                 <copy file="${pristineDir}/reactfx-${reactfx.version}.jar"
-                                      tofile="${localRepo}/org/reactfx/reactfx/${reactfx.version}/reactfx-${reactfx.version}.jar"
-                                      overwrite="true"/>
+                                    tofile="${localRepo}/org/reactfx/reactfx/${reactfx.version}/reactfx-${reactfx.version}.jar"
+                                    overwrite="true" />
+                            </target>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- Adds the `snowb` terminal client launchers to the jlink image's bin
+                        folder -->
+                        <id>install-snowb-launchers</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <copy todir="${imageBinDir}" overwrite="true">
+                                    <fileset dir="${scriptsDir}" includes="snowb, snowb.cmd" />
+                                </copy>
+                                <!-- No-op on Windows -->
+                                <chmod file="${imageBinDir}/snowb" perm="755" />
                             </target>
                         </configuration>
                     </execution>
@@ -186,17 +321,17 @@
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.richtext {
-                                    requires transitive javafx.controls;
-                                    requires transitive javafx.graphics;
-                                    requires transitive org.fxmisc.flowless;
-                                    requires transitive org.fxmisc.undo;
-                                    requires transitive org.fxmisc.wellbehaved;
-                                    requires transitive org.reactfx;
+                                requires transitive javafx.controls;
+                                requires transitive javafx.graphics;
+                                requires transitive org.fxmisc.flowless;
+                                requires transitive org.fxmisc.undo;
+                                requires transitive org.fxmisc.wellbehaved;
+                                requires transitive org.reactfx;
 
-                                    exports org.fxmisc.richtext;
-                                    exports org.fxmisc.richtext.event;
-                                    exports org.fxmisc.richtext.model;
-                                    exports org.fxmisc.richtext.util;
+                                exports org.fxmisc.richtext;
+                                exports org.fxmisc.richtext.event;
+                                exports org.fxmisc.richtext.model;
+                                exports org.fxmisc.richtext.util;
                                 }
                             </moduleInfoSource>
                         </module>
@@ -208,11 +343,11 @@
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.flowless {
-                                    requires transitive javafx.controls;
-                                    requires transitive javafx.graphics;
-                                    requires transitive org.reactfx;
+                                requires transitive javafx.controls;
+                                requires transitive javafx.graphics;
+                                requires transitive org.reactfx;
 
-                                    exports org.fxmisc.flowless;
+                                exports org.fxmisc.flowless;
                                 }
                             </moduleInfoSource>
                         </module>
@@ -224,12 +359,12 @@
                             </artifact>
                             <moduleInfoSource>
                                 module org.fxmisc.undo {
-                                    requires transitive javafx.controls;
-                                    requires transitive javafx.graphics;
-                                    requires transitive org.reactfx;
+                                requires transitive javafx.controls;
+                                requires transitive javafx.graphics;
+                                requires transitive org.reactfx;
 
-                                    exports org.fxmisc.undo;
-                                    exports org.fxmisc.undo.impl;
+                                exports org.fxmisc.undo;
+                                exports org.fxmisc.undo.impl;
                                 }
                             </moduleInfoSource>
                         </module>
@@ -284,7 +419,9 @@
                         <goals>
                             <goal>add-module-info</goal>
                         </goals>
-                        <configuration><skip>${skipModularization}</skip></configuration>
+                        <configuration>
+                            <skip>${skipModularization}</skip>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -409,7 +546,8 @@
                 <version>3.6.0</version>
                 <configuration>
                     <transformers>
-                        <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                        <transformer
+                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                             <mainClass>${startClass}</mainClass>
                         </transformer>
                     </transformers>
@@ -452,93 +590,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- Creating a custom runtime image for the project -->
-            <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <configuration>
-                    <mainClass>${startClass}</mainClass>
-                    <jmodsPath>${javafxJmods}</jmodsPath>
-<!--                    <options>-->
-<!--                        <option>&#45;&#45;add-reads</option>-->
-<!--                        <option>com.sun.jna=java.logging</option>-->
-<!--                    </options>-->
-                    <launcher>${project.artifactId}</launcher>
-                    <mainClass>${startClass}</mainClass>
-                    <jlinkImageName>${imageName}</jlinkImageName>
-                    <noManPages>true</noManPages>
-                    <stripDebug>true</stripDebug>
-                    <compress>2</compress>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>create-custom-runtime</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jlink</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.panteleyev</groupId>
-                <artifactId>jpackage-maven-plugin</artifactId>
-                <version>1.6.6</version>
-                <configuration>
-                    <!-- Custom runtime image -->
-                    <runtimeImage>${project.build.directory}/${imageName}</runtimeImage>
-
-                    <!-- REQUIRED parameters -->
-                    <destination>${packaging.dest}</destination>
-                    <name>Snowberry Jam</name>
-                    <mainClass>${project.groupId}.Start</mainClass>
-
-                    <!-- OS -->
-                    <type>MSI</type>
-                    <winConsole>false</winConsole>
-
-                    <winShortcut>true</winShortcut>
-                    <winMenu>true</winMenu>
-                    <installDir>${install.winDir}</installDir>
-                    <winPerUserInstall>false</winPerUserInstall>
-                    <winUpgradeUuid>${uuid}</winUpgradeUuid>
-                    <additionalOptions>
-                        <option>--win-dir-chooser</option>
-                        <option>--win-shortcut-prompt</option>
-                    </additionalOptions>
-                    <javaOptions>
-                        <javaOption>-Dhttps.protocols=TLSv1.2</javaOption>
-                    </javaOptions>
-                    <fileAssociations>
-                        <fileAssociation>${snowbProperties}</fileAssociation>
-                    </fileAssociations>
-
-                    <!-- Application metadata -->
-                    <vendor>wyu4</vendor>
-                    <appVersion>0.0.8</appVersion>
-                    <icon>${install.icon}</icon>
-
-                    <!-- Input configuration -->
-                    <input>${packaging.input}</input>
-                    <mainJar>${shadedJarName}.jar</mainJar>
-
-                    <!-- Development -->
-                    <verbose>true</verbose>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>create-package</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>jpackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
     </build>
 
@@ -560,12 +611,17 @@
         <packaging.dest>${packaging.dir}/installations</packaging.dest>
 
         <imageName>sj-image</imageName>
+        <imageBinDir>${project.build.directory}/${imageName}/bin</imageBinDir>
+        <scriptsDir>${mainDir}/scripts</scriptsDir>
+        <installerDir>${mainDir}/installer</installerDir>
 
         <install.winDir>C:/Program Files/${project.artifactId}</install.winDir>
         <resourceDir>${mainDir}/resources/com/wyu4/snowberryjam</resourceDir>
         <install.icon>${resourceDir}/images/CompilerIcon.ico</install.icon>
         <snowbProperties>${resourceDir}/snowb.properties</snowbProperties>
         <uuid>fabb1884-f25f-4af8-b90f-170a896c1525</uuid>
+        <sjInstallerName>Snowberry Jam v${sjVersion}</sjInstallerName>
+        <sjVersion>0.0.9</sjVersion>
 
         <skipModularization>false</skipModularization>
 
