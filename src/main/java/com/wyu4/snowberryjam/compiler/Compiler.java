@@ -1,5 +1,6 @@
 package com.wyu4.snowberryjam.compiler;
 
+import com.fasterxml.jackson.core.JsonLocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.util.DefaultIndenter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -28,10 +29,12 @@ import java.util.function.BiConsumer;
  * The Snowberry Jam compiler class
  */
 public abstract class Compiler extends LocalStorage {
+    public static boolean VERBOSE = true;
     private static final Logger logger = LoggerFactory.getLogger("Compiler");
     private static final List<BiConsumer<String, String>> PRINT_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> WARN_LISTENERS = new ArrayList<>();
     private static final List<BiConsumer<String, String>> ERROR_LISTENERS = new ArrayList<>();
+    private static final int MAX_LINE_POINTER_LENGTH = 50;
 
     public static String formatString(String str) {
         try {
@@ -62,7 +65,8 @@ public abstract class Compiler extends LocalStorage {
      * @see #compile(String)
      */
     private static JsonNode getTree(String source) throws JsonProcessingException {
-        print("Creating tree...");
+        if (VERBOSE)
+            print("Creating tree...");
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readTree(source);
     }
@@ -79,25 +83,82 @@ public abstract class Compiler extends LocalStorage {
      * @see #mapProjectVariables(JsonNode)
      * @see #compileEvents(JsonNode)
      */
-    public static void compile(String source) throws JsonMappingException, JsonProcessingException {
+    public static void compile(String source) throws Exception {
+        final JsonNode tree;
+
+        // Read JSON file
         try {
-            JsonNode tree = getTree(source);
-            mapProjectData(tree);
-            JsonNode projectBody = tree.get(SourceKey.BODY.toString());
-            if (projectBody == null) {
-                throw JsonMappingException.fromUnexpectedIOE(new IOException("Could not find the project body."));
-            }
-            print("Mapping variables...");
-            mapProjectVariables(projectBody);
-            print("Mapping tasks...");
-            compileEvents(projectBody);
-        } catch (Exception e) {
-            error("Could not compile.", e);
+            tree = getTree(source);
+        } catch (JsonProcessingException e) {
+            JsonLocation location = e.getLocation();
+            throw new Exception("Could not process line %s.\n%s".formatted(
+                    location.getLineNr(),
+                    generateLinePointer(source, location.getLineNr(), location.getColumnNr())));
         }
+
+        mapProjectData(tree);
+        JsonNode projectBody = tree.get(SourceKey.BODY.toString());
+        if (projectBody == null) {
+            throw JsonMappingException.fromUnexpectedIOE(new IOException("Could not find the project body."));
+        }
+        if (VERBOSE)
+            print("Mapping variables...");
+        mapProjectVariables(projectBody);
+        if (VERBOSE)
+            print("Mapping tasks...");
+        compileEvents(projectBody);
     }
 
     /**
-     * Map the project data. THis includes any metadata such as the project name and
+     * Creates a string with the selected line number and an arrow poiting to the
+     * specific column.
+     * 
+     * @param source Source code
+     * @param line   Line number (one-based indexing)
+     * @param column Column number (one-based indexing)
+     * @return String
+     */
+    private static String generateLinePointer(String source, int line, int column) {
+        // Make line and column zero indexed
+        line--;
+        column--;
+
+        final StringBuilder builder = new StringBuilder("");
+        final String[] lines = source.split("\n");
+
+        if (line >= lines.length || line < 0) {
+            return "";
+        }
+
+        final String selectedLine = lines[line];
+
+        if (column >= selectedLine.length() || column < 0) {
+            return selectedLine.strip();
+        }
+
+        int start = 0;
+        final int maxHalf = MAX_LINE_POINTER_LENGTH / 2;
+        String slice = selectedLine.stripLeading();
+        column -= selectedLine.length() - slice.length();
+        if (column > maxHalf) {
+            start = column - maxHalf;
+
+        }
+        int end = start + MAX_LINE_POINTER_LENGTH;
+        if (end > slice.length()) {
+            end = slice.length();
+        }
+        // System.out.println("%s to %s".formatted(start, end));
+        slice = slice.substring(start, end).stripTrailing();
+
+        builder.append(slice).append("\n");
+        builder.append(" ".repeat(column - start)).append("^");
+
+        return builder.toString();
+    }
+
+    /**
+     * Map the project data. This includes any metadata such as the project name and
      * description.
      * 
      * @param tree The full project tree
@@ -127,7 +188,8 @@ public abstract class Compiler extends LocalStorage {
             }
 
             Object rawValue = asPrimitiveObject(valueNode);
-            printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
+            if (VERBOSE)
+                printTab("VARIABLE \"{}\" -> {}", variableName, rawValue);
 
             createVariable(variableName, rawValue);
         });
@@ -150,7 +212,9 @@ public abstract class Compiler extends LocalStorage {
                 compileBody(eventNode.get(SourceKey.BODY.toString()), onRunBody);
                 stackAdd(onRunBody);
 
-                System.out.print("\n\n------------------------------------\n------------------------------------\n\n");
+                if (VERBOSE)
+                    System.out.print(
+                            "\n\n------------------------------------\n------------------------------------\n\n");
             }
         });
     }
@@ -180,7 +244,8 @@ public abstract class Compiler extends LocalStorage {
                     warn("Task with ID \"{}\" is unrecognized. Skipped.", rawId);
                     task = new WarnTask("Skipping unknown task \"" + rawId + "\"");
                 } else {
-                    System.out.println(id);
+                    if (VERBOSE)
+                        System.out.println(id);
                     switch (id) {
                         case PRINT -> task = new PrintTask(node);
                         case WARN -> task = new WarnTask(node);
@@ -201,7 +266,8 @@ public abstract class Compiler extends LocalStorage {
                 }
             }
 
-            printTab(task.getId());
+            if (VERBOSE)
+                printTab(task.getId());
 
             stack.addTask(task);
         });
@@ -285,7 +351,7 @@ public abstract class Compiler extends LocalStorage {
      * @see #warn(Object, Object...)
      */
     public static void print(Object message, Object... args) {
-        logger.info(message.toString(), args);
+        logger.debug(message.toString(), args);
         PRINT_LISTENERS.forEach(consumer -> consumer.accept(logger.getName(), formatMessage(message, args)));
     }
 
@@ -332,9 +398,13 @@ public abstract class Compiler extends LocalStorage {
      * @see #warn(Object, Object...)
      */
     public static void error(Object error, Exception e) {
-        logger.error(error.toString(), e);
+        if (VERBOSE) {
+            logger.error(error.toString(), e);
+        } else {
+            logger.error(error.toString());
+        }
         ERROR_LISTENERS.forEach(
-                consumer -> consumer.accept(logger.getName(), formatMessage(error.toString()) + "\n" + e.getMessage()));
+                consumer -> consumer.accept(logger.getName(), formatMessage(error.toString())));
     }
 
     /**

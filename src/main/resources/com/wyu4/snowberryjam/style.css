@@ -3,8 +3,17 @@
 }
 
 .console {
-    -fx-font-family: "Montserrat";
+    -fx-font-family: "monospaced";
     -fx-font-size: 1.5em;
+}
+
+.console-text {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+
+.console-text .text {
+    -fx-font-family: "monospaced";
 }
 
 .code-viewer {

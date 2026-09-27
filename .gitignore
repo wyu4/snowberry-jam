@@ -40,3 +40,9 @@ build/
 
 ### Pristine upstream JAR cache (see the antrun restore-pristine-jars step in pom.xml) ###
 .pristine-jars/
+
+# Drafts
+**/drafts/
+
+### JavaFX jmods downloaded by the mac-arm64 profile (see pom.xml) ###
+.javafx-jmods/

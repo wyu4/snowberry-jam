@@ -54,6 +54,14 @@ Build a custom runtime (along with auto-generated resources), as well as an inst
 mvn clean install
 ```
 
+The installer type depends on the OS you build on (jpackage can't cross-build):
+- **Windows:** an `.msi` installer.
+- **macOS (Apple Silicon):** a `.pkg` installer that installs `Snowberry Jam.app` into `/Applications` and links the `snowb` terminal client into `/usr/local/bin`. The macOS JavaFX jmods are downloaded on the first build. You can also select this explicitly with `mvn clean install -P mac-arm64`.
+
+> On macOS, Maven must run on JDK 21. If `mvn -v` reports a newer Java (e.g. Homebrew's Maven uses Homebrew's latest OpenJDK), run `export JAVA_HOME=$(/usr/libexec/java_home -v 21)` first.
+>
+> The `.pkg` is unsigned, so macOS Gatekeeper will block it on first open: right-click it and choose **Open**, or allow it under **System Settings → Privacy & Security**.
+
 #### Run Code
 Simply run the code without having to install it.
 ```bash

@@ -18,13 +18,20 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.Builder;
 import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.Caret;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.StyleClassedTextArea;
 import org.kordamp.ikonli.feather.Feather;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.slf4j.Logger;
@@ -164,6 +171,7 @@ public class ViewBuilder implements Builder<Region> {
      */
     public Node createConsole() {
         final AtomicBoolean atBottom = new AtomicBoolean(true);
+        final AtomicBoolean userScrolling = new AtomicBoolean(false);
 
         BorderPane root = new BorderPane();
         root.getStyleClass().add("console");
@@ -199,15 +207,36 @@ public class ViewBuilder implements Builder<Region> {
         scrollPane.setContent(logs);
         scrollPane.setHbarPolicy(ScrollBarPolicy.NEVER);
         scrollPane.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
+
+        // Keep the view pinned to the bottom unless the user is the one scrolling. The scroll pane shifts
+        // the scroll value on its own whenever the content resizes, so those changes are undone here.
+        Runnable pinToBottom = () -> {
+            if (atBottom.get() && !userScrolling.get()) {
+                scrollPane.setVvalue(scrollPane.getVmax());
+            }
+        };
         scrollPane.viewportBoundsProperty().addListener((evt, old, bounds) -> {
             logs.setPrefWidth(bounds.getWidth());
+            pinToBottom.run();
         });
+        logs.heightProperty().addListener((evt, old, height) -> pinToBottom.run());
+        scrollPane.vvalueProperty().addListener((evt, old, value) -> pinToBottom.run());
 
-        Consumer<Double> setAtBottom = height -> {
-            atBottom.set(height >= 1.0);
+        // Only user input decides whether the console should stick to the bottom
+        EventHandler<Event> onUserScroll = evt -> {
+            userScrolling.set(true);
+            Platform.runLater(() -> {
+                userScrolling.set(false);
+                // Content that fits in the viewport can't be scrolled, so treat it as being at the bottom
+                boolean fits = logs.getHeight() <= scrollPane.getViewportBounds().getHeight();
+                atBottom.set(fits || scrollPane.getVvalue() >= scrollPane.getVmax());
+            });
         };
-
-        scrollPane.vvalueProperty().addListener((evt, old, height) -> setAtBottom.accept(height.doubleValue()));
+        scrollPane.addEventFilter(ScrollEvent.ANY, onUserScroll);
+        scrollPane.addEventFilter(MouseEvent.MOUSE_PRESSED, onUserScroll);
+        scrollPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, onUserScroll);
+        scrollPane.addEventFilter(MouseEvent.MOUSE_RELEASED, onUserScroll);
+        scrollPane.addEventFilter(KeyEvent.KEY_PRESSED, onUserScroll);
 
         ObservableList<Node> logsChildren = logs.getChildren();
         Consumer<Node> addLog = log -> Platform.runLater(() -> {
@@ -215,18 +244,12 @@ public class ViewBuilder implements Builder<Region> {
                 logsChildren.removeFirst();
             }
             logsChildren.add(log);
-            if (atBottom.get()) {
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        LocalStorage.error(e);
-                    }
-                    scrollPane.vvalueProperty().set(1.0);
-                }).start();
-            }
         });
-        clearButton.setOnAction(evt -> Platform.runLater(logsChildren::clear));
+        clearButton.setOnAction(evt -> Platform.runLater(() -> {
+            logsChildren.clear();
+            atBottom.set(true);
+            pinToBottom.run();
+        }));
 
         LocalStorage
                 .addPrintListener((name, message) -> addLog.accept(createLog(name, message, Color.rgb(0, 0, 0, 0))));
@@ -299,20 +322,41 @@ public class ViewBuilder implements Builder<Region> {
         root.setSpacing(10);
         root.setBackground(new Background(new BackgroundFill(color, null, null)));
 
-        Label sourceLabel = new Label("[%s]".formatted(source));
-        sourceLabel.setMinSize(200, sourceLabel.getPrefHeight());
-        sourceLabel.setMaxSize(sourceLabel.getPrefWidth(), sourceLabel.getPrefHeight());
-        HBox.setHgrow(sourceLabel, Priority.ALWAYS);
+        StyleClassedTextArea sourceLabel = createSelectableText("[%s]".formatted(source));
+        sourceLabel.setMinWidth(200);
+        sourceLabel.setPrefWidth(200);
+        sourceLabel.setMaxWidth(200);
+        HBox.setHgrow(sourceLabel, Priority.NEVER);
 
-        Label messageArea = new Label(message);
-        messageArea.setText(message);
+        StyleClassedTextArea messageArea = createSelectableText(message);
         messageArea.setWrapText(true);
 
-        HBox.setHgrow(messageArea, Priority.NEVER);
+        HBox.setHgrow(messageArea, Priority.ALWAYS);
 
         root.getChildren().addAll(sourceLabel, messageArea);
 
         return root;
+    }
+
+    /**
+     * Create a read-only text area that looks like a label but allows selection
+     *
+     * @param text The text to display
+     * @return {@link StyleClassedTextArea} Selectable, non-editable text
+     */
+    private StyleClassedTextArea createSelectableText(String text) {
+        StyleClassedTextArea area = new StyleClassedTextArea();
+        area.getStyleClass().add("console-text");
+        area.replaceText(text);
+        area.setEditable(false);
+        area.setShowCaret(Caret.CaretVisibility.OFF);
+        area.setAutoHeight(true);
+        // The area consumes scroll events even though it never scrolls, so forward them to the console
+        area.addEventFilter(ScrollEvent.ANY, evt -> {
+            evt.consume();
+            area.getParent().fireEvent(evt.copyFor(area.getParent(), area.getParent()));
+        });
+        return area;
     }
 
     /**
