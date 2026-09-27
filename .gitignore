@@ -40,3 +40,6 @@ build/
 
 ### Pristine upstream JAR cache (see the antrun restore-pristine-jars step in pom.xml) ###
 .pristine-jars/
+
+# Drafts
+/drafts/
