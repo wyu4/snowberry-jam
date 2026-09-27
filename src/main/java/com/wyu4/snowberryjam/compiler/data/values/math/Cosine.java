@@ -30,11 +30,11 @@ public class Cosine extends ArithmeticHolder {
     }
 
     /**
-     * @return {@link SourceId#TANGENT}
+     * @return {@link SourceId#COSINE}
      */
     @Override
     public SourceId getId() {
-        return SourceId.TANGENT;
+        return SourceId.COSINE;
     }
 
     @Override
