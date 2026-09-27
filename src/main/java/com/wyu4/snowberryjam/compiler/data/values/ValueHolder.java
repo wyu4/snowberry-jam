@@ -85,6 +85,14 @@ public class ValueHolder {
             case TIME -> new TimeHolder();
             case INPUT -> new InputHolder();
             case PUBLIC_FOLDER -> new PublicFolderHolder();
+            case SINE -> new Sine(node);
+            case COSINE -> new Cosine(node);
+            case TANGENT -> new Tangent(node);
+            case ARCSINE -> new ArcSine(node);
+            case ARCCOSINE -> new ArcCosine(node);
+            case ARCTANGENT -> new ArcTangent(node);
+            case POWER -> new Power(node);
+            case ROOT -> new Root(node);
             default -> throw new IllegalArgumentException("Non-primitive node with ID \"%s\" is not a registered value type.".formatted(id));
         };
     }

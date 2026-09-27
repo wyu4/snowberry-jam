@@ -1,15 +1,29 @@
 package com.wyu4.snowberryjam.gui.viewer.codeviewer.values;
 
+import java.util.Arrays;
+
 import com.wyu4.snowberryjam.compiler.data.values.math.ArithmeticHolder;
 import com.wyu4.snowberryjam.compiler.enums.SourceId;
 import com.wyu4.snowberryjam.gui.viewer.codeviewer.ColorDictionary;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
 
 public class ArithmeticValueViewer extends StackPane {
+    private static final SourceId[] MATH_FUNCTIONS = {
+        SourceId.ROUND,
+        SourceId.ARCCOSINE,
+        SourceId.ARCSINE,
+        SourceId.ARCTANGENT,
+        SourceId.SINE,
+        SourceId.COSINE,
+        SourceId.TANGENT
+    };
+
     public ArithmeticValueViewer(ArithmeticHolder value) {
         setMinWidth(Region.USE_PREF_SIZE);
         setMaxWidth(Region.USE_PREF_SIZE);
@@ -47,8 +61,18 @@ public class ArithmeticValueViewer extends StackPane {
 
         getChildren().addAll(chamferClip, content);
 
-        if (id.equals(SourceId.ROUND)) {
+        if (Arrays.stream(MATH_FUNCTIONS).anyMatch(fid -> fid.equals(id))) {
             content.getChildren().addAll(new Label(id.getBeautified()), ValueViewer.buildValueViewer(value.getA()));
+            return;
+        }
+        if (id.equals(SourceId.ROOT)) {
+            final VBox baseNode = new VBox();
+            baseNode.setPadding(new Insets(0, 0, 15, 0));
+            baseNode.getChildren().add(ValueViewer.buildValueViewer(value.getB()));
+            content.getChildren().addAll(
+                baseNode,
+                new Label(id.getBeautified()),
+                ValueViewer.buildValueViewer(value.getA()));
             return;
         }
         content.getChildren().addAll(
