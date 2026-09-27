@@ -66,9 +66,9 @@ public class Start extends Application {
 
         Consumer<File> updateTitle = file -> {
             if (file == null) {
-                stage.setTitle("Snowberry Jam");
+                stage.setTitle("Snowberry Jam v%s".formatted(Version.VERSION));
             } else {
-                stage.setTitle("[" + file.getName() + "] - Snowberry Jam");
+                stage.setTitle("[" + file.getName() + "] - Snowberry Jam v%s".formatted(Version.VERSION));
             }
         };
         updateTitle.accept(controller.getSourceFile());

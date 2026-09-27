@@ -4,10 +4,11 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.wyu4.snowberryjam.ResourceUtils;
 import com.wyu4.snowberryjam.compiler.Compiler;
 import com.wyu4.snowberryjam.compiler.LocalStorage;
+
+import com.wyu4.snowberryjam.Version;
 
 /**
  * The entry class for the terminal client of Snowberry Jam.
@@ -30,15 +31,15 @@ public class Snowb {
       System.out.println("\n\n\n=====================================================\n");
       System.out.println("""
             █▀▀▀▀▀▀▀█                       █
-            ▀▄▀███▀▄▀     ▄▀ ▀ █▀▄ ▄▀▄ █ ▄ █ █▀▄ ▄█▄ ▄▀▀ ▄▀▀ █ █
+            ▀▄▀███▀▄▀     ▄▀▀ █▀▄ ▄▀▄ █ ▄ █ █▀▄ ▄█▄ ▄▀▀ ▄▀▀ █ █
            ▄▀▄█████▄▀▄    ▄▄▀ █ █ ▀▄▀ ▀▄▀▄▀ █▄▀ ▀▄▄ █   █   ▀▄█
           █ ██▀███▀██ █                                     ▄▄▀
           █ ██▄   ▄██ █    ▀                  █ ▀
           █ ██     ██ █    █ ▀█▄ █▀█▀▄    ▄▀▀ █ █
-          █ ███▄█▄███ █    █ ▀▄█ █ █ █    ▀▄▄ █ █
+          █ ███▄█▄███ █    █ ▀▄█ █ █ █    ▀▄▄ █ █ %s
            ▀▄▀▀▀▀▀▀▀▄▀    ▄▀
              ▀▀▀▀▀▀▀      
-          """);
+          """.formatted(Version.VERSION));
       System.out.println(
           "Welcome to the Snowberry Jam terminal client!\n\nIf this is your first time using this, please visit https://snowberry-jam.wyu.app/ for the language guide.\nThis command can be used to run source files straight from your terminal.\nPlease use the following command to do so:\n\n> snowb [PATH_TO_SOURCE_FILE]\n\n");
       System.exit(0);
