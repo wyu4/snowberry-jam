@@ -1,0 +1,1186 @@
+{
+    "id" : "PROJECT",
+    "name" : "Hangman",
+    "description" : "A game of hangman that picks a random word from the editable \"words\" array variable.",
+    "body" : {
+        "variables" : [
+            {
+                "name" : "words",
+                "value" : [
+                    "apple",
+                    "banana",
+                    "cherry",
+                    "dragon",
+                    "elephant",
+                    "forest",
+                    "guitar",
+                    "horizon",
+                    "island",
+                    "jungle",
+                    "kitten",
+                    "lantern",
+                    "mountain",
+                    "notebook",
+                    "orange",
+                    "penguin",
+                    "quartz",
+                    "rocket",
+                    "sunflower",
+                    "thunder",
+                    "umbrella",
+                    "volcano",
+                    "window",
+                    "yellow",
+                    "zebra",
+                    "airplane",
+                    "alligator",
+                    "anchor",
+                    "antelope",
+                    "astronaut",
+                    "avocado",
+                    "backpack",
+                    "badger",
+                    "balloon",
+                    "bamboo",
+                    "basket",
+                    "beaver",
+                    "bicycle",
+                    "blanket",
+                    "blizzard",
+                    "blossom",
+                    "bridge",
+                    "broccoli",
+                    "bubble",
+                    "buffalo",
+                    "butterfly",
+                    "cactus",
+                    "camera",
+                    "campfire",
+                    "candle",
+                    "canyon",
+                    "captain",
+                    "carpet",
+                    "carrot",
+                    "castle",
+                    "caterpillar",
+                    "cheetah",
+                    "chimney",
+                    "chocolate",
+                    "circus",
+                    "cloud",
+                    "coconut",
+                    "compass",
+                    "cookie",
+                    "crayon",
+                    "crocodile",
+                    "crystal",
+                    "cupcake",
+                    "curtain",
+                    "daisy",
+                    "desert",
+                    "diamond",
+                    "dinosaur",
+                    "dolphin",
+                    "donkey",
+                    "dragonfly",
+                    "drawer",
+                    "eagle",
+                    "earthquake",
+                    "eclipse",
+                    "engine",
+                    "envelope",
+                    "falcon",
+                    "feather",
+                    "firefly",
+                    "flamingo",
+                    "flashlight",
+                    "forklift",
+                    "fountain",
+                    "galaxy",
+                    "garden",
+                    "giraffe",
+                    "glacier",
+                    "goblin",
+                    "gorilla",
+                    "granite",
+                    "grapefruit",
+                    "grasshopper",
+                    "hamburger",
+                    "hammer",
+                    "harbor",
+                    "harvest",
+                    "hedgehog",
+                    "helicopter",
+                    "hippo",
+                    "honey",
+                    "hurricane",
+                    "iceberg",
+                    "igloo",
+                    "iguana",
+                    "jacket",
+                    "jaguar",
+                    "jellyfish",
+                    "jigsaw",
+                    "journey",
+                    "kangaroo",
+                    "kayak",
+                    "kettle",
+                    "keyboard",
+                    "kingdom",
+                    "koala",
+                    "ladder",
+                    "ladybug",
+                    "lagoon",
+                    "lemonade",
+                    "leopard",
+                    "library",
+                    "lighthouse",
+                    "lizard",
+                    "lobster",
+                    "magnet",
+                    "mango",
+                    "marble",
+                    "meadow",
+                    "meteor",
+                    "microscope",
+                    "mirror",
+                    "monkey",
+                    "moonlight",
+                    "mushroom",
+                    "museum",
+                    "necklace",
+                    "nectar",
+                    "noodle",
+                    "ocean",
+                    "octopus",
+                    "orchard",
+                    "ostrich",
+                    "otter",
+                    "paddle",
+                    "painter",
+                    "panda",
+                    "parachute",
+                    "parrot",
+                    "peacock",
+                    "pebble",
+                    "pencil",
+                    "pepper",
+                    "piano",
+                    "pickle",
+                    "pineapple",
+                    "pirate",
+                    "planet",
+                    "pumpkin",
+                    "puzzle",
+                    "pyramid",
+                    "quilt",
+                    "rabbit",
+                    "raccoon",
+                    "rainbow",
+                    "raindrop",
+                    "reindeer",
+                    "rhino",
+                    "river",
+                    "robot",
+                    "saddle",
+                    "sailboat",
+                    "sandwich",
+                    "satellite",
+                    "scarecrow",
+                    "scissors",
+                    "seahorse",
+                    "shadow",
+                    "shark",
+                    "shovel",
+                    "skeleton",
+                    "snowflake",
+                    "snowman",
+                    "spaghetti",
+                    "spider",
+                    "squirrel",
+                    "starfish",
+                    "strawberry",
+                    "submarine",
+                    "sunrise",
+                    "sunset",
+                    "squash",
+                    "telescope",
+                    "tiger",
+                    "tomato",
+                    "tornado",
+                    "tortoise",
+                    "tractor",
+                    "treasure",
+                    "triangle",
+                    "trumpet",
+                    "tulip",
+                    "turtle",
+                    "unicorn",
+                    "universe",
+                    "vacuum",
+                    "valley",
+                    "vanilla",
+                    "violin",
+                    "waffle",
+                    "walnut",
+                    "walrus",
+                    "waterfall",
+                    "whale",
+                    "whistle",
+                    "wizard",
+                    "wolf",
+                    "woodpecker",
+                    "yogurt",
+                    "zipper",
+                    "algorithm",
+                    "browser",
+                    "compiler",
+                    "database",
+                    "function",
+                    "variable",
+                    "monitor",
+                    "network",
+                    "pixel",
+                    "printer",
+                    "program",
+                    "software"
+                ]
+            },
+            {
+                "name" : "wordText",
+                "value" : ""
+            },
+            {
+                "name" : "word",
+                "value" : []
+            },
+            {
+                "name" : "display",
+                "value" : []
+            },
+            {
+                "name" : "displayText",
+                "value" : ""
+            },
+            {
+                "name" : "guess",
+                "value" : ""
+            },
+            {
+                "name" : "guessed",
+                "value" : []
+            },
+            {
+                "name" : "guessedText",
+                "value" : ""
+            },
+            {
+                "name" : "ch",
+                "value" : ""
+            },
+            {
+                "name" : "isLetter",
+                "value" : false
+            },
+            {
+                "name" : "valid",
+                "value" : false
+            },
+            {
+                "name" : "found",
+                "value" : false
+            },
+            {
+                "name" : "wrong",
+                "value" : 0
+            },
+            {
+                "name" : "maxWrong",
+                "value" : 6
+            },
+            {
+                "name" : "won",
+                "value" : false
+            },
+            {
+                "name" : "playing",
+                "value" : true
+            },
+            {
+                "name" : "again",
+                "value" : ""
+            },
+            {
+                "name" : "i",
+                "value" : 0
+            },
+            {
+                "name" : "j",
+                "value" : 0
+            },
+            {
+                "name" : "lower",
+                "value" : "abcdefghijklmnopqrstuvwxyz"
+            },
+            {
+                "name" : "upper",
+                "value" : "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+            },
+            {
+                "name" : "stages",
+                "value" : [
+                    "\n  +---+\n  |   |\n      |\n      |\n      |\n      |\n=========",
+                    "\n  +---+\n  |   |\n  O   |\n      |\n      |\n      |\n=========",
+                    "\n  +---+\n  |   |\n  O   |\n  |   |\n      |\n      |\n=========",
+                    "\n  +---+\n  |   |\n  O   |\n /|   |\n      |\n      |\n=========",
+                    "\n  +---+\n  |   |\n  O   |\n /|\\  |\n      |\n      |\n=========",
+                    "\n  +---+\n  |   |\n  O   |\n /|\\  |\n /    |\n      |\n=========",
+                    "\n  +---+\n  |   |\n  O   |\n /|\\  |\n / \\  |\n      |\n========="
+                ]
+            }
+        ],
+        "events" : [
+            {
+                "id" : "ON_RUN",
+                "body" : [
+                    "Welcome to Hangman!",
+                    {
+                        "id" : "IF",
+                        "value" : {
+                            "id" : "==",
+                            "a" : {
+                                "id" : "SIZE_OF",
+                                "a" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "words"
+                                }
+                            },
+                            "b" : 0
+                        },
+                        "body" : [
+                            {
+                                "id" : "ERROR",
+                                "value" : "The words array is empty. Add some words to it."
+                            }
+                        ]
+                    },
+                    {
+                        "id" : "+",
+                        "a" : "Loaded ",
+                        "b" : {
+                            "id" : "+",
+                            "a" : {
+                                "id" : "ELEMENT_AT",
+                                "a" : {
+                                    "id" : "SPLIT",
+                                    "a" : {
+                                        "id" : "SIZE_OF",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "words"
+                                        }
+                                    },
+                                    "b" : "\\."
+                                },
+                                "i" : 0
+                            },
+                            "b" : " words."
+                        }
+                    },
+                    {
+                        "id" : "WHILE",
+                        "value" : {
+                            "id" : "VARIABLE",
+                            "name" : "playing"
+                        },
+                        "body" : [
+                            {
+                                "id" : "SET",
+                                "name" : "wordText",
+                                "value" : {
+                                    "id" : "ELEMENT_AT",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "words"
+                                    },
+                                    "i" : {
+                                        "id" : "ROUND",
+                                        "a" : {
+                                            "id" : "-",
+                                            "a" : {
+                                                "id" : "*",
+                                                "a" : {
+                                                    "id" : "RANDOM"
+                                                },
+                                                "b" : {
+                                                    "id" : "SIZE_OF",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "words"
+                                                    }
+                                                }
+                                            },
+                                            "b" : 0.5
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "word",
+                                "value" : {
+                                    "id" : "ARRAY_OF",
+                                    "a" : {
+                                        "id" : "VARIABLE",
+                                        "name" : "wordText"
+                                    }
+                                }
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "display",
+                                "value" : []
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "guessed",
+                                "value" : []
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "guessedText",
+                                "value" : ""
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "wrong",
+                                "value" : 0
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "won",
+                                "value" : false
+                            },
+                            {
+                                "id" : "REPEAT",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "word"
+                                },
+                                "name" : "i",
+                                "body" : [
+                                    {
+                                        "id" : "SET",
+                                        "name" : "ch",
+                                        "value" : {
+                                            "id" : "ELEMENT_AT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "word"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "i"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "isLetter",
+                                        "value" : false
+                                    },
+                                    {
+                                        "id" : "REPEAT",
+                                        "value" : 26,
+                                        "name" : "j",
+                                        "body" : [
+                                            {
+                                                "id" : "IF",
+                                                "value" : {
+                                                    "id" : "==",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "ch"
+                                                    },
+                                                    "b" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "upper"
+                                                        },
+                                                        "i" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "j"
+                                                        }
+                                                    }
+                                                },
+                                                "body" : [
+                                                    {
+                                                        "id" : "SET",
+                                                        "name" : "ch",
+                                                        "value" : {
+                                                            "id" : "ELEMENT_AT",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "lower"
+                                                            },
+                                                            "i" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "j"
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "id" : "IF",
+                                                "value" : {
+                                                    "id" : "==",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "ch"
+                                                    },
+                                                    "b" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "lower"
+                                                        },
+                                                        "i" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "j"
+                                                        }
+                                                    }
+                                                },
+                                                "body" : [
+                                                    {
+                                                        "id" : "SET",
+                                                        "name" : "isLetter",
+                                                        "value" : true
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "word",
+                                        "value" : {
+                                            "id" : "WITH_UPDATED_ELEMENT",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "word"
+                                            },
+                                            "i" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "i"
+                                            },
+                                            "b" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "ch"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "id" : "IF_ELSE",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "isLetter"
+                                        },
+                                        "body" : [
+                                            {
+                                                "id" : "+=",
+                                                "name" : "display",
+                                                "value" : "_"
+                                            }
+                                        ],
+                                        "else" : [
+                                            {
+                                                "id" : "+=",
+                                                "name" : "display",
+                                                "value" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "ch"
+                                                }
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            {
+                                "id" : "WHILE",
+                                "value" : {
+                                    "id" : "AND",
+                                    "a" : {
+                                        "id" : "NOT",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "won"
+                                        }
+                                    },
+                                    "b" : {
+                                        "id" : "<",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "wrong"
+                                        },
+                                        "b" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "maxWrong"
+                                        }
+                                    }
+                                },
+                                "body" : [
+                                    "",
+                                    {
+                                        "id" : "ELEMENT_AT",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "stages"
+                                        },
+                                        "i" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "wrong"
+                                        }
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "displayText",
+                                        "value" : ""
+                                    },
+                                    {
+                                        "id" : "REPEAT",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "display"
+                                        },
+                                        "name" : "i",
+                                        "body" : [
+                                            {
+                                                "id" : "+=",
+                                                "name" : "displayText",
+                                                "value" : {
+                                                    "id" : "+",
+                                                    "a" : {
+                                                        "id" : "ELEMENT_AT",
+                                                        "a" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "display"
+                                                        },
+                                                        "i" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "i"
+                                                        }
+                                                    },
+                                                    "b" : " "
+                                                }
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id" : "+",
+                                        "a" : "Word:    ",
+                                        "b" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "displayText"
+                                        }
+                                    },
+                                    {
+                                        "id" : "+",
+                                        "a" : "Guessed: ",
+                                        "b" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "guessedText"
+                                        }
+                                    },
+                                    {
+                                        "id" : "+",
+                                        "a" : "Lives:   ",
+                                        "b" : {
+                                            "id" : "ELEMENT_AT",
+                                            "a" : {
+                                                "id" : "SPLIT",
+                                                "a" : {
+                                                    "id" : "-",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "maxWrong"
+                                                    },
+                                                    "b" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "wrong"
+                                                    }
+                                                },
+                                                "b" : "\\."
+                                            },
+                                            "i" : 0
+                                        }
+                                    },
+                                    "Guess a letter:",
+                                    {
+                                        "id" : "INPUT",
+                                        "name" : "guess"
+                                    },
+                                    {
+                                        "id" : "SET",
+                                        "name" : "valid",
+                                        "value" : true
+                                    },
+                                    {
+                                        "id" : "IF_ELSE",
+                                        "value" : {
+                                            "id" : "!=",
+                                            "a" : {
+                                                "id" : "SIZE_OF",
+                                                "a" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "guess"
+                                                }
+                                            },
+                                            "b" : 1
+                                        },
+                                        "body" : [
+                                            {
+                                                "id" : "WARN",
+                                                "value" : "Please enter exactly one letter."
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "valid",
+                                                "value" : false
+                                            }
+                                        ],
+                                        "else" : [
+                                            {
+                                                "id" : "SET",
+                                                "name" : "ch",
+                                                "value" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "guess"
+                                                }
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "isLetter",
+                                                "value" : false
+                                            },
+                                            {
+                                                "id" : "REPEAT",
+                                                "value" : 26,
+                                                "name" : "j",
+                                                "body" : [
+                                                    {
+                                                        "id" : "IF",
+                                                        "value" : {
+                                                            "id" : "==",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "ch"
+                                                            },
+                                                            "b" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "upper"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "j"
+                                                                }
+                                                            }
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "SET",
+                                                                "name" : "ch",
+                                                                "value" : {
+                                                                    "id" : "ELEMENT_AT",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "lower"
+                                                                    },
+                                                                    "i" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "j"
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "id" : "IF",
+                                                        "value" : {
+                                                            "id" : "==",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "ch"
+                                                            },
+                                                            "b" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "lower"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "j"
+                                                                }
+                                                            }
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "SET",
+                                                                "name" : "isLetter",
+                                                                "value" : true
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "id" : "SET",
+                                                "name" : "guess",
+                                                "value" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "ch"
+                                                }
+                                            },
+                                            {
+                                                "id" : "IF",
+                                                "value" : {
+                                                    "id" : "NOT",
+                                                    "a" : {
+                                                        "id" : "VARIABLE",
+                                                        "name" : "isLetter"
+                                                    }
+                                                },
+                                                "body" : [
+                                                    {
+                                                        "id" : "WARN",
+                                                        "value" : {
+                                                            "id" : "+",
+                                                            "a" : "\"",
+                                                            "b" : {
+                                                                "id" : "+",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "guess"
+                                                                },
+                                                                "b" : "\" isn't a letter."
+                                                            }
+                                                        }
+                                                    },
+                                                    {
+                                                        "id" : "SET",
+                                                        "name" : "valid",
+                                                        "value" : false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "id" : "IF",
+                                        "value" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "valid"
+                                        },
+                                        "body" : [
+                                            {
+                                                "id" : "REPEAT",
+                                                "value" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "guessed"
+                                                },
+                                                "name" : "i",
+                                                "body" : [
+                                                    {
+                                                        "id" : "IF",
+                                                        "value" : {
+                                                            "id" : "==",
+                                                            "a" : {
+                                                                "id" : "ELEMENT_AT",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "guessed"
+                                                                },
+                                                                "i" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "i"
+                                                                }
+                                                            },
+                                                            "b" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "guess"
+                                                            }
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "SET",
+                                                                "name" : "valid",
+                                                                "value" : false
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "id" : "IF_ELSE",
+                                                "value" : {
+                                                    "id" : "VARIABLE",
+                                                    "name" : "valid"
+                                                },
+                                                "body" : [
+                                                    {
+                                                        "id" : "SET",
+                                                        "name" : "found",
+                                                        "value" : false
+                                                    },
+                                                    {
+                                                        "id" : "REPEAT",
+                                                        "value" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "word"
+                                                        },
+                                                        "name" : "i",
+                                                        "body" : [
+                                                            {
+                                                                "id" : "IF",
+                                                                "value" : {
+                                                                    "id" : "==",
+                                                                    "a" : {
+                                                                        "id" : "ELEMENT_AT",
+                                                                        "a" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "word"
+                                                                        },
+                                                                        "i" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "i"
+                                                                        }
+                                                                    },
+                                                                    "b" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "guess"
+                                                                    }
+                                                                },
+                                                                "body" : [
+                                                                    {
+                                                                        "id" : "SET",
+                                                                        "name" : "display",
+                                                                        "value" : {
+                                                                            "id" : "WITH_UPDATED_ELEMENT",
+                                                                            "a" : {
+                                                                                "id" : "VARIABLE",
+                                                                                "name" : "display"
+                                                                            },
+                                                                            "i" : {
+                                                                                "id" : "VARIABLE",
+                                                                                "name" : "i"
+                                                                            },
+                                                                            "b" : {
+                                                                                "id" : "VARIABLE",
+                                                                                "name" : "guess"
+                                                                            }
+                                                                        }
+                                                                    },
+                                                                    {
+                                                                        "id" : "SET",
+                                                                        "name" : "found",
+                                                                        "value" : true
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "id" : "+=",
+                                                        "name" : "guessed",
+                                                        "value" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "guess"
+                                                        }
+                                                    },
+                                                    {
+                                                        "id" : "+=",
+                                                        "name" : "guessedText",
+                                                        "value" : {
+                                                            "id" : "+",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "guess"
+                                                            },
+                                                            "b" : " "
+                                                        }
+                                                    },
+                                                    {
+                                                        "id" : "IF_ELSE",
+                                                        "value" : {
+                                                            "id" : "VARIABLE",
+                                                            "name" : "found"
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "+",
+                                                                "a" : "Yes! \"",
+                                                                "b" : {
+                                                                    "id" : "+",
+                                                                    "a" : {
+                                                                        "id" : "VARIABLE",
+                                                                        "name" : "guess"
+                                                                    },
+                                                                    "b" : "\" is in the word."
+                                                                }
+                                                            }
+                                                        ],
+                                                        "else" : [
+                                                            {
+                                                                "id" : "WARN",
+                                                                "value" : {
+                                                                    "id" : "+",
+                                                                    "a" : "Nope, there's no \"",
+                                                                    "b" : {
+                                                                        "id" : "+",
+                                                                        "a" : {
+                                                                            "id" : "VARIABLE",
+                                                                            "name" : "guess"
+                                                                        },
+                                                                        "b" : "\"."
+                                                                    }
+                                                                }
+                                                            },
+                                                            {
+                                                                "id" : "+=",
+                                                                "name" : "wrong",
+                                                                "value" : 1
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "id" : "IF",
+                                                        "value" : {
+                                                            "id" : "==",
+                                                            "a" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "display"
+                                                            },
+                                                            "b" : {
+                                                                "id" : "VARIABLE",
+                                                                "name" : "word"
+                                                            }
+                                                        },
+                                                        "body" : [
+                                                            {
+                                                                "id" : "SET",
+                                                                "name" : "won",
+                                                                "value" : true
+                                                            }
+                                                        ]
+                                                    }
+                                                ],
+                                                "else" : [
+                                                    {
+                                                        "id" : "WARN",
+                                                        "value" : {
+                                                            "id" : "+",
+                                                            "a" : "You already guessed \"",
+                                                            "b" : {
+                                                                "id" : "+",
+                                                                "a" : {
+                                                                    "id" : "VARIABLE",
+                                                                    "name" : "guess"
+                                                                },
+                                                                "b" : "\"."
+                                                            }
+                                                        }
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            },
+                            "",
+                            {
+                                "id" : "IF_ELSE",
+                                "value" : {
+                                    "id" : "VARIABLE",
+                                    "name" : "won"
+                                },
+                                "body" : [
+                                    {
+                                        "id" : "+",
+                                        "a" : "You win! The word was \"",
+                                        "b" : {
+                                            "id" : "+",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "wordText"
+                                            },
+                                            "b" : "\"."
+                                        }
+                                    }
+                                ],
+                                "else" : [
+                                    {
+                                        "id" : "ELEMENT_AT",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "stages"
+                                        },
+                                        "i" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "wrong"
+                                        }
+                                    },
+                                    {
+                                        "id" : "+",
+                                        "a" : "You lose! The word was \"",
+                                        "b" : {
+                                            "id" : "+",
+                                            "a" : {
+                                                "id" : "VARIABLE",
+                                                "name" : "wordText"
+                                            },
+                                            "b" : "\"."
+                                        }
+                                    }
+                                ]
+                            },
+                            "",
+                            "Play again? (y/n)",
+                            {
+                                "id" : "INPUT",
+                                "name" : "again"
+                            },
+                            {
+                                "id" : "SET",
+                                "name" : "playing",
+                                "value" : {
+                                    "id" : "OR",
+                                    "a" : {
+                                        "id" : "==",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "again"
+                                        },
+                                        "b" : "y"
+                                    },
+                                    "b" : {
+                                        "id" : "==",
+                                        "a" : {
+                                            "id" : "VARIABLE",
+                                            "name" : "again"
+                                        },
+                                        "b" : "Y"
+                                    }
+                                }
+                            }
+                        ]
+                    },
+                    "Thanks for playing!"
+                ]
+            }
+        ]
+    }
+}
